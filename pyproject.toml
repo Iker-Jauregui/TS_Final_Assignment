@@ -1,0 +1,31 @@
+[project]
+name = "timeseries"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = [
+    # Core data science
+    "pandas",
+    "numpy<2.0",
+    "matplotlib",
+    "seaborn",
+    "scipy",
+    # Time series and forecasting
+    "statsmodels",
+    "darts",
+    "skforecast",
+    # Machine learning
+    "scikit-learn",
+    "xgboost",
+    "prophet",
+    # Deep learning
+    "torch",
+    "pytorch-lightning",
+    # Utilities
+    "tqdm",
+    "openpyxl>=3.1.5",
+    "sktime>=0.38.5",
+    "ipykernel>=6.31.0",
+    "pmdarima>=2.0.4",
+]

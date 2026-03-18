@@ -1,0 +1,2759 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.26">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Chapter 1: Fundamentals of Time Series – Time Series Course Materials</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./Chapter2_Forecasting_PrinciplesAndMethods.html" rel="next">
+<link href="./index.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-597958c53c93a607afca12fd375c57ed.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-7ac2f9da8c2617a4fdd15004b4601015.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-597958c53c93a607afca12fd375c57ed.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-83271ec2017a1280e7d37a38aa47af57.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-f3697b8d888839eca1f0b127ff2f6d7d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-83271ec2017a1280e7d37a38aa47af57.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-sidebar docked quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./Chapter1_FundamentalsOfTimeSeries.html">Part I: Foundations</a></li><li class="breadcrumb-item"><a href="./Chapter1_FundamentalsOfTimeSeries.html"><span class="chapter-title">Chapter 1: Fundamentals of Time Series</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Time Series Course Materials</a> 
+        <div class="sidebar-tools-main">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Time Series Analysis and Forecasting with Python</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Part I: Foundations</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Chapter1_FundamentalsOfTimeSeries.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Chapter 1: Fundamentals of Time Series</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Chapter2_Forecasting_PrinciplesAndMethods.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Chapter 2: Forecasting Principles and Methods</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Part II: Modeling Approaches</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Chapter3_StatisticalModelsForTimeSeries.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Chapter 3: Statistical Models for Time Series</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Chapter4_placeholder.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Chapter 4: Machine Learning for Time Series</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Chapter5_placeholder.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Chapter 5: Deep Learning for Time Series</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">References</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#fundamentals-of-time-series" id="toc-fundamentals-of-time-series" class="nav-link active" data-scroll-target="#fundamentals-of-time-series">Fundamentals of Time Series</a>
+  <ul class="collapse">
+  <li><a href="#topics-covered" id="toc-topics-covered" class="nav-link" data-scroll-target="#topics-covered">Topics Covered:</a></li>
+  </ul></li>
+  <li><a href="#introduction-to-time-sereies" id="toc-introduction-to-time-sereies" class="nav-link" data-scroll-target="#introduction-to-time-sereies">1. Introduction to Time Sereies</a>
+  <ul class="collapse">
+  <li><a href="#formal-definition" id="toc-formal-definition" class="nav-link" data-scroll-target="#formal-definition">1.1 Formal Definition</a></li>
+  <li><a href="#stochastic-process-means-variances-and-covariances" id="toc-stochastic-process-means-variances-and-covariances" class="nav-link" data-scroll-target="#stochastic-process-means-variances-and-covariances">1.2 Stochastic Process: means, variances and covariances</a></li>
+  <li><a href="#key-characteristics-of-time-series-data" id="toc-key-characteristics-of-time-series-data" class="nav-link" data-scroll-target="#key-characteristics-of-time-series-data">1.3. Key Characteristics of time series data:</a></li>
+  <li><a href="#applications" id="toc-applications" class="nav-link" data-scroll-target="#applications">1.4. Applications:</a></li>
+  </ul></li>
+  <li><a href="#dealing-with-time-series-data-in-python" id="toc-dealing-with-time-series-data-in-python" class="nav-link" data-scroll-target="#dealing-with-time-series-data-in-python">2 Dealing with time series data in Python</a>
+  <ul class="collapse">
+  <li><a href="#load-and-check-data" id="toc-load-and-check-data" class="nav-link" data-scroll-target="#load-and-check-data">2.1. Load and check data</a></li>
+  <li><a href="#plot-data" id="toc-plot-data" class="nav-link" data-scroll-target="#plot-data">2.2. Plot data</a></li>
+  <li><a href="#dealing-with-missing-data-na" id="toc-dealing-with-missing-data-na" class="nav-link" data-scroll-target="#dealing-with-missing-data-na">2.3. Dealing with missing data (Na)</a></li>
+  <li><a href="#reading-time-series-data-from-files" id="toc-reading-time-series-data-from-files" class="nav-link" data-scroll-target="#reading-time-series-data-from-files">2.4. Reading time series data from files</a></li>
+  <li><a href="#exercise-1.1" id="toc-exercise-1.1" class="nav-link" data-scroll-target="#exercise-1.1">Exercise 1.1</a></li>
+  </ul></li>
+  <li><a href="#components-of-time-series" id="toc-components-of-time-series" class="nav-link" data-scroll-target="#components-of-time-series">3. Components of Time Series</a>
+  <ul class="collapse">
+  <li><a href="#trend-t_t" id="toc-trend-t_t" class="nav-link" data-scroll-target="#trend-t_t">3.1. Trend (<span class="math inline">\(T_t\)</span>)</a></li>
+  <li><a href="#seasonality-s_t" id="toc-seasonality-s_t" class="nav-link" data-scroll-target="#seasonality-s_t">3.2. Seasonality (<span class="math inline">\(S_t\)</span>)</a></li>
+  <li><a href="#cyclicity-c_t" id="toc-cyclicity-c_t" class="nav-link" data-scroll-target="#cyclicity-c_t">3.3. Cyclicity (<span class="math inline">\(C_t\)</span>)</a></li>
+  <li><a href="#noise-or-irregular-component-epsilon_t" id="toc-noise-or-irregular-component-epsilon_t" class="nav-link" data-scroll-target="#noise-or-irregular-component-epsilon_t">3.4. Noise or Irregular Component (<span class="math inline">\(\epsilon_t\)</span>)</a></li>
+  </ul></li>
+  <li><a href="#stationarity-and-statistical-tests" id="toc-stationarity-and-statistical-tests" class="nav-link" data-scroll-target="#stationarity-and-statistical-tests">4. Stationarity and Statistical Tests</a>
+  <ul class="collapse">
+  <li><a href="#what-does-stationarity-mean" id="toc-what-does-stationarity-mean" class="nav-link" data-scroll-target="#what-does-stationarity-mean">4.1. What Does Stationarity Mean?</a></li>
+  <li><a href="#formal-definitions-of-stationarity" id="toc-formal-definitions-of-stationarity" class="nav-link" data-scroll-target="#formal-definitions-of-stationarity">4.2. Formal Definitions of Stationarity</a></li>
+  <li><a href="#common-examples-of-stationary-and-non-stationary-processes" id="toc-common-examples-of-stationary-and-non-stationary-processes" class="nav-link" data-scroll-target="#common-examples-of-stationary-and-non-stationary-processes">4.3. Common Examples of Stationary and Non-Stationary Processes</a></li>
+  <li><a href="#unit-roots-and-integration" id="toc-unit-roots-and-integration" class="nav-link" data-scroll-target="#unit-roots-and-integration">4.4. Unit Roots and Integration</a></li>
+  <li><a href="#visual-assessment-using-the-autocorrelation-function" id="toc-visual-assessment-using-the-autocorrelation-function" class="nav-link" data-scroll-target="#visual-assessment-using-the-autocorrelation-function">4.5. Visual Assessment Using the Autocorrelation Function</a></li>
+  <li><a href="#the-sample-autocorrelation-function" id="toc-the-sample-autocorrelation-function" class="nav-link" data-scroll-target="#the-sample-autocorrelation-function">4.5.1. The Sample Autocorrelation Function</a></li>
+  <li><a href="#confidence-bands-and-statistical-significance" id="toc-confidence-bands-and-statistical-significance" class="nav-link" data-scroll-target="#confidence-bands-and-statistical-significance">4.5.2. Confidence Bands and Statistical Significance</a></li>
+  <li><a href="#interpreting-acf-plots-for-stationarity" id="toc-interpreting-acf-plots-for-stationarity" class="nav-link" data-scroll-target="#interpreting-acf-plots-for-stationarity">4.5.3. Interpreting ACF Plots for Stationarity</a></li>
+  <li><a href="#limitations-of-visual-assessment" id="toc-limitations-of-visual-assessment" class="nav-link" data-scroll-target="#limitations-of-visual-assessment">4.5.4. Limitations of Visual Assessment</a></li>
+  <li><a href="#statistical-tests-for-stationarity" id="toc-statistical-tests-for-stationarity" class="nav-link" data-scroll-target="#statistical-tests-for-stationarity">4.6. Statistical Tests for Stationarity</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises">4.7. Exercises</a></li>
+  </ul></li>
+  <li><a href="#time-series-decomposition" id="toc-time-series-decomposition" class="nav-link" data-scroll-target="#time-series-decomposition">5. Time Series Decomposition</a>
+  <ul class="collapse">
+  <li><a href="#basic-structures" id="toc-basic-structures" class="nav-link" data-scroll-target="#basic-structures">5.1. Basic structures</a></li>
+  <li><a href="#classical-decomposition-method" id="toc-classical-decomposition-method" class="nav-link" data-scroll-target="#classical-decomposition-method">5.2 Classical Decomposition Method</a></li>
+  <li><a href="#stl-decomposition" id="toc-stl-decomposition" class="nav-link" data-scroll-target="#stl-decomposition">5.3. STL decomposition</a></li>
+  <li><a href="#exercises-1" id="toc-exercises-1" class="nav-link" data-scroll-target="#exercises-1">5.4. Exercises</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./Chapter1_FundamentalsOfTimeSeries.html">Part I: Foundations</a></li><li class="breadcrumb-item"><a href="./Chapter1_FundamentalsOfTimeSeries.html"><span class="chapter-title">Chapter 1: Fundamentals of Time Series</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-title">Chapter 1: Fundamentals of Time Series</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="fundamentals-of-time-series" class="level2">
+<h2 class="anchored" data-anchor-id="fundamentals-of-time-series">Fundamentals of Time Series</h2>
+<section id="topics-covered" class="level3">
+<h3 class="anchored" data-anchor-id="topics-covered">Topics Covered:</h3>
+<ol type="1">
+<li>Introduction to Time Series</li>
+<li>Dealing with Time Series data in Python</li>
+<li>Components of Time Series</li>
+<li>Stationarity and Statistical Tests</li>
+<li>Time Series Decomposition</li>
+</ol>
+<hr>
+</section>
+</section>
+<section id="introduction-to-time-sereies" class="level2">
+<h2 class="anchored" data-anchor-id="introduction-to-time-sereies">1. Introduction to Time Sereies</h2>
+<section id="formal-definition" class="level3">
+<h3 class="anchored" data-anchor-id="formal-definition">1.1 Formal Definition</h3>
+<p>A <strong>time series</strong> can be defined as <strong>a collection of observations</strong> indexed according to the order they are obtained in time.</p>
+<p>Each observation at time <span class="math inline">\(t\)</span> is modeled as a random variables, <span class="math inline">\({Y_t}\)</span>, and the collection of random variables indexed by <span class="math inline">\(t\)</span> is referred to as a <strong>stochastic process</strong>. <span class="math inline">\(t\)</span> will typically be discrete and vary over the integers numbers or some subset of the integers (<span class="math inline">\(t=1,\ldots,T\)</span>).</p>
+<p>Then, the <strong>time series</strong> is a <strong>realization</strong> (observed values) of the stochastic process. However, we may use the term time series in general to refer to the realization of the stochastic process or to stochastic process itself.</p>
+<div id="fig-id" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-id-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="./Figures/plot0.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-id-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2.1: Stochstic process
+</figcaption>
+</figure>
+</div>
+<ul>
+<li><p>The complete probabilistic structure of a stochastic process is determined by the set of distributions of all finite collections of the Y’s.</p></li>
+<li><p>Fortunately, we will not have to deal explicitly with these multivariate distributions.</p></li>
+<li><p>Much of the information in these joint distributions can be described in terms of means, variances, and covariances.</p></li>
+<li><p>Consequently, we concentrate our efforts on these first and second moments. (If the joint distributions of the X’s are multivariate normal distributions, then the first and second moments completely determine all the joint distributions.)</p></li>
+</ul>
+</section>
+<section id="stochastic-process-means-variances-and-covariances" class="level3">
+<h3 class="anchored" data-anchor-id="stochastic-process-means-variances-and-covariances">1.2 Stochastic Process: means, variances and covariances</h3>
+<p>For a stochastic process <span class="math inline">\({Y_t: t=0, \pm 1, \pm 2, \ldots}\)</span></p>
+<p>The <strong>mean function:</strong></p>
+<p><span class="math inline">\(\mu_t=E(Y_t)\)</span></p>
+<p>The <strong>variance function:</strong></p>
+<p><span class="math inline">\(\sigma^2_t=E[(Y_t-\mu_t)^2]\)</span></p>
+<p>Note that <span class="math inline">\(\mu_t, \sigma^2_t\)</span> are the mean (expected value) and the variance of the process at time <span class="math inline">\(t\)</span>. In general, <span class="math inline">\(\mu_t\)</span> and <span class="math inline">\(\sigma^2_t\)</span> can be different at each time point <span class="math inline">\(t\)</span>.</p>
+<p>The <strong>autocovariance function</strong> for two time points <span class="math inline">\(t\)</span> and <span class="math inline">\(s\)</span>:</p>
+<p><span class="math inline">\(\gamma_{t,s}=\text{Cov}(Y_t, Y_s)\)</span> where <span class="math inline">\(\text{Cov}(Y_t, Y_s)=E[(Y_t-\mu_t)(Y_s-\mu_s)]= E(Y_t Y_s)-\mu_t\mu_s\)</span>.</p>
+<p>The <strong>autocorrelation function</strong> for two time points <span class="math inline">\(t\)</span> and <span class="math inline">\(s\)</span>:</p>
+<p><span class="math inline">\(\rho_{t,s}=\text{Corr}(Y_t, Y_s)\)</span> where <span class="math inline">\(\text{Corr}(Y_t, Y_s)=\frac{\text{Cov}(Y_t,Y_s)}{\sqrt{\text{var}(Y_t)\text{var}(Y_s)}}\)</span></p>
+<p>Recall that both covariance and correlation are measures of the (linear) dependence between random variables but that the correlation is somewhat easier to interpret (because always takes values between -1 and 1).</p>
+<ul>
+<li>Some properties of the covariance
+<ul>
+<li><p><span class="math inline">\(\gamma_{t,t}= \text{var}(Y_t), \quad \rho_{t,t}=1\)</span></p></li>
+<li><p><span class="math inline">\(\gamma_{t,s}= \gamma_{s,t}, \quad \rho_{t,s}=\rho_{s,t}\)</span></p></li>
+<li><p><span class="math inline">\(|\gamma_{t,s}| \leq \sqrt{\gamma_{t,t}\gamma_{s,s}}, \quad  |\rho_{t,s}|\leq 1\)</span></p></li>
+</ul></li>
+</ul>
+<p>Values of <span class="math inline">\(\rho_{t,s}\)</span> near <span class="math inline">\(\pm1\)</span> indicate strong (linear) dependence, whereas values near zero indicate weak (linear) dependence. If <span class="math inline">\(\rho_{t,s}=0\)</span> , we say that <span class="math inline">\(Y_t\)</span> and <span class="math inline">\(Y_s\)</span> are (linearly) <em>uncorrelated</em>.</p>
+<p>The <strong>partial autocorrelation function (PACF)</strong> at lag <span class="math inline">\(h\)</span>, denoted <span class="math inline">\(\phi_h\)</span>​, measures the correlation between <span class="math inline">\(Y_t\)</span> ​ and <span class="math inline">\(Y_{t-h}\)</span> after removing the linear dependence on the intermediate observations <span class="math inline">\(Y_{t−1},Y_{t−2},\dots,Y_{t−h+1}\)</span></p>
+<p>Formally, <span class="math inline">\(ϕ_h\)</span>​ is the coefficient of <span class="math inline">\(Y_{t-h}\)</span> in the autoregression:</p>
+<p><span class="math display">\[
+Y_t=\phi_1Y_{t−1}+\phi_2 Y_{t−2}+\ldots+\phi_{h}Y_{t−h}+e_t
+\]</span></p>
+<p>Note that <span class="math inline">\(\phi_{1} = \rho_1\)</span> ​(at lag 1, there are no intermediate values to control for). The PACF is particularly useful for identifying the order of autoregressive processes: for an AR(p) process, the PACF cuts off sharply after lag <span class="math inline">\(p\)</span>.</p>
+<p>A direct consequence from the definition: <span class="math inline">\(c_{1}, c_{2}, \ldots, c_{m}\)</span> and <span class="math inline">\(d_{1}, d_{2}, \ldots, d_{n}\)</span> are constants and <span class="math inline">\(t_{1}\)</span>, <span class="math inline">\(t_{2}, \ldots, t_{m}\)</span> and <span class="math inline">\(s_{1}, s_{2}, \ldots, s_{n}\)</span> are time points, then <span class="math display">\[
+\operatorname{Cov}\left[\sum_{i=1}^{m} c_{i} Y_{t_{i}}, \sum_{j=1}^{n} d_{j} Y_{s_{j}}\right]=\sum_{i=1}^{m} \sum_{j=1}^{n} c_{i} d_{j} \operatorname{Cov}\left(Y_{t_{i}}, Y_{s_{j}}\right)
+\]</span></p>
+</section>
+<section id="key-characteristics-of-time-series-data" class="level3">
+<h3 class="anchored" data-anchor-id="key-characteristics-of-time-series-data">1.3. Key Characteristics of time series data:</h3>
+<ul>
+<li>Temporal ordering matters</li>
+<li>Temporal dependence between observations</li>
+<li>Serial correlation (autocorrelation)</li>
+</ul>
+</section>
+<section id="applications" class="level3">
+<h3 class="anchored" data-anchor-id="applications">1.4. Applications:</h3>
+<ul>
+<li>Finance: Stock prices, trading volumes</li>
+<li>Weather: Temperature, precipitation</li>
+<li>Healthcare: Patient vitals, disease spread</li>
+<li>IoT: Sensor data, energy consumption</li>
+</ul>
+</section>
+</section>
+<section id="dealing-with-time-series-data-in-python" class="level2">
+<h2 class="anchored" data-anchor-id="dealing-with-time-series-data-in-python">2 Dealing with time series data in Python</h2>
+<p>The standard for handling time series data in Python is using pandas Series objects. To properly function as a time series, the Series requires a DatetimeIndex.</p>
+<div id="bd48349d" class="cell" data-execution_count="1">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-4"><a href="#cb1-4"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb1-5"><a href="#cb1-5"></a><span class="im">import</span> warnings</span>
+<span id="cb1-6"><a href="#cb1-6"></a><span class="im">import</span> skforecast</span>
+<span id="cb1-7"><a href="#cb1-7"></a><span class="im">from</span> skforecast.datasets <span class="im">import</span> fetch_dataset</span>
+<span id="cb1-8"><a href="#cb1-8"></a><span class="im">from</span> skforecast.plot <span class="im">import</span> set_dark_theme</span>
+<span id="cb1-9"><a href="#cb1-9"></a>warnings.filterwarnings(<span class="st">'ignore'</span>)</span>
+<span id="cb1-10"><a href="#cb1-10"></a></span>
+<span id="cb1-11"><a href="#cb1-11"></a>plt.style.use(<span class="st">'seaborn-v0_8-darkgrid'</span>)</span>
+<span id="cb1-12"><a href="#cb1-12"></a>sns.set_palette(<span class="st">"husl"</span>)</span>
+<span id="cb1-13"><a href="#cb1-13"></a></span>
+<span id="cb1-14"><a href="#cb1-14"></a><span class="bu">print</span>(<span class="st">"✓ Libraries imported successfully!"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>✓ Libraries imported successfully!</code></pre>
+</div>
+</div>
+<section id="load-and-check-data" class="level3">
+<h3 class="anchored" data-anchor-id="load-and-check-data">2.1. Load and check data</h3>
+<p>The package <code>skforecst</code> includes some time series data as examples. We will use the <code>h2o</code> dataset that contains a monthly expenditure (in $AUD) on corticosteroid drugs that the Australian health system had between 1991 and 2008.</p>
+<div id="42778875" class="cell" data-execution_count="2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a><span class="co"># Data download</span></span>
+<span id="cb3-2"><a href="#cb3-2"></a><span class="co"># ==============================================================================</span></span>
+<span id="cb3-3"><a href="#cb3-3"></a>data <span class="op">=</span> fetch_dataset(name<span class="op">=</span><span class="st">'h2o'</span>, raw<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb3-4"><a href="#cb3-4"></a>data.head(<span class="dv">5</span>)</span>
+<span id="cb3-5"><a href="#cb3-5"></a><span class="co"># Data preparation</span></span>
+<span id="cb3-6"><a href="#cb3-6"></a><span class="co"># ==============================================================================</span></span>
+<span id="cb3-7"><a href="#cb3-7"></a><span class="co"># Modify the data type to the Year-Month-Day date format to use it as the identifier</span></span>
+<span id="cb3-8"><a href="#cb3-8"></a>data[<span class="st">'fecha'</span>] <span class="op">=</span> pd.to_datetime(data[<span class="st">'fecha'</span>], <span class="bu">format</span><span class="op">=</span><span class="st">'%Y-%m-</span><span class="sc">%d</span><span class="st">'</span>)</span>
+<span id="cb3-9"><a href="#cb3-9"></a><span class="co"># set the date as the field identifier for the series</span></span>
+<span id="cb3-10"><a href="#cb3-10"></a>data <span class="op">=</span> data.set_index(<span class="st">'fecha'</span>)</span>
+<span id="cb3-11"><a href="#cb3-11"></a>data.head(<span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">╭────────────────────────────────────── <span style="font-weight: bold">h2o</span> ───────────────────────────────────────╮
+│ <span style="font-weight: bold">Description:</span>                                                                     │
+│ Monthly expenditure ($AUD) on corticosteroid drugs that the Australian health    │
+│ system had between 1991 and 2008.                                                │
+│                                                                                  │
+│ <span style="font-weight: bold">Source:</span>                                                                          │
+│ Hyndman R (2023). fpp3: Data for Forecasting: Principles and Practice(3rd        │
+│ Edition). http://pkg.robjhyndman.com/fpp3package/,https://github.com/robjhyndman │
+│ /fpp3package, http://OTexts.com/fpp3.                                            │
+│                                                                                  │
+│ <span style="font-weight: bold">URL:</span>                                                                             │
+│ https://raw.githubusercontent.com/skforecast/skforecast-                         │
+│ datasets/main/data/h2o.csv                                                       │
+│                                                                                  │
+│ <span style="font-weight: bold">Shape:</span> 204 rows x 2 columns                                                      │
+╰──────────────────────────────────────────────────────────────────────────────────╯
+</pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="2">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">x</th>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">fecha</th>
+<th data-quarto-table-cell-role="th"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">1991-07-01</th>
+<td>0.429795</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">1991-08-01</th>
+<td>0.400906</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">1991-09-01</th>
+<td>0.432159</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">1991-10-01</th>
+<td>0.492543</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">1991-11-01</th>
+<td>0.502369</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>For the time series, the data must be observed at time instances <span class="math inline">\(t=1,...,T\)</span>. This represents the observation frequency, which is typically assumed to be a regular frequency (e.g., minutes, hours, days, months, quarters, years, etc.). We can select the data from the series at regular time intervals by fixing the frequency. For instance, if we establish a monthly frequency, the data from the first day of each month is collected. If multiple observations exist for that specific day, the first observation is selected, and if no data is available in the series for that day, the corresponding value is set to <code>Na</code> (Not Available).</p>
+<div id="430d6dc3" class="cell" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1"></a>data <span class="op">=</span> data.asfreq(<span class="st">'MS'</span>)</span>
+<span id="cb4-2"><a href="#cb4-2"></a><span class="co"># we can order by date</span></span>
+<span id="cb4-3"><a href="#cb4-3"></a>data <span class="op">=</span> data.sort_index()</span>
+<span id="cb4-4"><a href="#cb4-4"></a>data.head(<span class="dv">5</span>)</span>
+<span id="cb4-5"><a href="#cb4-5"></a><span class="co"># Check for missing values</span></span>
+<span id="cb4-6"><a href="#cb4-6"></a><span class="co"># ==============================================================================</span></span>
+<span id="cb4-7"><a href="#cb4-7"></a><span class="bu">print</span>(<span class="ss">f'Number of instances with Na values: </span><span class="sc">{</span>data<span class="sc">.</span>isna()<span class="sc">.</span><span class="bu">any</span>(axis<span class="op">=</span><span class="dv">1</span>)<span class="sc">.</span><span class="bu">sum</span>()<span class="sc">}</span><span class="ss">'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Number of instances with Na values: 0</code></pre>
+</div>
+</div>
+<p>In this case, it is not necessary since we select the data by monthly frequency, but in general, we can verify that the time index is complete:</p>
+<div id="926ef6a7" class="cell" data-execution_count="4">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1"></a>start_date <span class="op">=</span> data.index.<span class="bu">min</span>()</span>
+<span id="cb6-2"><a href="#cb6-2"></a>end_date <span class="op">=</span> data.index.<span class="bu">max</span>()</span>
+<span id="cb6-3"><a href="#cb6-3"></a>complete_date_range <span class="op">=</span> pd.date_range(start<span class="op">=</span>start_date, end<span class="op">=</span>end_date, freq<span class="op">=</span>data.index.freq)</span>
+<span id="cb6-4"><a href="#cb6-4"></a>is_index_complete <span class="op">=</span> (data.index <span class="op">==</span> complete_date_range).<span class="bu">all</span>()</span>
+<span id="cb6-5"><a href="#cb6-5"></a><span class="bu">print</span>(<span class="ss">f"Index complete: </span><span class="sc">{</span>is_index_complete<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Index complete: True</code></pre>
+</div>
+</div>
+</section>
+<section id="plot-data" class="level3">
+<h3 class="anchored" data-anchor-id="plot-data">2.2. Plot data</h3>
+<div id="56fa2ae0" class="cell" data-execution_count="5">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1"></a><span class="co">#set_dark_theme()</span></span>
+<span id="cb8-2"><a href="#cb8-2"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="fl">2.5</span>))</span>
+<span id="cb8-3"><a href="#cb8-3"></a>data[<span class="st">'x'</span>].plot(ax<span class="op">=</span>ax)</span>
+<span id="cb8-4"><a href="#cb8-4"></a>ax.set_title(<span class="st">"Time serie"</span>)</span>
+<span id="cb8-5"><a href="#cb8-5"></a>plt.tight_layout() </span>
+<span id="cb8-6"><a href="#cb8-6"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Chapter1_FundamentalsOfTimeSeries_files/figure-html/cell-6-output-1.png" width="574" height="230" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Some time, when fitting models, we need to split the data into train and test sets. For instance we select for testing the last 2 years (24 months) and use for training the rest of the data:</p>
+<div id="692e6018" class="cell" data-execution_count="6">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1"></a><span class="co"># Split data into train-test</span></span>
+<span id="cb9-2"><a href="#cb9-2"></a><span class="co"># ==============================================================================</span></span>
+<span id="cb9-3"><a href="#cb9-3"></a>test <span class="op">=</span> <span class="dv">24</span></span>
+<span id="cb9-4"><a href="#cb9-4"></a>data_train <span class="op">=</span> data[:<span class="op">-</span>test]</span>
+<span id="cb9-5"><a href="#cb9-5"></a>data_test  <span class="op">=</span> data[<span class="op">-</span>test:]</span>
+<span id="cb9-6"><a href="#cb9-6"></a><span class="bu">print</span>(</span>
+<span id="cb9-7"><a href="#cb9-7"></a>    <span class="ss">f"Train dates : </span><span class="sc">{</span>data_train<span class="sc">.</span>index<span class="sc">.</span><span class="bu">min</span>()<span class="sc">}</span><span class="ss"> --- "</span></span>
+<span id="cb9-8"><a href="#cb9-8"></a>    <span class="ss">f"</span><span class="sc">{</span>data_train<span class="sc">.</span>index<span class="sc">.</span><span class="bu">max</span>()<span class="sc">}</span><span class="ss">  (n=</span><span class="sc">{</span><span class="bu">len</span>(data_train)<span class="sc">}</span><span class="ss">)"</span></span>
+<span id="cb9-9"><a href="#cb9-9"></a>)</span>
+<span id="cb9-10"><a href="#cb9-10"></a><span class="bu">print</span>(</span>
+<span id="cb9-11"><a href="#cb9-11"></a>    <span class="ss">f"Test dates  : </span><span class="sc">{</span>data_test<span class="sc">.</span>index<span class="sc">.</span><span class="bu">min</span>()<span class="sc">}</span><span class="ss"> --- "</span></span>
+<span id="cb9-12"><a href="#cb9-12"></a>    <span class="ss">f"</span><span class="sc">{</span>data_test<span class="sc">.</span>index<span class="sc">.</span><span class="bu">max</span>()<span class="sc">}</span><span class="ss">  (n=</span><span class="sc">{</span><span class="bu">len</span>(data_test)<span class="sc">}</span><span class="ss">)"</span></span>
+<span id="cb9-13"><a href="#cb9-13"></a>)</span>
+<span id="cb9-14"><a href="#cb9-14"></a></span>
+<span id="cb9-15"><a href="#cb9-15"></a>set_dark_theme()</span>
+<span id="cb9-16"><a href="#cb9-16"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="fl">2.5</span>))</span>
+<span id="cb9-17"><a href="#cb9-17"></a>data_train[<span class="st">'x'</span>].plot(ax<span class="op">=</span>ax, label<span class="op">=</span><span class="st">'train'</span>)</span>
+<span id="cb9-18"><a href="#cb9-18"></a>data_test[<span class="st">'x'</span>].plot(ax<span class="op">=</span>ax, label<span class="op">=</span><span class="st">'test'</span>)</span>
+<span id="cb9-19"><a href="#cb9-19"></a>ax.legend(loc<span class="op">=</span><span class="st">'center left'</span>, bbox_to_anchor<span class="op">=</span>(<span class="dv">1</span>, <span class="fl">0.5</span>))</span>
+<span id="cb9-20"><a href="#cb9-20"></a>ax.set_title(<span class="st">"Time serie"</span>)</span>
+<span id="cb9-21"><a href="#cb9-21"></a>plt.tight_layout() </span>
+<span id="cb9-22"><a href="#cb9-22"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Train dates : 1991-07-01 00:00:00 --- 2006-06-01 00:00:00  (n=180)
+Test dates  : 2006-07-01 00:00:00 --- 2008-06-01 00:00:00  (n=24)</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Chapter1_FundamentalsOfTimeSeries_files/figure-html/cell-7-output-2.png" width="574" height="231" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="dealing-with-missing-data-na" class="level3">
+<h3 class="anchored" data-anchor-id="dealing-with-missing-data-na">2.3. Dealing with missing data (Na)</h3>
+<p>If the time series is not complete (there are <code>Na</code> values) <code>pandas</code> provides tools to impute missing values implementing different strategies.</p>
+<div id="2c62b18c" class="cell" data-execution_count="7">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1"></a><span class="co">## simulate incomplete data</span></span>
+<span id="cb11-2"><a href="#cb11-2"></a>data_incomplete <span class="op">=</span> data.copy()</span>
+<span id="cb11-3"><a href="#cb11-3"></a><span class="co"># remove 15 values at random</span></span>
+<span id="cb11-4"><a href="#cb11-4"></a>random_indices <span class="op">=</span> np.random.choice(data_incomplete.index, size<span class="op">=</span><span class="dv">8</span>, replace<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb11-5"><a href="#cb11-5"></a></span>
+<span id="cb11-6"><a href="#cb11-6"></a><span class="co"># set these values to NaN</span></span>
+<span id="cb11-7"><a href="#cb11-7"></a>data_incomplete.loc[random_indices, <span class="st">'x'</span>] <span class="op">=</span> np.nan</span>
+<span id="cb11-8"><a href="#cb11-8"></a>set_dark_theme()</span>
+<span id="cb11-9"><a href="#cb11-9"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="fl">2.5</span>))</span>
+<span id="cb11-10"><a href="#cb11-10"></a>data_incomplete[<span class="st">'x'</span>].plot(ax<span class="op">=</span>ax)</span>
+<span id="cb11-11"><a href="#cb11-11"></a>ax.set_title(<span class="st">"Time serie incomplete"</span>)</span>
+<span id="cb11-12"><a href="#cb11-12"></a>plt.tight_layout() </span>
+<span id="cb11-13"><a href="#cb11-13"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Chapter1_FundamentalsOfTimeSeries_files/figure-html/cell-8-output-1.png" width="574" height="231" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<ul>
+<li>Forward fill imputation: copy the last observed value to fill the <code>Na</code>.</li>
+</ul>
+<div id="2257d300" class="cell" data-execution_count="8">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1"></a>data_imputed <span class="op">=</span> data_incomplete.copy()</span>
+<span id="cb12-2"><a href="#cb12-2"></a>data_imputed[<span class="st">'x'</span>] <span class="op">=</span> data_imputed[<span class="st">'x'</span>].ffill()</span>
+<span id="cb12-3"><a href="#cb12-3"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="fl">2.5</span>))</span>
+<span id="cb12-4"><a href="#cb12-4"></a>data_imputed[<span class="st">'x'</span>].plot(ax<span class="op">=</span>ax, label<span class="op">=</span><span class="st">'imputed'</span>, color<span class="op">=</span><span class="st">"yellow"</span>)</span>
+<span id="cb12-5"><a href="#cb12-5"></a>data[<span class="st">'x'</span>].plot(ax<span class="op">=</span>ax, label<span class="op">=</span><span class="st">'original'</span>,color<span class="op">=</span><span class="st">"green"</span>)</span>
+<span id="cb12-6"><a href="#cb12-6"></a>data_incomplete[<span class="st">'x'</span>].plot(ax<span class="op">=</span>ax, label<span class="op">=</span><span class="st">"incomplete"</span>, color<span class="op">=</span><span class="st">"blue"</span>)</span>
+<span id="cb12-7"><a href="#cb12-7"></a>ax.legend(loc<span class="op">=</span><span class="st">'center left'</span>, bbox_to_anchor<span class="op">=</span>(<span class="dv">1</span>, <span class="fl">0.5</span>))</span>
+<span id="cb12-8"><a href="#cb12-8"></a>ax.set_title(<span class="st">"Time serie - imputed forward fill"</span>)</span>
+<span id="cb12-9"><a href="#cb12-9"></a>plt.tight_layout() </span>
+<span id="cb12-10"><a href="#cb12-10"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Chapter1_FundamentalsOfTimeSeries_files/figure-html/cell-9-output-1.png" width="574" height="231" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<ul>
+<li>Backward fill imputation: copy the next observed value to fill the <code>Na</code>.</li>
+</ul>
+<div id="ae38073d" class="cell" data-execution_count="9">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1"></a>data_imputed <span class="op">=</span> data_incomplete.copy()</span>
+<span id="cb13-2"><a href="#cb13-2"></a>data_imputed[<span class="st">'x'</span>] <span class="op">=</span> data_imputed[<span class="st">'x'</span>].bfill()</span>
+<span id="cb13-3"><a href="#cb13-3"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="fl">2.5</span>))</span>
+<span id="cb13-4"><a href="#cb13-4"></a>data_imputed[<span class="st">'x'</span>].plot(ax<span class="op">=</span>ax, label<span class="op">=</span><span class="st">'imputed'</span>, color<span class="op">=</span><span class="st">"yellow"</span>)</span>
+<span id="cb13-5"><a href="#cb13-5"></a>data[<span class="st">'x'</span>].plot(ax<span class="op">=</span>ax, label<span class="op">=</span><span class="st">'original'</span>,color<span class="op">=</span><span class="st">"green"</span>)</span>
+<span id="cb13-6"><a href="#cb13-6"></a>data_incomplete[<span class="st">'x'</span>].plot(ax<span class="op">=</span>ax, label<span class="op">=</span><span class="st">"incomplete"</span>, color<span class="op">=</span><span class="st">"blue"</span>)</span>
+<span id="cb13-7"><a href="#cb13-7"></a>ax.legend(loc<span class="op">=</span><span class="st">'center left'</span>, bbox_to_anchor<span class="op">=</span>(<span class="dv">1</span>, <span class="fl">0.5</span>))</span>
+<span id="cb13-8"><a href="#cb13-8"></a>ax.set_title(<span class="st">"Time serie - imputed backward fill"</span>)</span>
+<span id="cb13-9"><a href="#cb13-9"></a>plt.tight_layout() </span>
+<span id="cb13-10"><a href="#cb13-10"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Chapter1_FundamentalsOfTimeSeries_files/figure-html/cell-10-output-1.png" width="574" height="231" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<ul>
+<li>Linear interpolation imputation: This is one of the most common methods for imputing missing values. It involves interpolating between the previous known value and the next known value.</li>
+</ul>
+<div id="0e91edaf" class="cell" data-execution_count="10">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1"></a>data_imputed <span class="op">=</span> data_incomplete.copy()</span>
+<span id="cb14-2"><a href="#cb14-2"></a>data_imputed[<span class="st">'x'</span>] <span class="op">=</span> data_imputed[<span class="st">'x'</span>].interpolate(method<span class="op">=</span><span class="st">"linear"</span>)</span>
+<span id="cb14-3"><a href="#cb14-3"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="fl">2.5</span>))</span>
+<span id="cb14-4"><a href="#cb14-4"></a>data_imputed[<span class="st">'x'</span>].plot(ax<span class="op">=</span>ax, label<span class="op">=</span><span class="st">'imputed'</span>, color<span class="op">=</span><span class="st">"yellow"</span>)</span>
+<span id="cb14-5"><a href="#cb14-5"></a>data[<span class="st">'x'</span>].plot(ax<span class="op">=</span>ax, label<span class="op">=</span><span class="st">'original'</span>,color<span class="op">=</span><span class="st">"green"</span>)</span>
+<span id="cb14-6"><a href="#cb14-6"></a>data_incomplete[<span class="st">'x'</span>].plot(ax<span class="op">=</span>ax, label<span class="op">=</span><span class="st">"incomplete"</span>, color<span class="op">=</span><span class="st">"blue"</span>)</span>
+<span id="cb14-7"><a href="#cb14-7"></a>ax.legend(loc<span class="op">=</span><span class="st">'center left'</span>, bbox_to_anchor<span class="op">=</span>(<span class="dv">1</span>, <span class="fl">0.5</span>))</span>
+<span id="cb14-8"><a href="#cb14-8"></a>ax.set_title(<span class="st">"Time serie - imputed linear interpolation"</span>)</span>
+<span id="cb14-9"><a href="#cb14-9"></a>plt.tight_layout() </span>
+<span id="cb14-10"><a href="#cb14-10"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Chapter1_FundamentalsOfTimeSeries_files/figure-html/cell-11-output-1.png" width="766" height="231" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Pandas interpolation supports several interpolation methods beyond linear interpolation:</p>
+<pre><code>help(pd.Series.interpolate)</code></pre>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Method</th>
+<th>Brief Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>linear</code></td>
+<td>Linear interpolation between known points (default)</td>
+</tr>
+<tr class="even">
+<td><code>time</code></td>
+<td>Interpolation based on temporal indices (<code>DatetimeIndex</code>)</td>
+</tr>
+<tr class="odd">
+<td><code>index</code></td>
+<td>Interpolation based on numeric index (default for numeric indices)</td>
+</tr>
+<tr class="even">
+<td><code>nearest</code></td>
+<td>Fills with the nearest value (no smoothing)</td>
+</tr>
+<tr class="odd">
+<td><code>zero</code></td>
+<td>Step interpolation (piecewise constant, backward)</td>
+</tr>
+<tr class="even">
+<td><code>slinear</code></td>
+<td>Smooth linear interpolation (order 1 splines)</td>
+</tr>
+<tr class="odd">
+<td><code>quadratic</code></td>
+<td>Interpolation with quadratic splines</td>
+</tr>
+<tr class="even">
+<td><code>cubic</code></td>
+<td>Interpolation with cubic splines</td>
+</tr>
+<tr class="odd">
+<td><code>polynomial</code></td>
+<td>Interpolation with polynomials of specified degree</td>
+</tr>
+<tr class="even">
+<td><code>barycentric</code></td>
+<td>Barycentric interpolation method (numerical)</td>
+</tr>
+<tr class="odd">
+<td><code>krogh</code></td>
+<td>Polynomial interpolation (numerical)</td>
+</tr>
+<tr class="even">
+<td><code>piecewise_polynomial</code></td>
+<td>Piecewise polynomial interpolation method (deprecated)</td>
+</tr>
+<tr class="odd">
+<td><code>pchip</code></td>
+<td>Interpolation with monotonic splines (shape-preserving)</td>
+</tr>
+<tr class="even">
+<td><code>akima</code></td>
+<td>Interpolation with Akima method (shape-preserving)</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="reading-time-series-data-from-files" class="level3">
+<h3 class="anchored" data-anchor-id="reading-time-series-data-from-files">2.4. Reading time series data from files</h3>
+<p>To read files in excel format you need to install the engine <code>openpyxl</code> in your conda environment.</p>
+<div id="31e5cd24" class="cell" data-execution_count="11">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1"></a>global_economy <span class="op">=</span> pd.read_excel(<span class="st">"./Data/global_economy.xlsx"</span>, engine<span class="op">=</span><span class="st">"openpyxl"</span>)</span>
+<span id="cb16-2"><a href="#cb16-2"></a>global_economy.head()</span>
+<span id="cb16-3"><a href="#cb16-3"></a>global_economy[<span class="st">'Year'</span>] <span class="op">=</span> pd.to_datetime(global_economy[<span class="st">'Year'</span>],<span class="bu">format</span><span class="op">=</span><span class="st">'%Y'</span>)</span>
+<span id="cb16-4"><a href="#cb16-4"></a>global_economy[<span class="st">'GDP_PC'</span>] <span class="op">=</span> global_economy[<span class="st">'GDP'</span>] <span class="op">/</span> global_economy[<span class="st">'Population'</span>]</span>
+<span id="cb16-5"><a href="#cb16-5"></a></span>
+<span id="cb16-6"><a href="#cb16-6"></a><span class="co"># we can select the time serie for spain</span></span>
+<span id="cb16-7"><a href="#cb16-7"></a>gdp_sp <span class="op">=</span> global_economy[global_economy[<span class="st">'Country'</span>]<span class="op">==</span><span class="st">'Spain'</span>][[<span class="st">'Year'</span>,<span class="st">'GDP_PC'</span>]]</span>
+<span id="cb16-8"><a href="#cb16-8"></a>gdp_sp <span class="op">=</span> gdp_sp.set_index(<span class="st">'Year'</span>)</span>
+<span id="cb16-9"><a href="#cb16-9"></a><span class="co"># or use the complete DataFrame. However, in this case, year is not unique in the DataFrame</span></span>
+<span id="cb16-10"><a href="#cb16-10"></a><span class="co"># since we have a data for every country. Better to use multiIndex</span></span>
+<span id="cb16-11"><a href="#cb16-11"></a>global_economy <span class="op">=</span> global_economy.set_index([<span class="st">'Country'</span>,<span class="st">'Year'</span>])</span>
+<span id="cb16-12"><a href="#cb16-12"></a></span>
+<span id="cb16-13"><a href="#cb16-13"></a></span>
+<span id="cb16-14"><a href="#cb16-14"></a></span>
+<span id="cb16-15"><a href="#cb16-15"></a><span class="co"># Thus we have a time serie for each country</span></span>
+<span id="cb16-16"><a href="#cb16-16"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="fl">2.5</span>))</span>
+<span id="cb16-17"><a href="#cb16-17"></a>global_economy.loc[<span class="st">'Spain'</span>][<span class="st">'GDP_PC'</span>].plot(ax<span class="op">=</span>ax, label<span class="op">=</span><span class="st">"Spain"</span>)</span>
+<span id="cb16-18"><a href="#cb16-18"></a><span class="co">#global_economy.loc['France']['GDP_PC'].plot(ax=ax, label="France")</span></span>
+<span id="cb16-19"><a href="#cb16-19"></a><span class="co">#global_economy.loc['Portugal']['GDP_PC'].plot(ax=ax, label="Portugal")</span></span>
+<span id="cb16-20"><a href="#cb16-20"></a><span class="co">#ax.legend(loc='center left', bbox_to_anchor=(1, 0.5))</span></span>
+<span id="cb16-21"><a href="#cb16-21"></a>ax.set_title(<span class="st">"Time serie - GDP per capita by year in Spain"</span>)</span>
+<span id="cb16-22"><a href="#cb16-22"></a>plt.tight_layout() </span>
+<span id="cb16-23"><a href="#cb16-23"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Chapter1_FundamentalsOfTimeSeries_files/figure-html/cell-12-output-1.png" width="759" height="231" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="exercise-1.1" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-1.1">Exercise 1.1</h3>
+<p>The file <code>tourism.xlsx</code> cotains information about quarterly sample-weighted estimates overnight trips from 1998 Q1 to 2016 Q4 across different Australian regions. Obtain the time series data for <code>Holiday</code> trips in <code>Adelaide</code> region. Use quarterly frequency and check if there are missing data. If missing data are included in the series, impute values using three different interpolation method and compare the obtained results in a plot.</p>
+</section>
+</section>
+<section id="components-of-time-series" class="level2">
+<h2 class="anchored" data-anchor-id="components-of-time-series">3. Components of Time Series</h2>
+<p>Time series analysis is based on the premise that observed data is not purely chaotic. Instead, it is the result of superimposing different patterns or sources of variation. Understanding these sources is the first step toward effective predictive modeling.</p>
+<p>Formally, we can decompose a time series <span class="math inline">\(Y_t\)</span> into four fundamental components: trend, seasolality, cyclicity and the noise (residual)</p>
+<section id="trend-t_t" class="level3">
+<h3 class="anchored" data-anchor-id="trend-t_t">3.1. Trend (<span class="math inline">\(T_t\)</span>)</h3>
+<p>The trend represents the <strong>long-term</strong> evolution (increasing or decreasing) or direction of the series. It is the smooth, underlying movement of the data, ignoring short-term perturbations.</p>
+<ul>
+<li><p><strong>Types:</strong> A trend does not have to be linear. It can change direction, but it always implies a sustained structural shift.</p>
+<ul>
+<li><strong>Deterministic</strong>: Can be described by a fixed mathematical function
+<ul>
+<li><p><strong>Linear Trend</strong>: The simplest form of trend, implying a constant amount of increase or decrease per time unit.</p>
+<p><span class="math inline">\(T_t = \beta_0 + \beta_1 t\)</span></p>
+<p><span class="math inline">\(\beta_1\)</span> represents the constant rate of change, and <span class="math inline">\(t=1,\ldots,T\)</span> <em>Examples:</em> Steady growth, such as simple production lines or short-term sales forecasts where market conditions are stable.</p></li>
+<li><p><strong>Polynomial Trend</strong>: Used when the rate of change itself is changing (accelerating or decelerating). A quadratic trend is the most common polynomial.</p>
+<p><span class="math inline">\(T_t = \beta_0 + \beta_1 t + \beta_2 t^2\)</span></p>
+<p>If <span class="math inline">\(\beta_2 &gt; 0\)</span>, the trend curves upwards (accelerating). Polynomials of high degrees (<span class="math inline">\(t^3, t^4...\)</span>) should be avoided in forecasting because they tend to explode (go to <span class="math inline">\(\pm \infty\)</span>) very quickly at the end of the series, causing overfitting.</p>
+<p><em>Examples</em>: efficiency and learning curves (employee productivity when performing a new repetitive task).</p></li>
+<li><p><strong>Exponential Trend</strong>: Used when growth is proportional to the current size of the series (multiplicative growth), rather than a fixed amount.</p>
+<p><span class="math inline">\(T_t = \beta_0 e^{\beta_1 t}\)</span></p>
+<p>Often seen in finance (compound interest), biology (population growth), or early-stage adoption of technology. It can be transformed into a linear trend by taking the logarithm <span class="math inline">\(\ln(T_t) = \ln(\beta_0) + \beta_1 t\)</span>.</p>
+<p><em>Examples</em>: exponential trends occur fundamentally in processes wheregrowth is proportional to the current size. Bacterial growth (if a bacteria colony divides every 20 minutes, the population doubles at each step), compound interest in finance(investing money at a 7% annual return and reinvesting the dividends, wealth grows exponentially).</p></li>
+<li><p><strong>Logistic Trend</strong> (S-Curve): Real-world growth rarely continues forever. Systems hit physical limits or market saturation. The logistic curve models an initial exponential growth that slows down as it approaches a maximum capacity (<span class="math inline">\(K\)</span>).</p>
+<p><span class="math inline">\(T_t = \frac{K}{1 + Ae^{-rt}}\)</span></p>
+<p>where <span class="math inline">\(K\)</span> is the carrying capacity (the ceiling), <span class="math inline">\(r\)</span> is the growth rate, and <span class="math inline">\(A\)</span> is a parameter related to the starting point.</p>
+<p><em>Examples</em>: Product lifecycle (intro <span class="math inline">\(\to\)</span> growth <span class="math inline">\(\to\)</span> maturity), epidemiology, or market saturation.</p></li>
+</ul></li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./Figures/deterministic_trend.png" class="img-fluid figure-img"></p>
+<figcaption>Types of deterministic trends</figcaption>
+</figure>
+</div>
+<ul>
+<li><p><em><strong>Stochastic</strong>:</em> Unlike deterministic trends, a <em>stochastic trend</em> does not follow a pre-defined path fixed in time. Instead, the trend itself evolves randomly. The most common model for this is the <em>random walk with drift</em>.</p>
+<p><span class="math inline">\(Y_t = \mu + Y_{t-1} + \epsilon_t\)</span></p>
+<p>Where <span class="math inline">\(\mu\)</span> is the “drift” (average growth per period, similar to the slope), <span class="math inline">\(Y_{t-1}\)</span> is the value of the series at the previous step, and <span class="math inline">\(\epsilon_t\)</span> is a white noise error [usually <span class="math inline">\(\epsilon_t\sim N(0,\sigma)\)</span>]</p></li>
+</ul></li>
+</ul>
+<p>The difference between deterministic and stochastic trends is how the process reacts to an unexpected event (shock). In deterministic trend the expected value “follow” the trend, and the series is expected to revert to the trend line after a shock. By contrast, in a stochastic trend, the current value depends entirely on the previous value, therefore, when a shock is observed the series continues evolving from that new point.</p>
+<p><img src="Figures/deterministic-vs-stochasticTrend.png" class="img-fluid"></p>
+</section>
+<section id="seasonality-s_t" class="level3">
+<h3 class="anchored" data-anchor-id="seasonality-s_t">3.2. Seasonality (<span class="math inline">\(S_t\)</span>)</h3>
+<p>Seasonality refers to predictable patterns that repeat over a fixed and known period of time. Unlike cyclical trends, which are driven by complex and irregular economic forces, seasonality is strictly bound to the calendar or the clock.</p>
+<p>The defining feature of seasonality is the <strong>frequency</strong> or <strong>period</strong> (denoted as <span class="math inline">\(m\)</span>). This is the number of observations required for the pattern to complete one full cycle before repeating.</p>
+<p>The value of <span class="math inline">\(m\)</span> depends entirely on the data collection frequency:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Data Frequency</th>
+<th style="text-align: left;">Seasonal Pattern</th>
+<th style="text-align: left;">Period (<span class="math inline">\(m\)</span>)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><strong>Quarterly</strong></td>
+<td style="text-align: left;">Year</td>
+<td style="text-align: left;"><span class="math inline">\(m=4\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Monthly</strong></td>
+<td style="text-align: left;">Year</td>
+<td style="text-align: left;"><span class="math inline">\(m=12\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>Weekly</strong></td>
+<td style="text-align: left;">Year</td>
+<td style="text-align: left;"><span class="math inline">\(m=52\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Daily</strong></td>
+<td style="text-align: left;">Week</td>
+<td style="text-align: left;"><span class="math inline">\(m=7\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>Hourly</strong></td>
+<td style="text-align: left;">Day</td>
+<td style="text-align: left;"><span class="math inline">\(m=24\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>Understanding the <em>source</em> of the seasonality helps in choosing the right period: detetail sales peaking in December; electricity consumption peaking at 8:00 PM, …</p>
+</section>
+<section id="cyclicity-c_t" class="level3">
+<h3 class="anchored" data-anchor-id="cyclicity-c_t">3.3. Cyclicity (<span class="math inline">\(C_t\)</span>)</h3>
+<p>These are long-term oscillations that do not have a fixed period and are driven by complex and irregular exogenous sources.</p>
+<ul>
+<li><strong>Cyclicity vs.&nbsp;Seasonality:</strong> While seasonality is predictable via the calendar (e.g., every 12 months), cycles are irregular. An economic recession might last 18 months, while the next one might last 3 years.</li>
+<li><strong>Origin of cyclicity:</strong> Macroeconomic conditions, business cycles (expansion/recession).</li>
+<li><strong>I</strong>n practice, because it is mathematically difficult to separate the Trend from the Cycle without external information (exogenous variables), they are often grouped together into a single component called <strong>Trend-Cycle</strong>.</li>
+</ul>
+</section>
+<section id="noise-or-irregular-component-epsilon_t" class="level3">
+<h3 class="anchored" data-anchor-id="noise-or-irregular-component-epsilon_t">3.4. Noise or Irregular Component (<span class="math inline">\(\epsilon_t\)</span>)</h3>
+<p>This is the random variation remaining after the other components have been extracted.</p>
+<ul>
+<li>It represents what the model “cannot explain.”</li>
+<li>Ideally, we want this component to be <strong>White Noise</strong>:
+<ul>
+<li>Mean zero (<span class="math inline">\(\mathbb{E}[\epsilon_t] = 0\)</span>)</li>
+<li>Constant variance (<span class="math inline">\(\text{Var}(\epsilon_t) = \sigma^2\)</span>)</li>
+<li>Uncorrelated (no hidden patterns left).</li>
+</ul></li>
+<li>If the residuals (<span class="math inline">\(\epsilon_t\)</span>) still show patterns, it implies the model (Trend + Seasonality) is incomplete.</li>
+</ul>
+<p>Determining whether residuals are truly white noise is closely related to testing for stationarity, which we explore in the next section.</p>
+<hr>
+</section>
+</section>
+<section id="stationarity-and-statistical-tests" class="level2">
+<h2 class="anchored" data-anchor-id="stationarity-and-statistical-tests">4. Stationarity and Statistical Tests</h2>
+<p>Stationarity is one of the most fundamental concepts in time series analysis. Understanding stationarity is essential because many classical forecasting methods and statistical inference procedures are built upon the assumption that the underlying data-generating process is stationary. In this section, we explore the concept both intuitively and formally, examine different types of stationarity, and learn how to test for it using statistical hypothesis tests.</p>
+<section id="what-does-stationarity-mean" class="level3">
+<h3 class="anchored" data-anchor-id="what-does-stationarity-mean">4.1. What Does Stationarity Mean?</h3>
+<p>Imagine observing a time series that represents a system in a “steady state.” The statistical behavior of the series—its average level, its variability, and the way observations relate to each other over time—remains consistent regardless of when you observe it. A stationary time series is one where the rules governing its behavior do not change over time.</p>
+<p><strong>Why does this matter?</strong> If a time series is stationary, then:</p>
+<ol type="1">
+<li><strong>Past behavior informs future behavior</strong>: The patterns we observe in historical data can be expected to continue, making forecasting meaningful.</li>
+<li><strong>Statistical inference is valid</strong>: Standard estimation procedures (like computing means and variances) produce reliable results.</li>
+<li><strong>Model assumptions are satisfied</strong>: Most classical time series models (ARMA, ARIMA) require stationarity to work properly.</li>
+</ol>
+<p>Conversely, if a series is non-stationary, its statistical properties change over time. This means:</p>
+<ul>
+<li>A model trained on historical data may become obsolete as the system evolves</li>
+<li>The bias and error of forecasts will vary unpredictably</li>
+<li>Standard statistical tests may produce misleading results</li>
+</ul>
+<p><strong>Visual intuition</strong>: Consider the difference between white noise (stationary) and a random walk (non-stationary). White noise fluctuates randomly around a constant mean with constant variance. A random walk, however, can “drift away” indefinitely—its mean and variance grow without bound as time passes.</p>
+<p><img src="Figures/stationarity.png" class="img-fluid"></p>
+<p><strong>Key observation</strong>: The white noise series oscillates around zero with consistent spread (variance) throughout—looking at the first 100 observations or the last 100, the behavior would look essentially the same. The random walk, however, drifts away from its starting point. Notice in the bottom-right panel how the variance computed over 50-time-period windows keeps increasing as we move forward: the series becomes progressively more variable. This growing dispersion is a clear sign of non-stationarity.</p>
+<hr>
+</section>
+<section id="formal-definitions-of-stationarity" class="level3">
+<h3 class="anchored" data-anchor-id="formal-definitions-of-stationarity">4.2. Formal Definitions of Stationarity</h3>
+<p>There are two main types of stationarity that we encounter in time series analysis: strict (strong) stationarity and weak stationarity. Understanding the distinction is important both theoretically and practically.</p>
+<section id="strict-stationarity" class="level4">
+<h4 class="anchored" data-anchor-id="strict-stationarity">4.2.1. Strict Stationarity</h4>
+<p>A stochastic process <span class="math inline">\(\{Y_t\}\)</span> is said to be strictly stationary if its statistical properties are entirely invariant under time shifts. Formally:</p>
+<blockquote class="blockquote">
+<p><strong>Definition</strong>: A process <span class="math inline">\(\{Y_t\}\)</span> is strictly stationary if, for any positive integer <span class="math inline">\(k\)</span>, any time points <span class="math inline">\(t_1, t_2, \ldots, t_k\)</span>, and any time shift <span class="math inline">\(h\)</span>, the joint distribution of <span class="math inline">\((Y_{t_1}, Y_{t_2}, \ldots, Y_{t_k})\)</span> is identical to the joint distribution of <span class="math inline">\((Y_{t_1+h}, Y_{t_2+h}, \ldots, Y_{t_k+h})\)</span>.</p>
+</blockquote>
+<p>In other words, if any collection of observations from the series is taken and shifted forward or backward in time by the same amount, the probability distribution of that collection remains unchanged.</p>
+<p>This is a very strong requirement<strong>.</strong> It demands that <em>all</em> aspects of the probability distribution—not just the mean and variance, but also skewness, kurtosis, and every other moment—remain constant over time.</p>
+<p><strong>Example</strong>: A sequence of independent and identically distributed (i.i.d.) random variables is strictly stationary. If <span class="math inline">\(Y_1, Y_2, \ldots\)</span> are all drawn from the same distribution, then any subset at any time looks statistically identical to any other subset.</p>
+</section>
+<section id="weak-stationarity" class="level4">
+<h4 class="anchored" data-anchor-id="weak-stationarity">4.2.2. Weak Stationarity</h4>
+<p>In practice, strict stationarity is often too restrictive and difficult to verify. A more commonly used concept is weak stationarity (also called second-order stationarity or covariance stationarity), which only requires that the first two moments (mean and covariance) be time-invariant.</p>
+<blockquote class="blockquote">
+<p><strong>Definition</strong>: A process <span class="math inline">\(\{Y_t\}\)</span> is weakly stationary if:</p>
+<ol type="1">
+<li><p><strong>Constant mean</strong>: <span class="math inline">\(E[Y_t] = \mu\)</span> for all <span class="math inline">\(t\)</span> (the mean is constant, it does not depend on time)</p></li>
+<li><p><strong>Constant variance</strong>: <span class="math inline">\(\text{Var}(Y_t) = \sigma^2\)</span> for all <span class="math inline">\(t\)</span> (the variance is constant, it does not depend on time)</p></li>
+<li><p><strong>Covariance depends only on time-lag</strong>: <span class="math inline">\(\text{Cov}(Y_t, Y_{t+h}) = \gamma(h)\)</span> for all <span class="math inline">\(t\)</span> and any lag <span class="math inline">\(h\)</span> (the autocovariance depends only on the time difference, not on the absolute time). Consequently, the autocorrelation function only depends on <span class="math inline">\(h\)</span>: <span class="math inline">\(\rho(h) = \frac{\gamma(h)}{\gamma(0)}\)</span></p></li>
+</ol>
+</blockquote>
+<p>The third condition is crucial: it establishes that the covariance between any two observations depends only on their temporal separation <span class="math inline">\(h\)</span>, not on their absolute position within the series.</p>
+</section>
+<section id="relationship-between-strict-and-weak-stationarity" class="level4">
+<h4 class="anchored" data-anchor-id="relationship-between-strict-and-weak-stationarity">4.2.3. Relationship Between Strict and Weak Stationarity</h4>
+<p>The relationship between these two concepts is subtle:</p>
+<ul>
+<li><p><strong>Strict stationarity with finite variance implies weak stationarity</strong>: If a process is strictly stationary and has finite first and second moments, then it must also be weakly stationary (since the moments are just specific aspects of the distribution).</p></li>
+<li><p><strong>Weak stationarity does NOT imply strict stationarity</strong>: A process can have constant mean and covariance structure while higher moments (like skewness or kurtosis) change over time.</p></li>
+<li><p><strong>Strict stationarity without weak stationarity</strong>: Interestingly, there exist strictly stationary processes that are NOT weakly stationary! This occurs when the process doesn’t have finite variance. The classic example is the <strong>Cauchy distribution</strong>, which has no defined mean or variance. A process of i.i.d. Cauchy random variables is strictly stationary (the distribution doesn’t change) but cannot be weakly stationary (because the required moments don’t exist).</p></li>
+</ul>
+<p><strong>For practical purposes</strong>: When we discuss “stationarity” in time series analysis without further qualification, we typically mean <strong>weak stationarity</strong>. This is because:</p>
+<ol type="1">
+<li>It’s easier to test empirically</li>
+<li>It’s sufficient for most statistical models</li>
+<li>It’s what estimation procedures actually require</li>
+</ol>
+</section>
+<section id="exercise-1.2." class="level4">
+<h4 class="anchored" data-anchor-id="exercise-1.2.">Exercise 1.2.</h4>
+<p><img src="Figures/strict_vs_weak_stationarity.png" class="img-fluid"></p>
+<p>Look at the four panels above. For each non-stationary case, which of the three conditions for weak stationarity is violated? Can you think of real-world phenomena that might exhibit each type of non-stationarity?</p>
+<hr>
+</section>
+</section>
+<section id="common-examples-of-stationary-and-non-stationary-processes" class="level3">
+<h3 class="anchored" data-anchor-id="common-examples-of-stationary-and-non-stationary-processes">4.3. Common Examples of Stationary and Non-Stationary Processes</h3>
+<p>Understanding stationarity becomes clearer through concrete examples.</p>
+<section id="stationary-processes" class="level4">
+<h4 class="anchored" data-anchor-id="stationary-processes">4.3.1. Stationary Processes</h4>
+<p><strong>White Noise</strong> <span class="math inline">\(\{e_t\}\)</span>: A sequence where each observation is drawn independently from the same distribution (typically <span class="math inline">\(e_t \sim N(0, \sigma^2)\)</span>).</p>
+<p><strong>AR(1) Process with</strong> <span class="math inline">\(|\phi| &lt; 1\)</span>: <span class="math inline">\(Y_t = \phi Y_{t-1} + e_t\)</span></p>
+<p>When the autoregressive parameter <span class="math inline">\(\phi\)</span> satisfies <span class="math inline">\(|\phi| &lt; 1\)</span>, the process is stationary with:</p>
+<ul>
+<li><span class="math inline">\(E[Y_t] = 0\)</span> (assuming mean-zero innovations)</li>
+<li><span class="math inline">\(\text{Var}(Y_t) = \frac{\sigma^2}{1 - \phi^2}\)</span></li>
+<li><span class="math inline">\(\gamma(h) = \phi^{|h|} \cdot \text{Var}(Y_t)\)</span></li>
+</ul>
+<p>The condition <span class="math inline">\(|\phi| &lt; 1\)</span> ensures that shocks decay over time rather than accumulating.</p>
+<section id="exercise-1.3" class="level5">
+<h5 class="anchored" data-anchor-id="exercise-1.3"><strong>Exercise 1.3</strong></h5>
+<p>Proof that a white noise process and an <strong>AR(1) process with</strong> <span class="math inline">\(|\phi| &lt; 1\)</span> are weak stationary. For that, you should prove:</p>
+<ul>
+<li><span class="math inline">\(E[e_t]\)</span> constant</li>
+<li><span class="math inline">\(\text{Var}(e_t)\)</span> finite and constant</li>
+<li><span class="math inline">\(\text{Cov}(Y_t, Y_{t-h}) = \gamma(h)\)</span> for <span class="math inline">\(h \neq 0\)</span> (covariance depends only on lag <span class="math inline">\(h\)</span> and no on <span class="math inline">\(t\)</span>)</li>
+</ul>
+</section>
+</section>
+<section id="non-stationary-processes" class="level4">
+<h4 class="anchored" data-anchor-id="non-stationary-processes">4.3.2. Non-Stationary Processes</h4>
+<p><strong>Random Walk</strong>: <span class="math inline">\(Y_t = Y_{t-1} + e_t\)</span></p>
+<p>This is an AR(1) with <span class="math inline">\(\phi = 1\)</span> (a “unit root”). It is non-stationary because:</p>
+<ul>
+<li>The variance grows linearly with time: <span class="math inline">\(\text{Var}(Y_t) = t \cdot \sigma^2\)</span></li>
+<li>Shocks have permanent effects (they never decay)</li>
+</ul>
+<p><strong>Random Walk with Drift</strong>: <span class="math inline">\(Y_t = \mu + Y_{t-1} + e_t\)</span></p>
+<p>Adds a constant drift term <span class="math inline">\(\mu\)</span>, causing the mean to grow (or shrink) linearly over time.</p>
+<p><strong>Deterministic Trend</strong>: <span class="math inline">\(Y_t = \beta_0 + \beta_1 t + e_t\)</span></p>
+<p>The mean is a function of time, violating the constant mean requirement.</p>
+<p><strong>Seasonal Process</strong>: <span class="math inline">\(Y_t = S_t + e_t\)</span> where <span class="math inline">\(S_t\)</span> is a periodic function</p>
+<p>If seasonality is present and not removed, the mean varies systematically with the season.</p>
+</section>
+<section id="comparison-between-stationary-ar1-and-random-walk" class="level4">
+<h4 class="anchored" data-anchor-id="comparison-between-stationary-ar1-and-random-walk">4.3.3. Comparison between stationary AR(1) and Random Walk</h4>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Figures/stationaryAR1_vs_RandomWalk.png" class="img-fluid figure-img"></p>
+<figcaption>Stationary AR process [AR(1) with <span class="math inline">\(\phi = 0.8\)</span>] vs.&nbsp;Random Walk [AR(1) with <span class="math inline">\(\phi=1\)</span>]</figcaption>
+</figure>
+</div>
+<p>Both processes use the exact same random innovations, but the AR(1) with <span class="math inline">\(\phi = 0.8\)</span> remains bounded (shocks decay by 20% each period), while the random walk with <span class="math inline">\(\phi = 1\)</span> accumulates all shocks indefinitely.</p>
+<hr>
+</section>
+</section>
+<section id="unit-roots-and-integration" class="level3">
+<h3 class="anchored" data-anchor-id="unit-roots-and-integration">4.4. Unit Roots and Integration</h3>
+<p>The concept of a <strong>unit root</strong> is central to understanding non-stationarity in time series. It provides a mathematical framework for characterizing certain types of non-stationary behavior and guides us in how to transform non-stationary series into stationary ones.</p>
+<section id="what-is-a-unit-root" class="level4">
+<h4 class="anchored" data-anchor-id="what-is-a-unit-root">4.4.1. What is a Unit Root?</h4>
+<p>Consider the AR(1) process: <span class="math inline">\(Y_t = \phi Y_{t-1} + e_t\)</span></p>
+<p>We can rewrite this using the <strong>lag operator</strong> (backshift operator) <span class="math inline">\(B\)</span>, where <span class="math inline">\(BY_t = Y_{t-1}\)</span>:</p>
+<p><span class="math display">\[Y_t = \phi B Y_t + e_t\]</span> <span class="math display">\[(1 - \phi B) Y_t = e_t\]</span></p>
+<p>The <strong>characteristic equation</strong> is: <span class="math inline">\(1 - \phi z = 0\)</span>, which has root <span class="math inline">\(z = 1/\phi\)</span>.</p>
+<ul>
+<li>If <span class="math inline">\(|\phi| &lt; 1\)</span>, the root lies outside the unit circle (<span class="math inline">\(|z| &gt; 1\)</span>), and the process is <strong>stationary</strong></li>
+<li>If <span class="math inline">\(\phi = 1\)</span>, the root equals 1 (lies on the unit circle), and we say the process has a <strong>unit root</strong>—it is <strong>non-stationary</strong></li>
+<li>If <span class="math inline">\(|\phi| &gt; 1\)</span>, the root lies inside the unit circle, and the process is explosive (grows without bound)</li>
+</ul>
+<blockquote class="blockquote">
+<p><strong>Definition (Unit Root)</strong>: A time series has a unit root if its characteristic polynomial has a root equal to 1. Equivalently, the autoregressive coefficient equals 1, meaning shocks have permanent effects.</p>
+</blockquote>
+</section>
+<section id="integrated-processes" class="level4">
+<h4 class="anchored" data-anchor-id="integrated-processes">4.4.2. Integrated Processes</h4>
+<p>A series that requires differencing to become stationary is called an integrated series.</p>
+<blockquote class="blockquote">
+<p><strong>Definition</strong>: A series <span class="math inline">\(\{Y_t\}\)</span> is integrated of order <span class="math inline">\(d\)</span>, denoted <span class="math inline">\(I(d)\)</span>, if it must be differenced <span class="math inline">\(d\)</span> times to achieve stationarity.</p>
+</blockquote>
+<ul>
+<li><span class="math inline">\(I(0)\)</span>: Stationary (no differencing needed)</li>
+<li><span class="math inline">\(I(1)\)</span>: First differencing produces a stationary series</li>
+<li><span class="math inline">\(I(2)\)</span>: Second differencing is required</li>
+</ul>
+<p><strong>First differencing</strong>: <span class="math inline">\(\Delta Y_t = Y_t - Y_{t-1}\)</span></p>
+<p>For a random walk: <span class="math inline">\(Y_t = Y_{t-1} + e_t\)</span></p>
+<p>Taking first differences: <span class="math inline">\(\Delta Y_t = Y_t - Y_{t-1} = e_t\)</span></p>
+<p>The differenced series is white noise—stationary! Thus, a random walk is <span class="math inline">\(I(1)\)</span>.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Figures/integrated_1_randomWalk.png" class="img-fluid figure-img"></p>
+<figcaption>Effect of differencing on a random walk: transforming I(1) to I(0)</figcaption>
+</figure>
+</div>
+<p>The left panel shows the original random walk, where both the mean and variance clearly change over time—the series drifts away from its starting point and the fluctuations become wider. After applying first differencing (right panel), the resulting series fluctuates around a constant mean (zero) with stable variance throughout. This visual stability is an indication of stationarity; in fact, the differenced series is simply white noise.</p>
+<hr>
+</section>
+</section>
+<section id="visual-assessment-using-the-autocorrelation-function" class="level3">
+<h3 class="anchored" data-anchor-id="visual-assessment-using-the-autocorrelation-function">4.5. Visual Assessment Using the Autocorrelation Function</h3>
+<p>Recall from Section 4.2.2 that weak stationarity requires three conditions: constant mean, constant variance, and autocovariance that depends only on lag <span class="math inline">\(h\)</span>, not on time <span class="math inline">\(t\)</span>. The first two conditions can often be assessed directly from the time series plot: a wandering level suggests non-constant mean, while expanding or contracting fluctuations indicate non-constant variance.</p>
+<p>However, the third condition is not immediately visible from a simple time plot. This is where the autocorrelation function (ACF) becomes essential: it summarizes the correlation structure across lags and reveals whether the dependence pattern is consistent throughout the series.</p>
+</section>
+<section id="the-sample-autocorrelation-function" class="level3">
+<h3 class="anchored" data-anchor-id="the-sample-autocorrelation-function">4.5.1. The Sample Autocorrelation Function</h3>
+<p>Recall from Section 1.2 that the autocorrelation function measures the linear relationship between <span class="math inline">\(Y_t\)</span> and <span class="math inline">\(Y_{t-h}\)</span> at different lags <span class="math inline">\(h\)</span>. For a weakly stationary process, this correlation depends only on the lag <span class="math inline">\(h\)</span>, not on the absolute time <span class="math inline">\(t\)</span>:</p>
+<p><span class="math display">\[\rho(h) = \text{Corr}(Y_t, Y_{t-h}) = \frac{\gamma(h)}{\gamma(0)}\]</span></p>
+<p>In practice, we estimate <span class="math inline">\(\rho(h)\)</span> from observed data using the <strong>sample autocorrelation function</strong>:</p>
+<p><span class="math display">\[\hat{\rho}(h) = \frac{\sum_{t=h+1}^{T}(y_t - \bar{y})(y_{t-h} - \bar{y})}{\sum_{t=1}^{T}(y_t - \bar{y})^2}\]</span></p>
+<p>The ACF plot (or correlogram) displays <span class="math inline">\(\hat{\rho}(h)\)</span> against the lag <span class="math inline">\(h\)</span>, typically for <span class="math inline">\(h = 0, 1, 2, \ldots, H\)</span> where <span class="math inline">\(H\)</span> is some maximum lag (often around <span class="math inline">\(T/4\)</span> or a fixed number like 20-40).</p>
+</section>
+<section id="confidence-bands-and-statistical-significance" class="level3">
+<h3 class="anchored" data-anchor-id="confidence-bands-and-statistical-significance">4.5.2. Confidence Bands and Statistical Significance</h3>
+<p>Under the null hypothesis that the true autocorrelation at lag <span class="math inline">\(h\)</span> is zero (i.e., the series is white noise), the sample autocorrelation <span class="math inline">\(\hat{\rho}(h)\)</span> is approximately normally distributed:</p>
+<p><span class="math display">\[\hat{\rho}(h) \sim N\left(0, \frac{1}{T}\right) \quad \text{for large } T\]</span></p>
+<p>This leads to the familiar <strong>95% confidence bands</strong> displayed on ACF plots:</p>
+<p><span class="math display">\[\pm \frac{1.96}{\sqrt{T}}\]</span></p>
+<p>Thus, autocorrelations falling within the bands are not statistically significant at the 5% level (they are consistent with white noise). By contrast, autocorrelations outside the bands suggest genuine temporal dependence at that lag</p>
+<p>These bands assume the series is white noise under <span class="math inline">\(H_0\)</span>. For non-white-noise stationary processes, the standard errors can be larger. Additionally, autocorrelations at different lags are not independent, so interpreting individual spikes requires caution.</p>
+</section>
+<section id="interpreting-acf-plots-for-stationarity" class="level3">
+<h3 class="anchored" data-anchor-id="interpreting-acf-plots-for-stationarity">4.5.3. Interpreting ACF Plots for Stationarity</h3>
+<p>The key diagnostic pattern is the rate of decay:</p>
+<ul>
+<li><p><strong>Rapid decay</strong> (autocorrelations fall within confidence bands within a few lags): Consistent with stationarity. The series has short memory—observations far apart in time are nearly uncorrelated.</p></li>
+<li><p><strong>Slow, persistent decay</strong> (autocorrelations remain high for many lags, with <span class="math inline">\(\hat{\rho}(1) \approx 1\)</span>): Suggests non-stationarity, typically a unit root. The series has long memory—shocks persist indefinitely.</p></li>
+</ul>
+<p><code>plot_acf</code> function from <code>statsmodels</code> library can be used to obtain ACF plots with confident bands (confidence level controled by <code>alpha</code> parameter).</p>
+<div id="1cffe743" class="cell" data-execution_count="12">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb17-2"><a href="#cb17-2"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb17-3"><a href="#cb17-3"></a><span class="im">from</span> statsmodels.graphics.tsaplots <span class="im">import</span> plot_acf</span>
+<span id="cb17-4"><a href="#cb17-4"></a></span>
+<span id="cb17-5"><a href="#cb17-5"></a>np.random.seed(<span class="dv">42</span>)</span>
+<span id="cb17-6"><a href="#cb17-6"></a>n <span class="op">=</span> <span class="dv">300</span></span>
+<span id="cb17-7"><a href="#cb17-7"></a></span>
+<span id="cb17-8"><a href="#cb17-8"></a><span class="co"># Stationary: AR(1) with phi = 0.5</span></span>
+<span id="cb17-9"><a href="#cb17-9"></a>ar1 <span class="op">=</span> np.zeros(n)</span>
+<span id="cb17-10"><a href="#cb17-10"></a><span class="cf">for</span> t <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, n):</span>
+<span id="cb17-11"><a href="#cb17-11"></a>    ar1[t] <span class="op">=</span> <span class="fl">0.5</span> <span class="op">*</span> ar1[t<span class="op">-</span><span class="dv">1</span>] <span class="op">+</span> np.random.normal(<span class="dv">0</span>, <span class="dv">1</span>)</span>
+<span id="cb17-12"><a href="#cb17-12"></a></span>
+<span id="cb17-13"><a href="#cb17-13"></a><span class="co"># Non-stationary: Random walk</span></span>
+<span id="cb17-14"><a href="#cb17-14"></a>random_walk <span class="op">=</span> np.cumsum(np.random.normal(<span class="dv">0</span>, <span class="dv">1</span>, n))</span>
+<span id="cb17-15"><a href="#cb17-15"></a></span>
+<span id="cb17-16"><a href="#cb17-16"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">2</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">8</span>))</span>
+<span id="cb17-17"><a href="#cb17-17"></a></span>
+<span id="cb17-18"><a href="#cb17-18"></a><span class="co"># Time series plots</span></span>
+<span id="cb17-19"><a href="#cb17-19"></a>axes[<span class="dv">0</span>, <span class="dv">0</span>].plot(ar1, linewidth<span class="op">=</span><span class="fl">0.7</span>)</span>
+<span id="cb17-20"><a href="#cb17-20"></a>axes[<span class="dv">0</span>, <span class="dv">0</span>].set_title(<span class="st">'AR(1) with φ=0.5 (Stationary)'</span>)</span>
+<span id="cb17-21"><a href="#cb17-21"></a>axes[<span class="dv">0</span>, <span class="dv">1</span>].plot(random_walk, linewidth<span class="op">=</span><span class="fl">0.7</span>)</span>
+<span id="cb17-22"><a href="#cb17-22"></a>axes[<span class="dv">0</span>, <span class="dv">1</span>].set_title(<span class="st">'Random Walk (Non-stationary)'</span>)</span>
+<span id="cb17-23"><a href="#cb17-23"></a></span>
+<span id="cb17-24"><a href="#cb17-24"></a><span class="co"># ACF plots</span></span>
+<span id="cb17-25"><a href="#cb17-25"></a>plot_acf(ar1, lags<span class="op">=</span><span class="dv">25</span>, ax<span class="op">=</span>axes[<span class="dv">1</span>, <span class="dv">0</span>], alpha<span class="op">=</span><span class="fl">0.05</span>)</span>
+<span id="cb17-26"><a href="#cb17-26"></a>axes[<span class="dv">1</span>, <span class="dv">0</span>].set_title(<span class="st">'ACF: Rapid Decay → Stationary'</span>)</span>
+<span id="cb17-27"><a href="#cb17-27"></a>plot_acf(random_walk, lags<span class="op">=</span><span class="dv">25</span>, ax<span class="op">=</span>axes[<span class="dv">1</span>, <span class="dv">1</span>], alpha<span class="op">=</span><span class="fl">0.05</span>)</span>
+<span id="cb17-28"><a href="#cb17-28"></a>axes[<span class="dv">1</span>, <span class="dv">1</span>].set_title(<span class="st">'ACF: Slow Decay → Non-stationary'</span>)</span>
+<span id="cb17-29"><a href="#cb17-29"></a></span>
+<span id="cb17-30"><a href="#cb17-30"></a>plt.tight_layout()</span>
+<span id="cb17-31"><a href="#cb17-31"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Chapter1_FundamentalsOfTimeSeries_files/figure-html/cell-13-output-1.png" width="951" height="759" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="limitations-of-visual-assessment" class="level3">
+<h3 class="anchored" data-anchor-id="limitations-of-visual-assessment">4.5.4. Limitations of Visual Assessment</h3>
+<p>The ACF is a valuable exploratory tool, but it has an important limitation: it cannot reliably distinguish between a highly persistent stationary process (e.g., AR(1) with <span class="math inline">\(\phi\)</span> close to 1) and a true unit root (<span class="math inline">\(\phi = 1\)</span>). Both produce slowly decaying ACFs that look remarkably similar.</p>
+<p>This ambiguity motivates the need for formal statistical tests, which we introduce in the next section. We will revisit ACF and PACF plots in greater detail when studying ARIMA models, where they serve a different purpose: identifying the appropriate model order.</p>
+</section>
+<section id="statistical-tests-for-stationarity" class="level3">
+<h3 class="anchored" data-anchor-id="statistical-tests-for-stationarity">4.6. Statistical Tests for Stationarity</h3>
+<p>While visual inspection and ACF plots provide useful heuristics, we need formal statistical tests to make objective decisions about stationarity. The two most commonly used tests are the <strong>Augmented Dickey-Fuller (ADF)</strong> test and the <strong>Kwiatkowski-Phillips-Schmidt-Shin (KPSS)</strong> test.</p>
+<p>These tests approach the problem from opposite directions, which makes using both together a powerful strategy.</p>
+<section id="augmented-dickey-fuller-adf-test" class="level4">
+<h4 class="anchored" data-anchor-id="augmented-dickey-fuller-adf-test">4.6.1. Augmented Dickey-Fuller (ADF) Test</h4>
+<p>The ADF test is designed to detect the presence of a unit root. It builds on the simpler Dickey-Fuller test but accounts for higher-order serial correlation in the data.</p>
+<p><strong>The Testing Framework</strong></p>
+<p>Consider the AR(1) model: <span class="math inline">\(Y_t = \phi Y_{t-1} + e_t\)</span></p>
+<p>Subtracting <span class="math inline">\(Y_{t-1}\)</span> from both sides: <span class="math display">\[\Delta Y_t = Y_t - Y_{t-1} = (\phi - 1) Y_{t-1} + e_t = \delta Y_{t-1} + e_t\]</span></p>
+<p>where <span class="math inline">\(\delta = \phi - 1\)</span>.</p>
+<p><strong>Hypotheses</strong>:</p>
+<ul>
+<li><span class="math inline">\(H_0\)</span>: <span class="math inline">\(\delta = 0\)</span> (equivalently, <span class="math inline">\(\phi = 1\)</span>) — the series has a unit root (non-stationary)</li>
+<li><span class="math inline">\(H_1\)</span>: <span class="math inline">\(\delta &lt; 0\)</span> (equivalently, <span class="math inline">\(|\phi| &lt; 1\)</span>) — the series is stationary</li>
+</ul>
+<p>If we reject <span class="math inline">\(H_0\)</span>, we conclude the series is stationary.</p>
+<p><strong>Why “Augmented”?</strong></p>
+<p>The original Dickey-Fuller test assumes the errors <span class="math inline">\(e_t\)</span> are white noise. In practice, the errors may exhibit serial correlation. The ADF test addresses this by including lagged differences:</p>
+<p><span class="math display">\[\Delta Y_t = \alpha + \beta t + \delta Y_{t-1} + \sum_{j=1}^{p} \gamma_j \Delta Y_{t-j} + e_t\]</span></p>
+<p>where: <span class="math inline">\(\alpha\)</span> is a constant (intercept), <span class="math inline">\(\beta t\)</span> is a deterministic trend term (optional), and <span class="math inline">\(\sum_{j=1}^{p} \gamma_j \Delta Y_{t-j}\)</span> are lagged differences to absorb serial correlation. <span class="math inline">\(p\)</span> is chosen to ensure <span class="math inline">\(e_t\)</span> is white noise.</p>
+<p><strong>Test Statistic and Critical Values</strong></p>
+<p>The test statistic is the t-ratio for <span class="math inline">\(\delta\)</span>: <span class="math display">\[\tau = \frac{\hat{\delta}}{SE(\hat{\delta})}\]</span></p>
+<p>Under the null hypothesis of a unit root, this statistic does NOT follow a standard t-distribution. Instead, it follows a non-standard Dickey-Fuller distribution, which has different critical values (more negative than the standard t).</p>
+<p><strong>Interpretation</strong>:</p>
+<ul>
+<li>If test statistic &lt; critical value: Reject <span class="math inline">\(H_0\)</span> → Series is stationary</li>
+<li>If test statistic &gt; critical value: Fail to reject <span class="math inline">\(H_0\)</span> → Series has unit root (non-stationary)</li>
+<li>Equivalently: If p-value &lt; 0.05: Reject <span class="math inline">\(H_0\)</span> → Series is stationary</li>
+</ul>
+<p><strong>ADF Test in Python</strong></p>
+<p>The <code>adfuller</code> function from <code>statsmodels</code> can automatically determine the optimal number of lags <span class="math inline">\(p\)</span> to include in the test regression. By default (<code>autolag='AIC'</code>), the function fits models for <span class="math inline">\(p = 0, 1, \ldots, p_{\max}\)</span> and selects the value that minimizes the Akaike Information Criterion (AIC). Alternative criteria such as BIC (<code>autolag='BIC'</code>) or sequential t-statistic testing (<code>autolag='t-stat'</code>) are also available. The maximum number of lags <span class="math inline">\(p_{max}\)</span> can be specified via the <code>maxlag</code> parameter; if left as None, a default value of <span class="math inline">\(\lfloor 12 \cdot (n/100)\^{1/4} \rfloor\)</span> is used, where <span class="math inline">\(n\)</span> is the sample size. This automatic selection helps ensure that the residuals of the test regression are free of serial correlation, which is essential for the validity of the test.</p>
+<div id="3f39192d" class="cell" data-execution_count="13">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1"></a><span class="im">from</span> statsmodels.tsa.stattools <span class="im">import</span> adfuller</span>
+<span id="cb18-2"><a href="#cb18-2"></a></span>
+<span id="cb18-3"><a href="#cb18-3"></a><span class="co"># Obtain example series</span></span>
+<span id="cb18-4"><a href="#cb18-4"></a>np.random.seed(<span class="dv">42</span>)</span>
+<span id="cb18-5"><a href="#cb18-5"></a><span class="co"># white noise</span></span>
+<span id="cb18-6"><a href="#cb18-6"></a>stationary <span class="op">=</span> np.random.normal(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">500</span>)</span>
+<span id="cb18-7"><a href="#cb18-7"></a><span class="co"># random walk</span></span>
+<span id="cb18-8"><a href="#cb18-8"></a>random_walk <span class="op">=</span> np.cumsum(np.random.normal(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">500</span>))</span>
+<span id="cb18-9"><a href="#cb18-9"></a></span>
+<span id="cb18-10"><a href="#cb18-10"></a></span>
+<span id="cb18-11"><a href="#cb18-11"></a>result_stationary <span class="op">=</span> adfuller(stationary) <span class="co">#default: maxlag='None', autolag='AIC'</span></span>
+<span id="cb18-12"><a href="#cb18-12"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="sc">{</span><span class="st">'='</span><span class="op">*</span><span class="dv">65</span><span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb18-13"><a href="#cb18-13"></a><span class="bu">print</span>(<span class="ss">f"Augmented Dickey-Fuller Test: white noise (should be stationary)"</span>)</span>
+<span id="cb18-14"><a href="#cb18-14"></a><span class="bu">print</span>(<span class="st">'='</span><span class="op">*</span><span class="dv">65</span>)</span>
+<span id="cb18-15"><a href="#cb18-15"></a><span class="bu">print</span>(<span class="ss">f"P-value:                </span><span class="sc">{</span>result_stationary[<span class="dv">1</span>]<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
+<span id="cb18-16"><a href="#cb18-16"></a><span class="bu">print</span>(<span class="ss">f"Lags Used:              </span><span class="sc">{</span>result_stationary[<span class="dv">2</span>]<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb18-17"><a href="#cb18-17"></a><span class="bu">print</span>(<span class="ss">f"Number of Observations: </span><span class="sc">{</span>result_stationary[<span class="dv">3</span>]<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb18-18"><a href="#cb18-18"></a>    </span>
+<span id="cb18-19"><a href="#cb18-19"></a>result_rw <span class="op">=</span> adfuller(random_walk) <span class="co">#default: maxlag='None', autolag='AIC'</span></span>
+<span id="cb18-20"><a href="#cb18-20"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="sc">{</span><span class="st">'='</span><span class="op">*</span><span class="dv">65</span><span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb18-21"><a href="#cb18-21"></a><span class="bu">print</span>(<span class="ss">f"Augmented Dickey-Fuller Test: random walk (should be non-stationary - unit root)"</span>)</span>
+<span id="cb18-22"><a href="#cb18-22"></a><span class="bu">print</span>(<span class="st">'='</span><span class="op">*</span><span class="dv">65</span>)</span>
+<span id="cb18-23"><a href="#cb18-23"></a><span class="bu">print</span>(<span class="ss">f"P-value:                </span><span class="sc">{</span>result_rw[<span class="dv">1</span>]<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
+<span id="cb18-24"><a href="#cb18-24"></a><span class="bu">print</span>(<span class="ss">f"Lags Used:              </span><span class="sc">{</span>result_rw[<span class="dv">2</span>]<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb18-25"><a href="#cb18-25"></a><span class="bu">print</span>(<span class="ss">f"Number of Observations: </span><span class="sc">{</span>result_rw[<span class="dv">3</span>]<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+=================================================================
+Augmented Dickey-Fuller Test: white noise (should be stationary)
+=================================================================
+P-value:                0.0000
+Lags Used:              0
+Number of Observations: 499
+
+=================================================================
+Augmented Dickey-Fuller Test: random walk (should be non-stationary - unit root)
+=================================================================
+P-value:                0.9280
+Lags Used:              0
+Number of Observations: 499</code></pre>
+</div>
+</div>
+</section>
+<section id="kpss-test-kwiatkowski-phillips-schmidt-shin" class="level4">
+<h4 class="anchored" data-anchor-id="kpss-test-kwiatkowski-phillips-schmidt-shin">4.6.2. KPSS Test (Kwiatkowski-Phillips-Schmidt-Shin)</h4>
+<p>The KPSS test takes the opposite approach to the ADF test: it tests the null hypothesis of stationarity.</p>
+<p><strong>Hypotheses</strong>:</p>
+<ul>
+<li><span class="math inline">\(H_0\)</span>: The series is stationary (around a deterministic trend)</li>
+<li><span class="math inline">\(H_1\)</span>: The series has a unit root (non-stationary)</li>
+</ul>
+<p><strong>The Model</strong></p>
+<p>The KPSS test decomposes the series as: <span class="math display">\[Y_t = \xi t + r_t + \epsilon_t\]</span></p>
+<p>where <span class="math inline">\(\xi t\)</span> is a deterministic trend, <span class="math inline">\(r_t = r_{t-1} + u_t\)</span> is a random walk, and <span class="math inline">\(\epsilon_t\)</span> is a stationary error</p>
+<p>Under <span class="math inline">\(H_0\)</span> (stationarity), the variance of <span class="math inline">\(u_t\)</span> is zero, meaning <span class="math inline">\(r_t\)</span> is constant and the series is stationary around a trend.</p>
+<p><strong>Test Statistic</strong></p>
+<p>The KPSS test statistic is based on the cumulative sum of residuals: <span class="math display">\[\text{KPSS} = \frac{\sum_{t=1}^{T} S_t^2}{T^2 \hat{\sigma}^2}\]</span></p>
+<p>where <span class="math inline">\(S_t = \sum_{i=1}^{t} \hat{e}_i\)</span> is the cumulative sum of residuals.</p>
+<p><strong>Interpretation</strong>:</p>
+<ul>
+<li>If test statistic &gt; critical value: Reject <span class="math inline">\(H_0\)</span> → Series is non-stationary</li>
+<li>If test statistic &lt; critical value: Fail to reject <span class="math inline">\(H_0\)</span> → Series is stationary</li>
+<li>Equivalently: If p-value &lt; 0.05, the series is non-stationary</li>
+</ul>
+<p><strong>Note</strong>: The logic is reversed compared to ADF. Small p-values in KPSS indicate non-stationarity.</p>
+<p><strong>KPSS Test in Python</strong></p>
+<p>The <code>kpss</code> function from <code>statsmodels</code> allows for the specification of the deterministic component via the <code>regression</code> parameter. Setting <code>regression='c'</code> tests for stationarity around a constant level (implying <span class="math inline">\(\xi=0\)</span> in the model), whereas <code>regression='ct'</code> tests for stationarity around a deterministic trend. Regarding the test statistic denominator, the <code>nlags</code> parameter controls the lag truncation used to estimate the long-run variance <span class="math inline">\(\hat{\sigma}^2\)</span>. When set to <code>nlags='auto'</code>, the function automatically determines the optimal number of lags based on the sample size (typically using a data-dependent rule). This automatic bandwidth selection is crucial for computing a Heteroskedasticity and Autocorrelation Consistent (HAC) estimator, ensuring the test statistic remains robust to short-term serial correlation under the null hypothesis.</p>
+<div id="53e8f411" class="cell" data-execution_count="14">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1"></a><span class="im">from</span> statsmodels.tsa.stattools <span class="im">import</span> kpss</span>
+<span id="cb20-2"><a href="#cb20-2"></a></span>
+<span id="cb20-3"><a href="#cb20-3"></a><span class="co"># regression: 'c' for constant (level stationarity)</span></span>
+<span id="cb20-4"><a href="#cb20-4"></a><span class="co">#             'ct' for constant + trend (trend stationarity)</span></span>
+<span id="cb20-5"><a href="#cb20-5"></a>result_stationary <span class="op">=</span> kpss(stationary, regression<span class="op">=</span><span class="st">'c'</span>, nlags<span class="op">=</span><span class="st">'auto'</span>)</span>
+<span id="cb20-6"><a href="#cb20-6"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="sc">{</span><span class="st">'='</span><span class="op">*</span><span class="dv">65</span><span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb20-7"><a href="#cb20-7"></a><span class="bu">print</span>(<span class="ss">f"KPSS Test: White Noise (should be stationary)"</span>)</span>
+<span id="cb20-8"><a href="#cb20-8"></a><span class="bu">print</span>(<span class="st">'='</span><span class="op">*</span><span class="dv">65</span>)</span>
+<span id="cb20-9"><a href="#cb20-9"></a><span class="bu">print</span>(<span class="ss">f"P-value:                </span><span class="sc">{</span>result_stationary[<span class="dv">1</span>]<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
+<span id="cb20-10"><a href="#cb20-10"></a><span class="bu">print</span>(<span class="ss">f"Lags Used:              </span><span class="sc">{</span>result_stationary[<span class="dv">2</span>]<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb20-11"><a href="#cb20-11"></a></span>
+<span id="cb20-12"><a href="#cb20-12"></a>result_rw <span class="op">=</span> kpss(random_walk, regression<span class="op">=</span><span class="st">'c'</span>, nlags<span class="op">=</span><span class="st">'auto'</span>)</span>
+<span id="cb20-13"><a href="#cb20-13"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="sc">{</span><span class="st">'='</span><span class="op">*</span><span class="dv">65</span><span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb20-14"><a href="#cb20-14"></a><span class="bu">print</span>(<span class="ss">f"KPSS Test: Random Walk (should be non-stationary)"</span>)</span>
+<span id="cb20-15"><a href="#cb20-15"></a><span class="bu">print</span>(<span class="st">'='</span><span class="op">*</span><span class="dv">65</span>)</span>
+<span id="cb20-16"><a href="#cb20-16"></a><span class="bu">print</span>(<span class="ss">f"P-value:                </span><span class="sc">{</span>result_rw[<span class="dv">1</span>]<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
+<span id="cb20-17"><a href="#cb20-17"></a><span class="bu">print</span>(<span class="ss">f"Lags Used:              </span><span class="sc">{</span>result_rw[<span class="dv">2</span>]<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+=================================================================
+KPSS Test: White Noise (should be stationary)
+=================================================================
+P-value:                0.1000
+Lags Used:              1
+
+=================================================================
+KPSS Test: Random Walk (should be non-stationary)
+=================================================================
+P-value:                0.0100
+Lags Used:              12</code></pre>
+</div>
+</div>
+</section>
+<section id="using-adf-and-kpss-together-a-confirmatory-strategy" class="level4">
+<h4 class="anchored" data-anchor-id="using-adf-and-kpss-together-a-confirmatory-strategy">4.6.3. Using ADF and KPSS Together: A Confirmatory Strategy</h4>
+<p>Since ADF and KPSS have opposite null hypotheses, using both tests provides stronger evidence:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">ADF Result</th>
+<th style="text-align: left;">KPSS Result</th>
+<th style="text-align: left;">Conclusion</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Reject <span class="math inline">\(H_0\)</span> (p &lt; 0.05)</td>
+<td style="text-align: left;">Fail to reject <span class="math inline">\(H_0\)</span> (p ≥ 0.05)</td>
+<td style="text-align: left;"><strong>Strong evidence of stationarity</strong></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Fail to reject <span class="math inline">\(H_0\)</span> (p ≥ 0.05)</td>
+<td style="text-align: left;">Reject <span class="math inline">\(H_0\)</span> (p &lt; 0.05)</td>
+<td style="text-align: left;"><strong>Strong evidence of non-stationarity</strong></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Reject <span class="math inline">\(H_0\)</span></td>
+<td style="text-align: left;">Reject <span class="math inline">\(H_0\)</span></td>
+<td style="text-align: left;">Conflicting—possibly trend-stationary</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Fail to reject <span class="math inline">\(H_0\)</span></td>
+<td style="text-align: left;">Fail to reject <span class="math inline">\(H_0\)</span></td>
+<td style="text-align: left;">Conflicting—low power / borderline case</td>
+</tr>
+</tbody>
+</table>
+<p>Recommended workflow:</p>
+<ol type="1">
+<li>Always run both tests</li>
+<li>Look for consistent results</li>
+<li>If results conflict, examine the data visually and consider transformation</li>
+</ol>
+</section>
+<section id="important-caveats-and-limitations" class="level4">
+<h4 class="anchored" data-anchor-id="important-caveats-and-limitations">4.6.4. Important Caveats and Limitations</h4>
+<p>Statistical tests for stationarity are not perfect. Be aware of these limitations:</p>
+<p><strong>Low Power with Small Samples</strong>: Both ADF and KPSS tests have reduced ability to detect the true state with small sample sizes. False positives (ADF) and false negatives (KPSS) become more common.</p>
+<p><strong>Near Unit Roots</strong>: When <span class="math inline">\(\phi\)</span> is close to 1 (e.g., <span class="math inline">\(\phi = 0.95\)</span>), it becomes very difficult for tests to distinguish between a stationary process with high persistence and a true unit root.</p>
+<p><strong>Structural Breaks</strong>: If the data contains structural breaks (sudden changes in mean or variance), tests may give misleading results.</p>
+<p><strong>Multiple Unit Roots</strong>: The tests are designed for single unit roots. Seasonal unit roots require specialized tests.</p>
+<p><strong>Variance Non-Stationarity</strong>: ADF and KPSS primarily test for mean stationarity. They do not directly test whether variance is changing over time. Variance issues are typically addressed through transformations (log, Box-Cox) rather than formal testing.</p>
+<blockquote class="blockquote">
+<p><strong>Critical Thinking</strong>: Why might a series pass both stationarity tests but still be inappropriate for a model that assumes stationarity? Consider what aspects of “stationarity” these tests actually measure versus what the model might need.</p>
+</blockquote>
+<hr>
+</section>
+</section>
+<section id="exercises" class="level3">
+<h3 class="anchored" data-anchor-id="exercises">4.7. Exercises</h3>
+<p><strong>Exercise 1.4</strong>: For each of the following, determine whether the process is stationary. If not, identify which condition of weak stationarity is violated.</p>
+<ol type="a">
+<li><p><span class="math inline">\(Y_t = 5 + 0.8Y_{t-1} + e_t\)</span> where <span class="math inline">\(e_t \sim N(0, 1)\)</span></p></li>
+<li><p><span class="math inline">\(Y_t = t + e_t\)</span> where <span class="math inline">\(e_t \sim N(0, 1)\)</span></p></li>
+<li><p><span class="math inline">\(Y_t = Y_{t-1} + e_t\)</span> where <span class="math inline">\(e_t \sim N(0, t)\)</span></p></li>
+<li><p><span class="math inline">\(Y_t = (-1)^t \cdot e_t\)</span> where <span class="math inline">\(e_t \sim N(0, 1)\)</span></p></li>
+</ol>
+<p><strong>Exercise 1.5</strong>: Load the <code>tourism.xlsx</code> data (used in example 1.1) obtain the time series data for <code>Holiday</code> trips in <code>Adelaide</code> region. Apply the complete stationarity workflow:</p>
+<ol type="1">
+<li>Plot the series and visually assess stationarity</li>
+<li>Perform ADF and KPSS tests on the original series</li>
+<li>If non-stationary, apply appropriate transformations</li>
+<li>Verify stationarity of the transformed series</li>
+</ol>
+<p><strong>Exercise 1.6</strong>: Consider a time series that passes the ADF test (appears stationary) but fails the KPSS test (appears non-stationary). What might be happening? Provide a concrete example and suggest how to resolve this ambiguity.</p>
+<hr>
+</section>
+</section>
+<section id="time-series-decomposition" class="level2">
+<h2 class="anchored" data-anchor-id="time-series-decomposition">5. Time Series Decomposition</h2>
+<p>One of the main objectives for a decomposition is to estimate seasonal effects that can be used to create and present seasonally adjusted values.</p>
+<p>A seasonally adjusted value removes the seasonal effect from a value so that trends can be seen more clearly.</p>
+<p>Example: in Spain, unemployment tends to decrease in the summer due to increased employment in major touristic areas. Thus, a drop in the unemployment rate in July compared to June doesn’t necessarily indicate that there’s a trend toward lower unemployment in the country. To see whether there is a real trend, we should adjust for the fact that unemployment is always lower in July than in June.</p>
+<p>How these components interact defines the mathematical model. Choosing the correct structure is crucial for forecast accuracy.</p>
+<section id="basic-structures" class="level3">
+<h3 class="anchored" data-anchor-id="basic-structures">5.1. Basic structures</h3>
+<section id="additive-model" class="level4">
+<h4 class="anchored" data-anchor-id="additive-model">5.1.1. Additive Model</h4>
+<p><span class="math inline">\(Y_t = Trend + Seasonal + Random \text{ (irregular component) } = T_t + S_t + C_t + \epsilon_t\)</span></p>
+<p>Used when the magnitude of fluctuations (variation around the trend-cycle) is relatively constant over time. That is, the amplitude of the seasonal spikes is roughly the same, regardless of whether the trend is high or low.</p>
+<p><em>Example:</em> Daily temperature variations (summer is roughly <span class="math inline">\(X\)</span> degrees hotter than winter, regardless of long-term climate change).</p>
+</section>
+<section id="multiplicative-model" class="level4">
+<h4 class="anchored" data-anchor-id="multiplicative-model">5.1.2. Multiplicative Model</h4>
+<p><span class="math inline">\(Y_t = \text{Trend} \times \text{Seasonal} \times \text{Random (irregular component)} = T_t\times S_t\times C_t \times \epsilon_t\)</span></p>
+<p>Used when the magnitude of fluctuations changes proportionally to the trend. That is, the variation in the seasonal pattern, or the variation around the trend-cycle, increases over time</p>
+<p><em>Example</em>: Multiplicative decompositions are common with economic time series. Over a period of 40 years, the total amount of money spent on retail sales in a country.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Figures/aditive-vs-multiplicative.png" class="img-fluid figure-img"></p>
+<figcaption>Aditive vs.&nbsp;multiplicative models</figcaption>
+</figure>
+</div>
+</section>
+</section>
+<section id="classical-decomposition-method" class="level3">
+<h3 class="anchored" data-anchor-id="classical-decomposition-method">5.2 Classical Decomposition Method</h3>
+<ul>
+<li><p>The classical method of time series decomposition originated in the 1920s and was widely used until the 1950s.</p></li>
+<li><p>It still forms the basis of many time series decomposition methods, so it is important to understand how it works.</p></li>
+<li><p>The first step in a classical decomposition is to use a moving average method to estimate the trend-cycle, so we begin by discussing moving averages.</p></li>
+</ul>
+<section id="moving-average-smoothing" class="level4">
+<h4 class="anchored" data-anchor-id="moving-average-smoothing">5.2.1. Moving average smoothing</h4>
+<p>A moving average of order m can be written as</p>
+<p><span class="math display">\[
+\hat{T}_t=\frac{1}{m}\sum_{j=-k}^k y_{t+j},
+\]</span></p>
+<p>where<span class="math inline">\(m=2k+1\)</span>.</p>
+<ul>
+<li><p>That is, the estimate of the trend-cycle at time <span class="math inline">\(t\)</span> is obtained by averaging values of the time series within <span class="math inline">\(k\)</span> periods of <span class="math inline">\(t\)</span>.</p></li>
+<li><p>Observations that are nearby in time are also likely to be close in value. Therefore, the average eliminates some of the randomness in the data, leaving a smooth trend-cycle component.</p></li>
+<li><p>We call this an <span class="math inline">\(m\)</span>-MA, meaning a moving average of order <span class="math inline">\(m\)</span>.</p></li>
+</ul>
+<p>Example: exports of goods and services for Australia as a percentage of GDP from 1960 to 2017.</p>
+<p><img src="Figures/plot35_MA_aus-exports-1.png" class="img-fluid"></p>
+<section id="moving-averages-by-hand" class="level5">
+<h5 class="anchored" data-anchor-id="moving-averages-by-hand">Moving averages (by hand)</h5>
+<p><em>Annual Australian exports of goods and services: 1960–2017.</em></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Year</th>
+<th>Exports</th>
+<th>5-MA</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1960</td>
+<td>12.99</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>1961</td>
+<td>12.40</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>1962</td>
+<td>13.94</td>
+<td>13.46</td>
+</tr>
+<tr class="even">
+<td>1963</td>
+<td>13.01</td>
+<td>13.50</td>
+</tr>
+<tr class="odd">
+<td>1964</td>
+<td>14.94</td>
+<td>13.61</td>
+</tr>
+<tr class="even">
+<td>1965</td>
+<td>13.22</td>
+<td>13.40</td>
+</tr>
+<tr class="odd">
+<td>1966</td>
+<td>12.93</td>
+<td>13.25</td>
+</tr>
+<tr class="even">
+<td>1967</td>
+<td>12.88</td>
+<td>12.66</td>
+</tr>
+<tr class="odd">
+<td>…</td>
+<td>…</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>2010</td>
+<td>19.84</td>
+<td>21.21</td>
+</tr>
+<tr class="odd">
+<td>2011</td>
+<td>21.47</td>
+<td>21.17</td>
+</tr>
+<tr class="even">
+<td>2012</td>
+<td>21.52</td>
+<td>20.78</td>
+</tr>
+<tr class="odd">
+<td>2013</td>
+<td>19.99</td>
+<td>20.81</td>
+</tr>
+<tr class="even">
+<td>2014</td>
+<td>21.08</td>
+<td>20.37</td>
+</tr>
+<tr class="odd">
+<td>2015</td>
+<td>20.01</td>
+<td>20.32</td>
+</tr>
+<tr class="even">
+<td>2016</td>
+<td>19.25</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>2017</td>
+<td>21.27</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><p>In the last column of this table, a moving average of order 5 is shown, providing an estimate of the trend-cycle.</p></li>
+<li><p>The first value in this column is the average of the first five observations, 1960–1964; the second value in the 5-MA column is the average of the values for 1961–1965; and so on.</p></li>
+<li><p>Each value in the 5-MA column is the average of the observations in the five year window centered on the corresponding year. Column 5-MA contains the values of <span class="math inline">\(\hat{T}\)</span> with <span class="math inline">\(k=2\)</span> and <span class="math inline">\(m=2k+1=5\)</span>.</p></li>
+<li><p>There are no values for either the first two years or the last two years, because we do not have two observations on either side.</p></li>
+<li><p>We will use more sophisticated methods of trend-cycle estimation which do allow estimates near the endpoints.</p></li>
+</ul>
+</section>
+<section id="original-data-with-the-trend-cycle-estimate" class="level5">
+<h5 class="anchored" data-anchor-id="original-data-with-the-trend-cycle-estimate">Original data with the trend-cycle estimate</h5>
+<p>To see what the trend-cycle estimate looks like, we plot it (in orange) along with the original data</p>
+<p><img src="Figures/plot36-_MA_exports-2.png" class="img-fluid"></p>
+<ul>
+<li><p>Notice that the trend-cycle (in orange) is smoother than the original data and captures the main movement of the time series without all of the minor fluctuations.</p></li>
+<li><p>The order of the moving average determines the smoothness of the trend-cycle estimate.</p></li>
+<li><p>In general, a larger order means a smoother curve.</p></li>
+<li><p>Simple moving averages such as these are usually of an odd order (e.g., 3, 5, 7, etc.).</p></li>
+<li><p>This is so as they are symmetric: in a moving average of order <span class="math inline">\(m=2k+1\)</span>, the middle observation, and <span class="math inline">\(k\)</span> observations on either side, are averaged. But if <span class="math inline">\(m\)</span> was even, it would no longer be symmetric.</p></li>
+</ul>
+</section>
+<section id="exercise-1.7" class="level5">
+<h5 class="anchored" data-anchor-id="exercise-1.7">Exercise 1.7</h5>
+<p>Run first the following code in Python. Compute MA of order 3, 7, and 9. Interpret results</p>
+<div id="ab71e2b3" class="cell" data-execution_count="15">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb22-2"><a href="#cb22-2"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb22-3"><a href="#cb22-3"></a></span>
+<span id="cb22-4"><a href="#cb22-4"></a><span class="co"># load data form Excel</span></span>
+<span id="cb22-5"><a href="#cb22-5"></a>global_economy <span class="op">=</span> pd.read_excel(<span class="st">'./Data/global_economy.xlsx'</span>)</span>
+<span id="cb22-6"><a href="#cb22-6"></a></span>
+<span id="cb22-7"><a href="#cb22-7"></a><span class="co"># To select and view Exports Data</span></span>
+<span id="cb22-8"><a href="#cb22-8"></a>data <span class="op">=</span> global_economy[global_economy[<span class="st">'Country'</span>] <span class="op">==</span> <span class="st">'Australia'</span>][[<span class="st">'Year'</span>, <span class="st">'Exports'</span>]]</span>
+<span id="cb22-9"><a href="#cb22-9"></a><span class="bu">print</span>(data)</span>
+<span id="cb22-10"><a href="#cb22-10"></a></span>
+<span id="cb22-11"><a href="#cb22-11"></a><span class="co"># To represent the time series of Export data</span></span>
+<span id="cb22-12"><a href="#cb22-12"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">6</span>))</span>
+<span id="cb22-13"><a href="#cb22-13"></a>ax.plot(data[<span class="st">'Year'</span>], data[<span class="st">'Exports'</span>], marker<span class="op">=</span><span class="st">'o'</span>)</span>
+<span id="cb22-14"><a href="#cb22-14"></a>ax.set_ylabel(<span class="st">'</span><span class="sc">% o</span><span class="st">f GDP'</span>)</span>
+<span id="cb22-15"><a href="#cb22-15"></a>ax.set_title(<span class="st">'Total Australian exports'</span>)</span>
+<span id="cb22-16"><a href="#cb22-16"></a><span class="co">#plt.grid(True, alpha=0.3)</span></span>
+<span id="cb22-17"><a href="#cb22-17"></a>plt.tight_layout()</span>
+<span id="cb22-18"><a href="#cb22-18"></a>plt.show()</span>
+<span id="cb22-19"><a href="#cb22-19"></a></span>
+<span id="cb22-20"><a href="#cb22-20"></a><span class="co"># To compute 5-MA</span></span>
+<span id="cb22-21"><a href="#cb22-21"></a>aus_exports <span class="op">=</span> data.copy()</span>
+<span id="cb22-22"><a href="#cb22-22"></a>aus_exports[<span class="st">'5-MA'</span>] <span class="op">=</span> aus_exports[<span class="st">'Exports'</span>].rolling(</span>
+<span id="cb22-23"><a href="#cb22-23"></a>    window<span class="op">=</span><span class="dv">5</span>, </span>
+<span id="cb22-24"><a href="#cb22-24"></a>    center<span class="op">=</span><span class="va">True</span>, </span>
+<span id="cb22-25"><a href="#cb22-25"></a>    min_periods<span class="op">=</span><span class="dv">5</span></span>
+<span id="cb22-26"><a href="#cb22-26"></a>).mean()</span>
+<span id="cb22-27"><a href="#cb22-27"></a></span>
+<span id="cb22-28"><a href="#cb22-28"></a></span>
+<span id="cb22-29"><a href="#cb22-29"></a><span class="co"># To see what the trend-cycle estimate looks like, we plot it along with the original data</span></span>
+<span id="cb22-30"><a href="#cb22-30"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">6</span>))</span>
+<span id="cb22-31"><a href="#cb22-31"></a>ax.plot(data[<span class="st">'Year'</span>], data[<span class="st">'Exports'</span>], marker<span class="op">=</span><span class="st">'o'</span>, label<span class="op">=</span><span class="st">"Observed"</span>)</span>
+<span id="cb22-32"><a href="#cb22-32"></a>ax.set_ylabel(<span class="st">'</span><span class="sc">% o</span><span class="st">f GDP'</span>)</span>
+<span id="cb22-33"><a href="#cb22-33"></a>ax.set_title(<span class="st">'Total Australian exports vs. Trend'</span>)</span>
+<span id="cb22-34"><a href="#cb22-34"></a>ax.plot(aus_exports[<span class="st">'Year'</span>], aus_exports[<span class="st">'5-MA'</span>], </span>
+<span id="cb22-35"><a href="#cb22-35"></a>         color<span class="op">=</span><span class="st">'orange'</span>, linewidth<span class="op">=</span><span class="dv">2</span>, label<span class="op">=</span><span class="st">'5-MA'</span>)</span>
+<span id="cb22-36"><a href="#cb22-36"></a>plt.legend(title<span class="op">=</span><span class="st">'series'</span>)</span>
+<span id="cb22-37"><a href="#cb22-37"></a>plt.grid(<span class="va">True</span>, alpha<span class="op">=</span><span class="fl">0.3</span>)</span>
+<span id="cb22-38"><a href="#cb22-38"></a>plt.tight_layout()</span>
+<span id="cb22-39"><a href="#cb22-39"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     Year    Exports
+638  1960  12.994452
+639  1961  12.403101
+640  1962  13.943012
+641  1963  13.005886
+642  1964  14.938248
+643  1965  13.220178
+644  1966  12.932380
+645  1967  12.883730
+646  1968  12.297668
+647  1969  11.954860
+648  1970  12.977037
+649  1971  12.661274
+650  1972  12.825759
+651  1973  14.155022
+652  1974  13.151999
+653  1975  14.281497
+654  1976  13.523127
+655  1977  14.022905
+656  1978  13.628173
+657  1979  14.311982
+658  1980  16.439467
+659  1981  14.912067
+660  1982  13.541038
+661  1983  13.594733
+662  1984  13.580218
+663  1985  15.259988
+664  1986  15.013742
+665  1987  15.494314
+666  1988  15.984146
+667  1989  15.145868
+668  1990  15.143563
+669  1991  16.059044
+670  1992  16.691404
+671  1993  17.573663
+672  1994  18.005892
+673  1995  17.916885
+674  1996  18.939194
+675  1997  19.174811
+676  1998  19.595577
+677  1999  18.353956
+678  2000  19.443482
+679  2001  22.235182
+680  2002  20.783136
+681  2003  19.103004
+682  2004  17.219765
+683  2005  18.285302
+684  2006  19.908127
+685  2007  20.230568
+686  2008  20.188699
+687  2009  23.038507
+688  2010  19.842519
+689  2011  21.472841
+690  2012  21.518974
+691  2013  19.987717
+692  2014  21.075765
+693  2015  20.012964
+694  2016  19.253027
+695  2017  21.270354</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Chapter1_FundamentalsOfTimeSeries_files/figure-html/cell-16-output-2.png" width="951" height="567" class="figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Chapter1_FundamentalsOfTimeSeries_files/figure-html/cell-16-output-3.png" width="951" height="567" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="moving-averages-of-moving-averages" class="level4">
+<h4 class="anchored" data-anchor-id="moving-averages-of-moving-averages">5.2.2. Moving averages of moving averages</h4>
+<ul>
+<li><p>It is possible to apply a moving average to a moving average. One reason for doing this is to make an even-order moving average symmetric<strong>.</strong></p></li>
+<li><p>For example, we might take a moving average of order 4, and then apply another moving average of order 2 to the results.</p></li>
+</ul>
+<section id="example---australian-quarterly-beer-production-data" class="level5">
+<h5 class="anchored" data-anchor-id="example---australian-quarterly-beer-production-data">Example - Australian quarterly beer production data</h5>
+<p>A moving average of order 4 applied to the quarterly beer data, followed by a moving average of order 2.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Quarter</th>
+<th>Beer</th>
+<th>4-MA</th>
+<th>2x4-MA</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1992 Q1</td>
+<td>443.00</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>1992 Q2</td>
+<td>410.00</td>
+<td>451.25</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>1992 Q3</td>
+<td>420.00</td>
+<td>448.75</td>
+<td>450.00</td>
+</tr>
+<tr class="even">
+<td>1992 Q4</td>
+<td>532.00</td>
+<td>451.50</td>
+<td>450.12</td>
+</tr>
+<tr class="odd">
+<td>1993 Q1</td>
+<td>433.00</td>
+<td>449.00</td>
+<td>450.25</td>
+</tr>
+<tr class="even">
+<td>1993 Q2</td>
+<td>421.00</td>
+<td>444.00</td>
+<td>446.50</td>
+</tr>
+<tr class="odd">
+<td>…</td>
+<td>…</td>
+<td>…</td>
+<td>…</td>
+</tr>
+<tr class="even">
+<td>2009 Q1</td>
+<td>415.00</td>
+<td>430.00</td>
+<td>428.88</td>
+</tr>
+<tr class="odd">
+<td>2009 Q2</td>
+<td>398.00</td>
+<td>430.00</td>
+<td>430.00</td>
+</tr>
+<tr class="even">
+<td>2009 Q3</td>
+<td>419.00</td>
+<td>429.75</td>
+<td>429.88</td>
+</tr>
+<tr class="odd">
+<td>2009 Q4</td>
+<td>488.00</td>
+<td>423.75</td>
+<td>426.75</td>
+</tr>
+<tr class="even">
+<td>2010 Q1</td>
+<td>414.00</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>2010 Q2</td>
+<td>374.00</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><p>“2×4-MA” in the last column means a 4-MA followed by a 2-MA.</p></li>
+<li><p>The values in the last column are obtained by taking a moving average of order 2 of the values in the previous column.</p></li>
+<li><p>For example, the first two values in the 4-MA column are <span class="math inline">\(451.25=(443+410+420+532)/4\)</span> and <span class="math inline">\(448.75=(410+420+532+433)/4\)</span>.</p></li>
+<li><p>The first value in the 2x4-MA column is the average of these two: <span class="math inline">\(450.00=(451.25+448.75)/2\)</span>.</p></li>
+</ul>
+<p>When a 2-MA follows a moving average of an even order (such as 4), it is called a “centred moving average of order 4.” This is because the results are now symmetric</p>
+<ul>
+<li>To see that this is the case, we can write the 2×4-MA as follows:</li>
+</ul>
+<p><span class="math display">\[
+\begin{aligned}
+\hat{T}_{t} =&amp; \frac{1}{2}\left[\frac{1}{4}\left(y_{t-2}+y_{t-1}+y_{t}+y_{t+1}\right)+\frac{1}{4}\left(y_{t-1}+y_{t}+y_{t+1}+y_{t+2}\right)\right] \\
+=&amp; \frac{1}{8} y_{t-2}+\frac{1}{4} y_{t-1}+\frac{1}{4} y_{t}+\frac{1}{4} y_{t+1}+\frac{1}{8} y_{t+2}
+\end{aligned}
+\]</span></p>
+<ul>
+<li>It is now a weighted average of observations that is symmetric</li>
+<li>Other combinations of moving averages are also possible.</li>
+<li>For example, a 3x3-MA is often used, and consists of a moving average of order 3 followed by another moving average of order 3.</li>
+<li>In general, an even order MA should be followed by an even order MA to make it symmetric.</li>
+<li>Similarly, an odd order MA should be followed by an odd order MA.</li>
+</ul>
+</section>
+<section id="computing-moving-averages-of-moving-averages-in-python" class="level5">
+<h5 class="anchored" data-anchor-id="computing-moving-averages-of-moving-averages-in-python">Computing moving averages of moving averages in Python</h5>
+<div id="ace8327e" class="cell" data-execution_count="16">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb24-2"><a href="#cb24-2"></a></span>
+<span id="cb24-3"><a href="#cb24-3"></a><span class="co"># load Australian beer production dataset</span></span>
+<span id="cb24-4"><a href="#cb24-4"></a>beer <span class="op">=</span> pd.read_excel(<span class="st">"./Data/beerProduction_aus.xlsx"</span>)</span>
+<span id="cb24-5"><a href="#cb24-5"></a></span>
+<span id="cb24-6"><a href="#cb24-6"></a><span class="bu">print</span>(beer.head())</span>
+<span id="cb24-7"><a href="#cb24-7"></a>beer[<span class="st">'Date'</span>] <span class="op">=</span> pd.to_datetime(beer[<span class="st">'Date'</span>],<span class="bu">format</span><span class="op">=</span><span class="st">'%Y-%m-</span><span class="sc">%d</span><span class="st">'</span>)</span>
+<span id="cb24-8"><a href="#cb24-8"></a>beer <span class="op">=</span> beer.set_index([<span class="st">'Date'</span>])</span>
+<span id="cb24-9"><a href="#cb24-9"></a>beer <span class="op">=</span> beer.asfreq(<span class="st">'QS'</span>)</span>
+<span id="cb24-10"><a href="#cb24-10"></a>beer <span class="op">=</span> beer.loc[<span class="st">'1992'</span>:]</span>
+<span id="cb24-11"><a href="#cb24-11"></a></span>
+<span id="cb24-12"><a href="#cb24-12"></a>beer[<span class="st">'4-MA'</span>] <span class="op">=</span> beer[<span class="st">'Beer'</span>].rolling(window<span class="op">=</span><span class="dv">4</span>, center<span class="op">=</span><span class="va">True</span>).mean()</span>
+<span id="cb24-13"><a href="#cb24-13"></a>beer[<span class="st">'2x4-MA'</span>] <span class="op">=</span> beer[<span class="st">'4-MA'</span>].rolling(window<span class="op">=</span><span class="dv">2</span>, center<span class="op">=</span><span class="va">True</span>).mean().shift(<span class="op">-</span><span class="dv">1</span>)</span>
+<span id="cb24-14"><a href="#cb24-14"></a></span>
+<span id="cb24-15"><a href="#cb24-15"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Results with Moving Average:"</span>)</span>
+<span id="cb24-16"><a href="#cb24-16"></a><span class="bu">print</span>(beer.head())</span>
+<span id="cb24-17"><a href="#cb24-17"></a><span class="bu">print</span>(beer.tail())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>        Date  Beer
+0 1956-01-01   284
+1 1956-04-01   213
+2 1956-07-01   227
+3 1956-10-01   308
+4 1957-01-01   262
+
+Results with Moving Average:
+            Beer    4-MA   2x4-MA
+Date                             
+1992-01-01   443     NaN      NaN
+1992-04-01   410     NaN      NaN
+1992-07-01   420  451.25  450.000
+1992-10-01   532  448.75  450.125
+1993-01-01   433  451.50  450.250
+            Beer    4-MA   2x4-MA
+Date                             
+2009-04-01   398  430.00  430.000
+2009-07-01   419  430.00  429.875
+2009-10-01   488  429.75  426.750
+2010-01-01   414  423.75      NaN
+2010-04-01   374     NaN      NaN</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="estimating-the-trend-cycle-with-seasonal-data" class="level4">
+<h4 class="anchored" data-anchor-id="estimating-the-trend-cycle-with-seasonal-data">5.2.3. Estimating the trend-cycle with seasonal data</h4>
+<p>The most common use of centred moving averages is for estimating the trend-cycle from seasonal data. Consider the 2x4-MA:</p>
+<p><span class="math display">\[
+\hat{T}_{t} =\frac{1}{8} y_{t-2}+\frac{1}{4} y_{t-1}+\frac{1}{4} y_{t}+\frac{1}{4} y_{t+1}+\frac{1}{8}y_{t+2}
+\]</span></p>
+<ul>
+<li><p>When applied to quarterly data, each quarter of the year is given equal weight as the first and last terms apply to the same quarter in consecutive years, e.g.&nbsp;if <span class="math inline">\(t= Q3\)</span>:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Term</th>
+<th>Correspons to</th>
+<th>Weight</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(y_{t-2}​\)</span></td>
+<td>Q1 2024</td>
+<td>1/8</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(y_{t-1}\)</span>​</td>
+<td>Q2 2024</td>
+<td>1/4</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(y_t\)</span></td>
+<td>Q3 2024</td>
+<td>1/4</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(y_{t+1}\)</span>​</td>
+<td>Q4 2024</td>
+<td>1/4</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(y_{t+2}\)</span>​</td>
+<td>Q1 2025</td>
+<td>1/8</td>
+</tr>
+</tbody>
+</table></li>
+<li><p>Consequently, the seasonal variation will be averaged out and the resulting values of <span class="math inline">\(\hat{T}\)</span> will have little or no seasonal variation remaining</p></li>
+<li><p>A similar effect would be obtained using a 2x8-MA or a 2x12-MA to quarterly data.</p></li>
+</ul>
+<section id="example-employment-in-the-us-retail-sector" class="level5">
+<h5 class="anchored" data-anchor-id="example-employment-in-the-us-retail-sector">Example: Employment in the US retail sector</h5>
+<p>Total monthly number of persons in thousands employed in the retail sector across the US since 1990. As data present monthly frequency we use a <strong>2x12-MA</strong>. Any other choice for the order of the moving average (except for 24, 36, etc.) would have resulted in a smooth line that showed some seasonal fluctuations.</p>
+<div id="ea14a30d" class="cell" data-execution_count="17">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb26-2"><a href="#cb26-2"></a></span>
+<span id="cb26-3"><a href="#cb26-3"></a><span class="co"># load US retail employment dataset</span></span>
+<span id="cb26-4"><a href="#cb26-4"></a>employment <span class="op">=</span> pd.read_excel(<span class="st">"./Data/us_retail_employment.xlsx"</span>)</span>
+<span id="cb26-5"><a href="#cb26-5"></a></span>
+<span id="cb26-6"><a href="#cb26-6"></a>employment.head()</span>
+<span id="cb26-7"><a href="#cb26-7"></a>employment[<span class="st">'Date'</span>] <span class="op">=</span> pd.to_datetime(employment[<span class="st">'Date'</span>],<span class="bu">format</span><span class="op">=</span><span class="st">'%Y-%m-</span><span class="sc">%d</span><span class="st">'</span>)</span>
+<span id="cb26-8"><a href="#cb26-8"></a>employment <span class="op">=</span> employment.set_index([<span class="st">'Date'</span>])</span>
+<span id="cb26-9"><a href="#cb26-9"></a>employment <span class="op">=</span> employment.asfreq(<span class="st">'MS'</span>)</span>
+<span id="cb26-10"><a href="#cb26-10"></a></span>
+<span id="cb26-11"><a href="#cb26-11"></a></span>
+<span id="cb26-12"><a href="#cb26-12"></a>employment[<span class="st">'12-MA'</span>] <span class="op">=</span> employment[<span class="st">'Employed'</span>].rolling(window<span class="op">=</span><span class="dv">12</span>, center<span class="op">=</span><span class="va">True</span>).mean()</span>
+<span id="cb26-13"><a href="#cb26-13"></a>employment[<span class="st">'2x12-MA'</span>] <span class="op">=</span> employment[<span class="st">'12-MA'</span>].rolling(window<span class="op">=</span><span class="dv">2</span>, center<span class="op">=</span><span class="va">True</span>).mean().shift(<span class="op">-</span><span class="dv">1</span>)</span>
+<span id="cb26-14"><a href="#cb26-14"></a></span>
+<span id="cb26-15"><a href="#cb26-15"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Results with Moving Average:"</span>)</span>
+<span id="cb26-16"><a href="#cb26-16"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
+<span id="cb26-17"><a href="#cb26-17"></a>employment[<span class="st">'Employed'</span>].plot(ax<span class="op">=</span>ax, label<span class="op">=</span><span class="st">"Original Data"</span>)</span>
+<span id="cb26-18"><a href="#cb26-18"></a>employment[<span class="st">'2x12-MA'</span>].plot(ax<span class="op">=</span>ax, label<span class="op">=</span><span class="st">"Trend-Cycle (2x12MA)"</span>)</span>
+<span id="cb26-19"><a href="#cb26-19"></a>plt.title(<span class="st">' US retail employment - monthly data'</span>)</span>
+<span id="cb26-20"><a href="#cb26-20"></a>plt.tight_layout()</span>
+<span id="cb26-21"><a href="#cb26-21"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Results with Moving Average:</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Chapter1_FundamentalsOfTimeSeries_files/figure-html/cell-18-output-2.png" width="662" height="471" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="weighted-moving-averages" class="level4">
+<h4 class="anchored" data-anchor-id="weighted-moving-averages">5.2.4. Weighted moving averages</h4>
+<ul>
+<li><p>Combinations of moving averages result in weighted moving averages.</p></li>
+<li><p>For example, the 2x4-MA discussed above is equivalent to a weighted 5-MA with weights given by <span class="math inline">\([1/8,1/4,1/4,1/4,1/8]\)</span></p></li>
+<li><p>In general, a weighted m-MA can be written as</p></li>
+</ul>
+<p><span class="math display">\[
+\hat{T}_t=\sum_{j=-k}^{k}a_jy_{t+j},
+\]</span></p>
+<p>where <span class="math inline">\(k=(m-1)/2\)</span>, and the weights are given by <span class="math inline">\([a_{-k},\ldots, a_k]\)</span></p>
+<ul>
+<li><p>It is important that the weights all sum to one and that they are symmetric so that <span class="math inline">\(a_j=a_{-j}\)</span></p></li>
+<li><p>The simple m-MA is a special case where all of the weights are equal to <span class="math inline">\(1/m\)</span>.</p></li>
+<li><p>A major advantage of weighted moving averages is that they yield a smoother estimate of the trend-cycle. Instead of observations entering and leaving the calculation at full weight, their weights slowly increase and then slowly decrease, resulting in a smoother curve.</p></li>
+</ul>
+</section>
+<section id="basic-steps-in-the-classical-decomposition" class="level4">
+<h4 class="anchored" data-anchor-id="basic-steps-in-the-classical-decomposition">5.2.5. Basic Steps in the Classical Decomposition</h4>
+<ol type="1">
+<li><p><strong>The first step is to estimate the trend.</strong> If m is an even number, compute the trend-cycle component <span class="math inline">\(\hat{T}_t\)</span> using a 2xm-MA. If m is an odd number, compute the trend-cycle component using an m-MA.</p></li>
+<li><p><strong>The second step is to “de-trend” the series.</strong> For an additive decomposition, this is done by subtracting the trend estimates from the series. For a multiplicative decomposition, this is done by dividing the series by the trend values.</p></li>
+<li><p><strong>Next, seasonal factors are estimated using the de-trended series.</strong> For monthly data, this entails estimating an effect for each month of the year. For quarterly data, this entails estimating an effect for each quarter. The simplest method for estimating these effects is to average the de-trended values for a specific season. For instance, to get a seasonal effect for January, we average the de-trended values for all Januarys in the series, and so on. These seasonal component values are then adjusted to ensure that they add to zero in an additive decomposition and add to <span class="math inline">\(m\)</span> in a multiplicative decomposition. This gives <span class="math inline">\(\hat{S}_t\)</span>.</p></li>
+<li><p><strong>The final step is to determine the random (irregular) component.</strong></p>
+<ul>
+<li>For the additive model, random = series – trend – seasonal.</li>
+<li>For the multiplicative model, random = series / (trend×seasonal)</li>
+</ul></li>
+</ol>
+<section id="example-using-python.-additive-decomposition-of-beer-production-data" class="level5">
+<h5 class="anchored" data-anchor-id="example-using-python.-additive-decomposition-of-beer-production-data">Example using Python. Additive decomposition of Beer Production Data</h5>
+<p>The basic command is <code>seasonal_decompose</code> from the <code>statsmodels.tsa.seasonal</code> package.</p>
+<ul>
+<li><p>For an additive model decomposition</p>
+<p><code>seasonal_decompose(data, model='additive', period=m)</code></p></li>
+<li><p>For a multiplicative decomposition</p>
+<p><code>seasonal_decompose(data, model='multiplicative', period=m)</code></p></li>
+</ul>
+<p><span class="math inline">\(m\)</span> defines the seasonal span for a series: quaterly data (<span class="math inline">\(m=4\)</span>), monthly data (<span class="math inline">\(m=12\)</span>), …</p>
+<div id="3d77b150" class="cell" data-execution_count="18">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb28-2"><a href="#cb28-2"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb28-3"><a href="#cb28-3"></a><span class="im">from</span> statsmodels.tsa.seasonal <span class="im">import</span> seasonal_decompose</span>
+<span id="cb28-4"><a href="#cb28-4"></a></span>
+<span id="cb28-5"><a href="#cb28-5"></a><span class="co"># ---------------------------------------------------------</span></span>
+<span id="cb28-6"><a href="#cb28-6"></a><span class="co"># 1. Data Loading and Preprocessing</span></span>
+<span id="cb28-7"><a href="#cb28-7"></a><span class="co"># ---------------------------------------------------------</span></span>
+<span id="cb28-8"><a href="#cb28-8"></a>beer <span class="op">=</span> pd.read_excel(<span class="st">"./Data/beerProduction_aus.xlsx"</span>)</span>
+<span id="cb28-9"><a href="#cb28-9"></a>beer[<span class="st">'Date'</span>] <span class="op">=</span> pd.to_datetime(beer[<span class="st">'Date'</span>],<span class="bu">format</span><span class="op">=</span><span class="st">'%Y-%m-</span><span class="sc">%d</span><span class="st">'</span>)</span>
+<span id="cb28-10"><a href="#cb28-10"></a>beer <span class="op">=</span> beer.set_index([<span class="st">'Date'</span>])</span>
+<span id="cb28-11"><a href="#cb28-11"></a>beer <span class="op">=</span> beer.asfreq(<span class="st">'QS'</span>)</span>
+<span id="cb28-12"><a href="#cb28-12"></a></span>
+<span id="cb28-13"><a href="#cb28-13"></a><span class="co"># ---------------------------------------------------------</span></span>
+<span id="cb28-14"><a href="#cb28-14"></a><span class="co"># 2. Classical Decomposition</span></span>
+<span id="cb28-15"><a href="#cb28-15"></a><span class="co"># ---------------------------------------------------------</span></span>
+<span id="cb28-16"><a href="#cb28-16"></a><span class="co"># Apply seasonal decomposition using moving averages.</span></span>
+<span id="cb28-17"><a href="#cb28-17"></a><span class="co"># Parameters:</span></span>
+<span id="cb28-18"><a href="#cb28-18"></a><span class="co">#   - model='additive'</span></span>
+<span id="cb28-19"><a href="#cb28-19"></a><span class="co">#   - period=4: Defines the seasonal span (Quarterly data)</span></span>
+<span id="cb28-20"><a href="#cb28-20"></a>result <span class="op">=</span> seasonal_decompose(beer[<span class="st">'Beer'</span>], model<span class="op">=</span><span class="st">'additive'</span>, period<span class="op">=</span><span class="dv">4</span>)</span>
+<span id="cb28-21"><a href="#cb28-21"></a></span>
+<span id="cb28-22"><a href="#cb28-22"></a><span class="co"># ---------------------------------------------------------</span></span>
+<span id="cb28-23"><a href="#cb28-23"></a><span class="co"># 3. Visualization and Results</span></span>
+<span id="cb28-24"><a href="#cb28-24"></a><span class="co"># ---------------------------------------------------------</span></span>
+<span id="cb28-25"><a href="#cb28-25"></a><span class="co"># Plot the four components: Observed, Trend, Seasonal, and Residual.</span></span>
+<span id="cb28-26"><a href="#cb28-26"></a>result.plot()</span>
+<span id="cb28-27"><a href="#cb28-27"></a>plt.suptitle(<span class="st">"Classical Additive Decomposition of Beer Production"</span>)</span>
+<span id="cb28-28"><a href="#cb28-28"></a>plt.tight_layout()</span>
+<span id="cb28-29"><a href="#cb28-29"></a>plt.show()</span>
+<span id="cb28-30"><a href="#cb28-30"></a></span>
+<span id="cb28-31"><a href="#cb28-31"></a><span class="co"># Accessing numerical results. We print the first few rows of each component.</span></span>
+<span id="cb28-32"><a href="#cb28-32"></a><span class="bu">print</span>(<span class="st">"--- Numerical Results (Head) ---"</span>)</span>
+<span id="cb28-33"><a href="#cb28-33"></a><span class="bu">print</span>(<span class="st">"Trend:</span><span class="ch">\n</span><span class="st">"</span>, result.trend.head())</span>
+<span id="cb28-34"><a href="#cb28-34"></a><span class="bu">print</span>(<span class="st">"Seasonal:</span><span class="ch">\n</span><span class="st">"</span>, result.seasonal.head())</span>
+<span id="cb28-35"><a href="#cb28-35"></a><span class="bu">print</span>(<span class="st">"Residuals:</span><span class="ch">\n</span><span class="st">"</span>, result.resid.head())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Chapter1_FundamentalsOfTimeSeries_files/figure-html/cell-19-output-1.png" width="663" height="475" class="figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>--- Numerical Results (Head) ---
+Trend:
+ Date
+1956-01-01        NaN
+1956-04-01        NaN
+1956-07-01    255.250
+1956-10-01    254.375
+1957-01-01    257.375
+Freq: QS-JAN, Name: trend, dtype: float64
+Seasonal:
+ Date
+1956-01-01     2.131016
+1956-04-01   -42.519927
+1956-07-01   -28.505776
+1956-10-01    68.894687
+1957-01-01     2.131016
+Freq: QS-JAN, Name: seasonal, dtype: float64
+Residuals:
+ Date
+1956-01-01          NaN
+1956-04-01          NaN
+1956-07-01     0.255776
+1956-10-01   -15.269687
+1957-01-01     2.493984
+Freq: QS-JAN, Name: resid, dtype: float64</code></pre>
+</div>
+</div>
+<ul>
+<li><p>The seasonal pattern is a regularly repeating pattern (each year).</p></li>
+<li><p>The seasonal values are used to seasonally adjust future values.</p></li>
+<li><p>Suppose for example that the next quarter 4 value past the end of the series is 535. The quarter 4 seasonal effect is approximately 68.89. Thus for this future value, the “de-seasonalized” or seasonally adjusted value is <span class="math inline">\(535 - 68.89 = 466.11\)</span>.</p></li>
+</ul>
+</section>
+</section>
+<section id="comments-on-classical-decomposition" class="level4">
+<h4 class="anchored" data-anchor-id="comments-on-classical-decomposition">5.2.3. Comments on classical decomposition</h4>
+<p>While classical decomposition is still widely used, it is not recommended, as there are now several much better methods. Some of the problems with classical decomposition are summarised below:</p>
+<ul>
+<li><p>The estimate of the trend-cycle is unavailable for the first few and last few observations. For example, if m=12, there is no trend-cycle estimate for the first six or the last six observations. Consequently, there is also no estimate of the remainder component for the same time periods.</p></li>
+<li><p>The trend-cycle estimate tends to over-smooth rapid rises and falls in the data.</p></li>
+<li><p>Classical decomposition methods are unable to capture seasonal changes over time.</p></li>
+<li><p>Occasionally, the values of the time series in a small number of periods may be particularly unusual. For example, the monthly air passenger traffic may be affected by an industrial dispute, making the traffic during the dispute different from usual. The classical method is not robust to these kinds of unusual values.</p></li>
+</ul>
+</section>
+</section>
+<section id="stl-decomposition" class="level3">
+<h3 class="anchored" data-anchor-id="stl-decomposition">5.3. STL decomposition</h3>
+<p>STL is a versatile and robust method for decomposing time series. STL is an acronym for “Seasonal and Trend decomposition using Loess”, while loess is a method for estimating nonlinear relationships. The STL method was developed by R. B. Cleveland et al.&nbsp;(1990).</p>
+<p>STL has several <strong>advantages</strong> over classical decomposition:</p>
+<ul>
+<li><p>STL will handle any type of seasonality, not only monthly and quarterly data.</p></li>
+<li><p>The seasonal component is allowed to change over time, and the rate of change can be controlled by the user.</p></li>
+<li><p>The smoothness of the trend-cycle can also be controlled by the user.</p></li>
+<li><p>It can be robust to outliers (i.e., the user can specify a robust decomposition), so that occasional unusual observations will not affect the estimates of the trend-cycle and seasonal components. They will, however, affect the remainder component.</p></li>
+</ul>
+<p>On the other hand, STL has some <strong>disadvantages</strong>. For example, it only provides facilities for additive decompositions.</p>
+<ul>
+<li><p>A multiplicative decomposition can be obtained by first taking logs of the data, then back-transforming the components.</p></li>
+<li><p>Decompositions that are between additive and multiplicative can be obtained using a Box-Cox transformation of the data with <span class="math inline">\(0&lt; \lambda &lt;1\)</span>. A value of <span class="math inline">\(\lambda=0\)</span> gives a multiplicative decomposition while <span class="math inline">\(\lambda=1\)</span> gives an additive decomposition.</p></li>
+<li><p><code>STL</code> is a robust and widely used method that works especially well for time series with relatively stable seasonality, a reasonable sample size, and no abrupt structural breaks.</p></li>
+<li><p>The command <code>STL</code> does an additive decomposition in which a lowess smoother is used to estimate the trend and the seasonal effects as well. There are several parameters that can be adjusted, but the default does a fairly good job.</p></li>
+</ul>
+<section id="stl-decomposition-of-the-beer-data-in-python" class="level4">
+<h4 class="anchored" data-anchor-id="stl-decomposition-of-the-beer-data-in-python">5.3.1 STL decomposition of the beer data in Python</h4>
+<div id="384f0617" class="cell" data-execution_count="19">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1"></a><span class="im">from</span> statsmodels.tsa.seasonal <span class="im">import</span> STL</span>
+<span id="cb30-2"><a href="#cb30-2"></a></span>
+<span id="cb30-3"><a href="#cb30-3"></a><span class="co"># ---------------------------------------------------------</span></span>
+<span id="cb30-4"><a href="#cb30-4"></a><span class="co"># 1. STL Model Definition</span></span>
+<span id="cb30-5"><a href="#cb30-5"></a><span class="co"># ---------------------------------------------------------</span></span>
+<span id="cb30-6"><a href="#cb30-6"></a><span class="co"># Initialize the STL model (Seasonal-Trend decomposition using LOESS).</span></span>
+<span id="cb30-7"><a href="#cb30-7"></a><span class="co"># This is preferred in modern analysis over classical decomposition due to its robustness.</span></span>
+<span id="cb30-8"><a href="#cb30-8"></a><span class="co"># Parameters:</span></span>
+<span id="cb30-9"><a href="#cb30-9"></a><span class="co">#   - period=4: Quarterly seasonality.</span></span>
+<span id="cb30-10"><a href="#cb30-10"></a><span class="co">#   - robust=True: Reduces the influence of outliers (similar to robust features in fable).</span></span>
+<span id="cb30-11"><a href="#cb30-11"></a>stl <span class="op">=</span> STL(beer[<span class="st">'Beer'</span>], period<span class="op">=</span><span class="dv">4</span>, robust<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb30-12"><a href="#cb30-12"></a></span>
+<span id="cb30-13"><a href="#cb30-13"></a><span class="co"># Fit the model to the data</span></span>
+<span id="cb30-14"><a href="#cb30-14"></a>res_stl <span class="op">=</span> stl.fit()</span>
+<span id="cb30-15"><a href="#cb30-15"></a></span>
+<span id="cb30-16"><a href="#cb30-16"></a><span class="co"># ---------------------------------------------------------</span></span>
+<span id="cb30-17"><a href="#cb30-17"></a><span class="co"># 2. Visualization and Results</span></span>
+<span id="cb30-18"><a href="#cb30-18"></a><span class="co"># ---------------------------------------------------------</span></span>
+<span id="cb30-19"><a href="#cb30-19"></a>fig <span class="op">=</span> res_stl.plot()</span>
+<span id="cb30-20"><a href="#cb30-20"></a>plt.suptitle(<span class="st">"STL Decomposition (Robust)"</span>)</span>
+<span id="cb30-21"><a href="#cb30-21"></a>plt.tight_layout()</span>
+<span id="cb30-22"><a href="#cb30-22"></a>plt.show()</span>
+<span id="cb30-23"><a href="#cb30-23"></a></span>
+<span id="cb30-24"><a href="#cb30-24"></a><span class="co"># Accessing numerical results. We print the first few rows of each component.</span></span>
+<span id="cb30-25"><a href="#cb30-25"></a><span class="bu">print</span>(<span class="st">"--- Numerical Results (Head) ---"</span>)</span>
+<span id="cb30-26"><a href="#cb30-26"></a><span class="bu">print</span>(<span class="st">'Observed:</span><span class="ch">\n</span><span class="st">'</span>, res_stl.observed.head())</span>
+<span id="cb30-27"><a href="#cb30-27"></a><span class="bu">print</span>(<span class="st">'Trend:</span><span class="ch">\n</span><span class="st">'</span>, res_stl.trend.head())</span>
+<span id="cb30-28"><a href="#cb30-28"></a><span class="bu">print</span>(<span class="st">'seasonal:</span><span class="ch">\n</span><span class="st">'</span>, res_stl.seasonal.head())</span>
+<span id="cb30-29"><a href="#cb30-29"></a><span class="bu">print</span>(<span class="st">'remainder:</span><span class="ch">\n</span><span class="st">'</span>, res_stl.resid.head())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Chapter1_FundamentalsOfTimeSeries_files/figure-html/cell-20-output-1.png" width="663" height="475" class="figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>--- Numerical Results (Head) ---
+Observed:
+ Date
+1956-01-01    284
+1956-04-01    213
+1956-07-01    227
+1956-10-01    308
+1957-01-01    262
+Freq: QS-JAN, Name: Beer, dtype: int64
+Trend:
+ Date
+1956-01-01    243.328453
+1956-04-01    246.934416
+1956-07-01    250.422670
+1956-10-01    253.857776
+1957-01-01    257.198007
+Freq: QS-JAN, Name: trend, dtype: float64
+seasonal:
+ Date
+1956-01-01     1.800076
+1956-04-01   -31.635151
+1956-07-01   -26.658223
+1956-10-01    55.362940
+1957-01-01     3.629921
+Freq: QS-JAN, Name: season, dtype: float64
+remainder:
+ Date
+1956-01-01    38.871471
+1956-04-01    -2.299264
+1956-07-01     3.235554
+1956-10-01    -1.220715
+1957-01-01     1.172072
+Freq: QS-JAN, Name: resid, dtype: float64</code></pre>
+</div>
+</div>
+<ul>
+<li><p>The two main parameters to be chosen when using STL are the trend-cycle window <code>STL(trend = ?)</code> and the seasonal window <code>STL(seasonal = ?)</code></p></li>
+<li><p>These control how rapidly the trend-cycle and seasonal components can change. Smaller values allow for more rapid changes.</p></li>
+<li><p>Both trend and seasonal windows should be odd numbers</p></li>
+<li><p>Trend window is the number of consecutive observations to be used when estimating the trend-cycle</p></li>
+<li><p>Season window is the number of consecutive observations to be used in estimating each value in the seasonal component</p></li>
+<li><p>By default, the STL() function provides a convenient automated STL decomposition using a seasonal window of <code>STL(``seasonal``=7)</code>, and the trend window chosen automatically using the following formula (e.g.&nbsp;default setting for monthly data is 21):</p>
+<p><span class="math display">\[
+\text{trend} = \text{next\_odd}\left( \left\lceil \frac{1.5 \times \text{period}}{1 - 1.5 / \text{seasonal}} \right\rceil \right)
+\]</span></p></li>
+<li><p>This usually gives a good balance between overfitting the seasonality and allowing it to slowly change over time</p></li>
+<li><p>But, as with any automated procedure, the default settings will need adjusting for some time series</p></li>
+</ul>
+</section>
+</section>
+<section id="exercises-1" class="level3">
+<h3 class="anchored" data-anchor-id="exercises-1">5.4. Exercises</h3>
+<p><strong>Exercise 1.7: Moving Average Smoothing</strong></p>
+<p>Using the Australian exports data (<code>global_economy.xlsx</code>), compute and plot moving averages of orders 3, 7, 9, and 13 for Australia’s exports as a percentage of GDP.</p>
+<ol type="a">
+<li><p>How does the choice of window size affect the smoothness of the trend estimate?</p></li>
+<li><p>What happens at the endpoints of the series as the window size increases?</p></li>
+<li><p>For this particular dataset, which window size would you recommend and why?</p></li>
+</ol>
+<p><strong>Exercise 1.8: Additive vs.&nbsp;Multiplicative Decomposition</strong></p>
+<p>Load the AirPassengers dataset, which tracks monthly airline passenger numbers from 1949 to 1960, and perform both additive and multiplicative decompositions.</p>
+<p>Which model provides a better fit for this data?</p>
+<p>The AirPassengers dataset is a classic time series benchmark available in most statistical libraries. You can access it as follows:</p>
+<div id="8489cc27" class="cell" data-execution_count="20">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1"></a><span class="im">from</span> sktime.datasets <span class="im">import</span> load_airline</span>
+<span id="cb32-2"><a href="#cb32-2"></a>data <span class="op">=</span> load_airline()</span>
+<span id="cb32-3"><a href="#cb32-3"></a>data.index <span class="op">=</span> data.index.to_timestamp()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./index.html" class="pagination-link" aria-label="Time Series Analysis and Forecasting with Python">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Time Series Analysis and Forecasting with Python</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./Chapter2_Forecasting_PrinciplesAndMethods.html" class="pagination-link" aria-label="Chapter 2: Forecasting Principles and Methods">
+        <span class="nav-page-text"><span class="chapter-title">Chapter 2: Forecasting Principles and Methods</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

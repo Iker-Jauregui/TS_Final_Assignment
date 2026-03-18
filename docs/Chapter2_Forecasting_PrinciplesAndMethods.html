@@ -1,0 +1,2241 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.26">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Chapter 2: Forecasting Principles and Methods – Time Series Course Materials</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./Chapter3_StatisticalModelsForTimeSeries.html" rel="next">
+<link href="./Chapter1_FundamentalsOfTimeSeries.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-597958c53c93a607afca12fd375c57ed.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-7ac2f9da8c2617a4fdd15004b4601015.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-597958c53c93a607afca12fd375c57ed.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-83271ec2017a1280e7d37a38aa47af57.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-f3697b8d888839eca1f0b127ff2f6d7d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-83271ec2017a1280e7d37a38aa47af57.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-sidebar docked quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./Chapter1_FundamentalsOfTimeSeries.html">Part I: Foundations</a></li><li class="breadcrumb-item"><a href="./Chapter2_Forecasting_PrinciplesAndMethods.html"><span class="chapter-title">Chapter 2: Forecasting Principles and Methods</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Time Series Course Materials</a> 
+        <div class="sidebar-tools-main">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Time Series Analysis and Forecasting with Python</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Part I: Foundations</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Chapter1_FundamentalsOfTimeSeries.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Chapter 1: Fundamentals of Time Series</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Chapter2_Forecasting_PrinciplesAndMethods.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Chapter 2: Forecasting Principles and Methods</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Part II: Modeling Approaches</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Chapter3_StatisticalModelsForTimeSeries.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Chapter 3: Statistical Models for Time Series</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Chapter4_placeholder.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Chapter 4: Machine Learning for Time Series</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Chapter5_placeholder.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Chapter 5: Deep Learning for Time Series</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">References</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#forecasting-principles-and-methods" id="toc-forecasting-principles-and-methods" class="nav-link active" data-scroll-target="#forecasting-principles-and-methods">Forecasting Principles and Methods</a>
+  <ul class="collapse">
+  <li><a href="#topics-covered" id="toc-topics-covered" class="nav-link" data-scroll-target="#topics-covered">Topics Covered:</a></li>
+  </ul></li>
+  <li><a href="#the-forecasting-workflow" id="toc-the-forecasting-workflow" class="nav-link" data-scroll-target="#the-forecasting-workflow">1. The Forecasting Workflow</a></li>
+  <li><a href="#benchmark-forecasting-methods" id="toc-benchmark-forecasting-methods" class="nav-link" data-scroll-target="#benchmark-forecasting-methods">2. Benchmark Forecasting Methods</a>
+  <ul class="collapse">
+  <li><a href="#mean-method" id="toc-mean-method" class="nav-link" data-scroll-target="#mean-method">2.1. Mean Method</a></li>
+  <li><a href="#naïve-method" id="toc-naïve-method" class="nav-link" data-scroll-target="#naïve-method">2.2. Naïve Method</a></li>
+  <li><a href="#seasonal-naïve-method" id="toc-seasonal-naïve-method" class="nav-link" data-scroll-target="#seasonal-naïve-method">2.3. Seasonal Naïve Method</a></li>
+  <li><a href="#drift-method" id="toc-drift-method" class="nav-link" data-scroll-target="#drift-method">2.4. Drift Method</a></li>
+  </ul></li>
+  <li><a href="#residual-diagnostics---model-validation" id="toc-residual-diagnostics---model-validation" class="nav-link" data-scroll-target="#residual-diagnostics---model-validation">3. Residual Diagnostics - Model validation</a>
+  <ul class="collapse">
+  <li><a href="#portmanteau-tests" id="toc-portmanteau-tests" class="nav-link" data-scroll-target="#portmanteau-tests">3.1. Portmanteau Tests</a></li>
+  <li><a href="#exercise-2.1" id="toc-exercise-2.1" class="nav-link" data-scroll-target="#exercise-2.1">Exercise 2.1</a></li>
+  </ul></li>
+  <li><a href="#prediction-intervals" id="toc-prediction-intervals" class="nav-link" data-scroll-target="#prediction-intervals">4. Prediction Intervals</a>
+  <ul class="collapse">
+  <li><a href="#normal-residuals" id="toc-normal-residuals" class="nav-link" data-scroll-target="#normal-residuals">4.1. Normal Residuals</a></li>
+  <li><a href="#bootstrapped-residuals" id="toc-bootstrapped-residuals" class="nav-link" data-scroll-target="#bootstrapped-residuals">4.2. Bootstrapped Residuals</a></li>
+  </ul></li>
+  <li><a href="#metrics-to-evaluate-forecasting-performance" id="toc-metrics-to-evaluate-forecasting-performance" class="nav-link" data-scroll-target="#metrics-to-evaluate-forecasting-performance">5. Metrics to Evaluate Forecasting Performance</a>
+  <ul class="collapse">
+  <li><a href="#scale-dependent-metrics" id="toc-scale-dependent-metrics" class="nav-link" data-scroll-target="#scale-dependent-metrics">5.1. Scale-Dependent Metrics</a></li>
+  <li><a href="#percentage-metrics" id="toc-percentage-metrics" class="nav-link" data-scroll-target="#percentage-metrics">5.2. Percentage Metrics</a></li>
+  <li><a href="#scaled-metrics" id="toc-scaled-metrics" class="nav-link" data-scroll-target="#scaled-metrics">5.3. Scaled Metrics</a></li>
+  <li><a href="#exercise-2.2" id="toc-exercise-2.2" class="nav-link" data-scroll-target="#exercise-2.2">Exercise 2.2</a></li>
+  </ul></li>
+  <li><a href="#validation-strategies" id="toc-validation-strategies" class="nav-link" data-scroll-target="#validation-strategies">6. Validation Strategies</a>
+  <ul class="collapse">
+  <li><a href="#traintest-split-fixed-split" id="toc-traintest-split-fixed-split" class="nav-link" data-scroll-target="#traintest-split-fixed-split">6.1. Train/Test Split (Fixed Split)</a></li>
+  <li><a href="#walk-forward-validation-time-series-cross-validation" id="toc-walk-forward-validation-time-series-cross-validation" class="nav-link" data-scroll-target="#walk-forward-validation-time-series-cross-validation">6.2. Walk-Forward Validation (Time Series Cross-Validation)</a></li>
+  <li><a href="#common-pitfalls" id="toc-common-pitfalls" class="nav-link" data-scroll-target="#common-pitfalls">6.3. Common Pitfalls</a></li>
+  <li><a href="#using-python" id="toc-using-python" class="nav-link" data-scroll-target="#using-python">6.4. Using Python</a></li>
+  <li><a href="#exercise-2.3" id="toc-exercise-2.3" class="nav-link" data-scroll-target="#exercise-2.3">Exercise 2.3</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./Chapter1_FundamentalsOfTimeSeries.html">Part I: Foundations</a></li><li class="breadcrumb-item"><a href="./Chapter2_Forecasting_PrinciplesAndMethods.html"><span class="chapter-title">Chapter 2: Forecasting Principles and Methods</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-title">Chapter 2: Forecasting Principles and Methods</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="forecasting-principles-and-methods" class="level2">
+<h2 class="anchored" data-anchor-id="forecasting-principles-and-methods">Forecasting Principles and Methods</h2>
+<section id="topics-covered" class="level3">
+<h3 class="anchored" data-anchor-id="topics-covered">Topics Covered:</h3>
+<ol type="1">
+<li><p>The Forecasting Workflow</p></li>
+<li><p>Benchmark Forecasting Methods</p></li>
+<li><p>Residual Diagnostics - Model validation</p></li>
+<li><p>Prediction Intervals</p></li>
+<li><p>Metrics to Evaluate Forecasting Performance</p></li>
+<li><p>Validation Strategies</p></li>
+</ol>
+<hr>
+</section>
+</section>
+<section id="the-forecasting-workflow" class="level2">
+<h2 class="anchored" data-anchor-id="the-forecasting-workflow">1. The Forecasting Workflow</h2>
+<p>Forecasting is a structured process that goes beyond simply fitting a model. The workflow for forecasting follows the following steps:</p>
+<ol type="1">
+<li><p><strong>Data preparation:</strong> Loading and formatting data (e.g., handling timestamps, dealing with missing data, and other pre-processing task, …)</p></li>
+<li><p><strong>Visualization:</strong> Plotting data to identify patterns (trend, seasonality, cycles, …)</p></li>
+<li><p><strong>Model specification:</strong> Defining the time series model structure</p></li>
+<li><p><strong>Estimation:</strong> Training the model parameters on historical data</p></li>
+<li><p><strong>Evaluation:</strong> Checking model validity and accuracy metrics on test sets</p></li>
+<li><p><strong>Forecasting:</strong> Producing future values with prediction intervals</p></li>
+</ol>
+<hr>
+</section>
+<section id="benchmark-forecasting-methods" class="level2">
+<h2 class="anchored" data-anchor-id="benchmark-forecasting-methods">2. Benchmark Forecasting Methods</h2>
+<p>Some forecasting methods are very simple but sometimes surprisingly effective. Additionally, they often serve as effective benchmarks to be compared with other more sophisticated method. For instance, any other complex model (like ARIMA) must outperform these baselines to be considered useful. In this section we will use the <code>Darts</code> library that provides many forecasting models including ARIMA, machine learning models, deep learning models and also simple models for benchmaking. This library uses its own data type (<code>TimeSeries</code>) form time series. Alternatively, we use also <code>sktime</code> which includes many interesting features and use <code>pandas</code> data structure.</p>
+<div id="ca8275bf" class="cell" data-execution_count="1">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-4"><a href="#cb1-4"></a><span class="im">from</span> skforecast.datasets <span class="im">import</span> fetch_dataset</span>
+<span id="cb1-5"><a href="#cb1-5"></a><span class="im">from</span> darts <span class="im">import</span> TimeSeries</span>
+<span id="cb1-6"><a href="#cb1-6"></a></span>
+<span id="cb1-7"><a href="#cb1-7"></a><span class="co"># Load h2o data (monthly measurements)</span></span>
+<span id="cb1-8"><a href="#cb1-8"></a>data <span class="op">=</span> fetch_dataset(name<span class="op">=</span><span class="st">'h2o'</span>, raw<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb1-9"><a href="#cb1-9"></a>data[<span class="st">'fecha'</span>] <span class="op">=</span> pd.to_datetime(data[<span class="st">'fecha'</span>], <span class="bu">format</span><span class="op">=</span><span class="st">'%Y-%m-</span><span class="sc">%d</span><span class="st">'</span>)</span>
+<span id="cb1-10"><a href="#cb1-10"></a></span>
+<span id="cb1-11"><a href="#cb1-11"></a><span class="co"># data in TimeSeries format for darts</span></span>
+<span id="cb1-12"><a href="#cb1-12"></a>y <span class="op">=</span>TimeSeries.from_dataframe(data, time_col<span class="op">=</span><span class="st">'fecha'</span>, value_cols<span class="op">=</span><span class="st">'x'</span>, freq<span class="op">=</span><span class="st">'MS'</span>)</span>
+<span id="cb1-13"><a href="#cb1-13"></a></span>
+<span id="cb1-14"><a href="#cb1-14"></a><span class="co"># data in pandas format for sktime</span></span>
+<span id="cb1-15"><a href="#cb1-15"></a>data <span class="op">=</span> data.set_index(<span class="st">'fecha'</span>)</span>
+<span id="cb1-16"><a href="#cb1-16"></a>y_skt <span class="op">=</span> data[<span class="st">'x'</span>].to_period(<span class="st">'M'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">╭────────────────────────────────────── <span style="font-weight: bold">h2o</span> ───────────────────────────────────────╮
+│ <span style="font-weight: bold">Description:</span>                                                                     │
+│ Monthly expenditure ($AUD) on corticosteroid drugs that the Australian health    │
+│ system had between 1991 and 2008.                                                │
+│                                                                                  │
+│ <span style="font-weight: bold">Source:</span>                                                                          │
+│ Hyndman R (2023). fpp3: Data for Forecasting: Principles and Practice(3rd        │
+│ Edition). http://pkg.robjhyndman.com/fpp3package/,https://github.com/robjhyndman │
+│ /fpp3package, http://OTexts.com/fpp3.                                            │
+│                                                                                  │
+│ <span style="font-weight: bold">URL:</span>                                                                             │
+│ https://raw.githubusercontent.com/skforecast/skforecast-                         │
+│ datasets/main/data/h2o.csv                                                       │
+│                                                                                  │
+│ <span style="font-weight: bold">Shape:</span> 204 rows x 2 columns                                                      │
+╰──────────────────────────────────────────────────────────────────────────────────╯
+</pre>
+</div>
+</div>
+<section id="mean-method" class="level3">
+<h3 class="anchored" data-anchor-id="mean-method">2.1. Mean Method</h3>
+<p>The forecast for all future values is equal to the mean of the historical data <span class="math inline">\({y_1,\ldots,y_T}\)</span>.</p>
+<p><span class="math display">\[
+\hat{y}_{T+h|T} = \bar{y} = \frac{1}{T}\sum_{t=1}^{T}y_{t}
+\]</span></p>
+<p><strong>Python code using <code>Darts</code> package:</strong></p>
+<div id="9a23b291" class="cell" data-execution_count="2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a><span class="co"># 2.1. Forecasting using the Mean Method (Darts implementation)</span></span>
+<span id="cb2-2"><a href="#cb2-2"></a><span class="im">from</span> darts.models <span class="im">import</span> NaiveMean</span>
+<span id="cb2-3"><a href="#cb2-3"></a><span class="co"># Initialize the NaiveMean model</span></span>
+<span id="cb2-4"><a href="#cb2-4"></a>model <span class="op">=</span> NaiveMean()</span>
+<span id="cb2-5"><a href="#cb2-5"></a><span class="co"># Fit the model to the historical series</span></span>
+<span id="cb2-6"><a href="#cb2-6"></a>model.fit(y)</span>
+<span id="cb2-7"><a href="#cb2-7"></a><span class="co"># Generate predictions for the next 'h' time steps</span></span>
+<span id="cb2-8"><a href="#cb2-8"></a>h <span class="op">=</span> <span class="dv">24</span> <span class="co"># Forecast 2 years ahead</span></span>
+<span id="cb2-9"><a href="#cb2-9"></a>forecast <span class="op">=</span> model.predict(h)</span>
+<span id="cb2-10"><a href="#cb2-10"></a>forecast.head()</span>
+<span id="cb2-11"><a href="#cb2-11"></a></span>
+<span id="cb2-12"><a href="#cb2-12"></a><span class="co"># Plot</span></span>
+<span id="cb2-13"><a href="#cb2-13"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">6</span>))</span>
+<span id="cb2-14"><a href="#cb2-14"></a><span class="co"># Observed values in black (Dart implements its own internal plot method)</span></span>
+<span id="cb2-15"><a href="#cb2-15"></a>y.plot(label<span class="op">=</span><span class="st">'Observed'</span>, color<span class="op">=</span><span class="st">'black'</span>)</span>
+<span id="cb2-16"><a href="#cb2-16"></a><span class="co"># Forecasted values in red</span></span>
+<span id="cb2-17"><a href="#cb2-17"></a>forecast.plot(label<span class="op">=</span><span class="st">'Forecast (Mean)'</span>, color<span class="op">=</span><span class="st">'red'</span>)</span>
+<span id="cb2-18"><a href="#cb2-18"></a>plt.title(<span class="st">"Mean Method Forecaster (Darts)"</span>)</span>
+<span id="cb2-19"><a href="#cb2-19"></a>plt.legend()</span>
+<span id="cb2-20"><a href="#cb2-20"></a>plt.tight_layout()</span>
+<span id="cb2-21"><a href="#cb2-21"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Chapter2_Forecasting_PrinciplesAndMethods_files/figure-html/cell-3-output-1.png" width="1142" height="567" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Python code using <code>sktime</code> package:</strong></p>
+<div id="6949cf82" class="cell" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a><span class="co"># 2.1. Forecasting using the Mean Method (sktime implementation)</span></span>
+<span id="cb3-2"><a href="#cb3-2"></a><span class="im">from</span> sktime.forecasting.naive <span class="im">import</span> NaiveForecaster</span>
+<span id="cb3-3"><a href="#cb3-3"></a><span class="im">from</span> sktime.forecasting.base <span class="im">import</span> ForecastingHorizon</span>
+<span id="cb3-4"><a href="#cb3-4"></a><span class="im">from</span> sktime.utils.plotting <span class="im">import</span> plot_series</span>
+<span id="cb3-5"><a href="#cb3-5"></a></span>
+<span id="cb3-6"><a href="#cb3-6"></a><span class="co"># # Initialize the NaiveMean model</span></span>
+<span id="cb3-7"><a href="#cb3-7"></a>model <span class="op">=</span> NaiveForecaster(strategy<span class="op">=</span><span class="st">"mean"</span>)</span>
+<span id="cb3-8"><a href="#cb3-8"></a></span>
+<span id="cb3-9"><a href="#cb3-9"></a><span class="co"># Fit the model to the historical series</span></span>
+<span id="cb3-10"><a href="#cb3-10"></a>model.fit(y_skt)</span>
+<span id="cb3-11"><a href="#cb3-11"></a></span>
+<span id="cb3-12"><a href="#cb3-12"></a><span class="co"># Generate predictions for the next 'h' time steps</span></span>
+<span id="cb3-13"><a href="#cb3-13"></a>h <span class="op">=</span> <span class="dv">24</span> <span class="co"># Forecast 2 years ahead</span></span>
+<span id="cb3-14"><a href="#cb3-14"></a><span class="co"># ForecastingHorizon creates the sequence [1, 2, ..., 24] relative to the last training point</span></span>
+<span id="cb3-15"><a href="#cb3-15"></a><span class="co"># if is_relative=False, the array for predictions should be a time index.</span></span>
+<span id="cb3-16"><a href="#cb3-16"></a>fh <span class="op">=</span> ForecastingHorizon(np.arange(<span class="dv">1</span>, h <span class="op">+</span> <span class="dv">1</span>), is_relative<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb3-17"><a href="#cb3-17"></a><span class="co"># Generate predictions</span></span>
+<span id="cb3-18"><a href="#cb3-18"></a>forecast <span class="op">=</span> model.predict(fh)</span>
+<span id="cb3-19"><a href="#cb3-19"></a></span>
+<span id="cb3-20"><a href="#cb3-20"></a></span>
+<span id="cb3-21"><a href="#cb3-21"></a><span class="co"># Plot using plot series</span></span>
+<span id="cb3-22"><a href="#cb3-22"></a>fig, ax <span class="op">=</span> plot_series(</span>
+<span id="cb3-23"><a href="#cb3-23"></a>    y_skt,              <span class="co"># historical data</span></span>
+<span id="cb3-24"><a href="#cb3-24"></a>    forecast,           <span class="co"># forecasting</span></span>
+<span id="cb3-25"><a href="#cb3-25"></a>    labels<span class="op">=</span>[<span class="st">"Observed"</span>, <span class="st">"Forecast (Mean)"</span>], <span class="co"># labels for the plotted time series</span></span>
+<span id="cb3-26"><a href="#cb3-26"></a>    markers<span class="op">=</span>[<span class="va">None</span>,<span class="va">None</span>]  <span class="co"># markers for the time series (None= no markers, only line)</span></span>
+<span id="cb3-27"><a href="#cb3-27"></a>)</span>
+<span id="cb3-28"><a href="#cb3-28"></a></span>
+<span id="cb3-29"><a href="#cb3-29"></a>plt.title(<span class="st">"Mean Method Forecaster (sktime)"</span>)</span>
+<span id="cb3-30"><a href="#cb3-30"></a>plt.tight_layout()</span>
+<span id="cb3-31"><a href="#cb3-31"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Chapter2_Forecasting_PrinciplesAndMethods_files/figure-html/cell-4-output-1.png" width="1525" height="376" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="naïve-method" class="level3">
+<h3 class="anchored" data-anchor-id="naïve-method">2.2. Naïve Method</h3>
+<p>The forecast is set to be the value of the last observation. This is optimal when data follow a random walk processes. The method is also known as random walk forecast.</p>
+<p><span class="math display">\[
+\hat{y}_{T+h|T} = y_{T}
+\]</span></p>
+<p><strong>Python code using <code>Darts</code> package:</strong></p>
+<div id="60f2529c" class="cell" data-execution_count="4">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1"></a><span class="co"># 2.2. Forecasting using the Naive Method (Darts implementation)</span></span>
+<span id="cb4-2"><a href="#cb4-2"></a><span class="im">from</span> darts.models <span class="im">import</span> NaiveSeasonal</span>
+<span id="cb4-3"><a href="#cb4-3"></a><span class="co"># Initialize the NaiveMean model </span></span>
+<span id="cb4-4"><a href="#cb4-4"></a>model <span class="op">=</span> NaiveSeasonal(K<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb4-5"><a href="#cb4-5"></a><span class="co"># Fit the model to the historical series</span></span>
+<span id="cb4-6"><a href="#cb4-6"></a>h <span class="op">=</span> <span class="dv">24</span> <span class="co"># Forecast 2 years ahead</span></span>
+<span id="cb4-7"><a href="#cb4-7"></a>model.fit(y)</span>
+<span id="cb4-8"><a href="#cb4-8"></a><span class="co"># Generate predictions for the next 'h' time steps</span></span>
+<span id="cb4-9"><a href="#cb4-9"></a><span class="co"># Darts handles the future date generation automatically</span></span>
+<span id="cb4-10"><a href="#cb4-10"></a>forecast <span class="op">=</span> model.predict(h)</span>
+<span id="cb4-11"><a href="#cb4-11"></a>forecast.head()</span>
+<span id="cb4-12"><a href="#cb4-12"></a></span>
+<span id="cb4-13"><a href="#cb4-13"></a><span class="co"># Plot</span></span>
+<span id="cb4-14"><a href="#cb4-14"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">6</span>))</span>
+<span id="cb4-15"><a href="#cb4-15"></a><span class="co"># Observed values in black (Dart implements its own internal plot method)</span></span>
+<span id="cb4-16"><a href="#cb4-16"></a>y.plot(label<span class="op">=</span><span class="st">'Observed'</span>, color<span class="op">=</span><span class="st">'black'</span>)</span>
+<span id="cb4-17"><a href="#cb4-17"></a><span class="co"># Forecasted values in red</span></span>
+<span id="cb4-18"><a href="#cb4-18"></a>forecast.plot(label<span class="op">=</span><span class="st">'Forecast (Naive)'</span>, color<span class="op">=</span><span class="st">'red'</span>)</span>
+<span id="cb4-19"><a href="#cb4-19"></a>plt.title(<span class="st">"Naive Method Forecaster (Darts)"</span>)</span>
+<span id="cb4-20"><a href="#cb4-20"></a>plt.legend()</span>
+<span id="cb4-21"><a href="#cb4-21"></a>plt.tight_layout()</span>
+<span id="cb4-22"><a href="#cb4-22"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Chapter2_Forecasting_PrinciplesAndMethods_files/figure-html/cell-5-output-1.png" width="1142" height="567" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Python code using <code>sktime</code> package:</strong></p>
+<div id="c9faa3cb" class="cell" data-execution_count="5">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1"></a><span class="co"># 2.2. Forecasting using the Naive Method (sktime implementation)</span></span>
+<span id="cb5-2"><a href="#cb5-2"></a><span class="im">from</span> sktime.forecasting.naive <span class="im">import</span> NaiveForecaster</span>
+<span id="cb5-3"><a href="#cb5-3"></a><span class="im">from</span> sktime.forecasting.base <span class="im">import</span> ForecastingHorizon</span>
+<span id="cb5-4"><a href="#cb5-4"></a><span class="im">from</span> sktime.utils.plotting <span class="im">import</span> plot_series</span>
+<span id="cb5-5"><a href="#cb5-5"></a></span>
+<span id="cb5-6"><a href="#cb5-6"></a><span class="co"># # Initialize the Naive model</span></span>
+<span id="cb5-7"><a href="#cb5-7"></a>model <span class="op">=</span> NaiveForecaster(strategy<span class="op">=</span><span class="st">"last"</span>)</span>
+<span id="cb5-8"><a href="#cb5-8"></a></span>
+<span id="cb5-9"><a href="#cb5-9"></a><span class="co"># Fit the model to the historical series</span></span>
+<span id="cb5-10"><a href="#cb5-10"></a>model.fit(y_skt)</span>
+<span id="cb5-11"><a href="#cb5-11"></a></span>
+<span id="cb5-12"><a href="#cb5-12"></a><span class="co"># Generate predictions for the next 'h' time steps</span></span>
+<span id="cb5-13"><a href="#cb5-13"></a>h <span class="op">=</span> <span class="dv">24</span> <span class="co"># Forecast 2 years ahead</span></span>
+<span id="cb5-14"><a href="#cb5-14"></a><span class="co"># ForecastingHorizon creates the sequence [1, 2, ..., 24] relative to the last training point</span></span>
+<span id="cb5-15"><a href="#cb5-15"></a>fh <span class="op">=</span> ForecastingHorizon(np.arange(<span class="dv">1</span>, h <span class="op">+</span> <span class="dv">1</span>), is_relative<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb5-16"><a href="#cb5-16"></a><span class="co"># Generate predictions</span></span>
+<span id="cb5-17"><a href="#cb5-17"></a>forecast <span class="op">=</span> model.predict(fh)</span>
+<span id="cb5-18"><a href="#cb5-18"></a></span>
+<span id="cb5-19"><a href="#cb5-19"></a></span>
+<span id="cb5-20"><a href="#cb5-20"></a><span class="co"># Plot using plot series</span></span>
+<span id="cb5-21"><a href="#cb5-21"></a>fig, ax <span class="op">=</span> plot_series(</span>
+<span id="cb5-22"><a href="#cb5-22"></a>    y_skt,              <span class="co"># historical data</span></span>
+<span id="cb5-23"><a href="#cb5-23"></a>    forecast,           <span class="co"># forecasting</span></span>
+<span id="cb5-24"><a href="#cb5-24"></a>    labels<span class="op">=</span>[<span class="st">"Observed"</span>, <span class="st">"Forecast (Naive)"</span>], <span class="co"># labels for the plotted time series</span></span>
+<span id="cb5-25"><a href="#cb5-25"></a>    markers<span class="op">=</span>[<span class="va">None</span>,<span class="va">None</span>]  <span class="co"># markers for the time series (None= no markers, only line)</span></span>
+<span id="cb5-26"><a href="#cb5-26"></a>)</span>
+<span id="cb5-27"><a href="#cb5-27"></a></span>
+<span id="cb5-28"><a href="#cb5-28"></a>plt.title(<span class="st">"Naive Method Forecaster (sktime)"</span>)</span>
+<span id="cb5-29"><a href="#cb5-29"></a>plt.tight_layout()</span>
+<span id="cb5-30"><a href="#cb5-30"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Chapter2_Forecasting_PrinciplesAndMethods_files/figure-html/cell-6-output-1.png" width="1525" height="376" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="seasonal-naïve-method" class="level3">
+<h3 class="anchored" data-anchor-id="seasonal-naïve-method">2.3. Seasonal Naïve Method</h3>
+<p>Useful for highly seasonal data. We set each forecast to be equal to the last observed value from the same season of the year (e.g.&nbsp;the same month of the previous year).</p>
+<p><span class="math display">\[
+\hat{y}_{T+h|T} = y_{T+h-m(k+1)}
+\]</span></p>
+<p>where <span class="math inline">\(m\)</span> is the seasonal period (e.g., 12 for monthly data) and <span class="math inline">\(k\)</span> is the integer part of <span class="math inline">\((h-1)/m\)</span>.</p>
+<p><strong>Python code using <code>Darts</code> package:</strong></p>
+<div id="79353676" class="cell" data-execution_count="6">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb6-2"><a href="#cb6-2"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb6-3"><a href="#cb6-3"></a><span class="im">from</span> skforecast.datasets <span class="im">import</span> fetch_dataset</span>
+<span id="cb6-4"><a href="#cb6-4"></a><span class="im">from</span> darts <span class="im">import</span> TimeSeries</span>
+<span id="cb6-5"><a href="#cb6-5"></a></span>
+<span id="cb6-6"><a href="#cb6-6"></a><span class="co"># Load h2o data (monthly measurements)</span></span>
+<span id="cb6-7"><a href="#cb6-7"></a>data <span class="op">=</span> fetch_dataset(name<span class="op">=</span><span class="st">'h2o'</span>, raw<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb6-8"><a href="#cb6-8"></a>data[<span class="st">'fecha'</span>] <span class="op">=</span> pd.to_datetime(data[<span class="st">'fecha'</span>], <span class="bu">format</span><span class="op">=</span><span class="st">'%Y-%m-</span><span class="sc">%d</span><span class="st">'</span>)</span>
+<span id="cb6-9"><a href="#cb6-9"></a>y <span class="op">=</span>TimeSeries.from_dataframe(data, time_col<span class="op">=</span><span class="st">'fecha'</span>, value_cols<span class="op">=</span><span class="st">'x'</span>, freq<span class="op">=</span><span class="st">'MS'</span>)</span>
+<span id="cb6-10"><a href="#cb6-10"></a></span>
+<span id="cb6-11"><a href="#cb6-11"></a><span class="co"># 2.3. Forecasting using the Seasonal Naive Method (Darts implementation)</span></span>
+<span id="cb6-12"><a href="#cb6-12"></a><span class="im">from</span> darts.models <span class="im">import</span> NaiveSeasonal</span>
+<span id="cb6-13"><a href="#cb6-13"></a><span class="co"># Initialize the NaiveMean model </span></span>
+<span id="cb6-14"><a href="#cb6-14"></a>m<span class="op">=</span><span class="dv">12</span> <span class="co">#seasonal period (monthly data)</span></span>
+<span id="cb6-15"><a href="#cb6-15"></a>model <span class="op">=</span> NaiveSeasonal(K<span class="op">=</span>m)</span>
+<span id="cb6-16"><a href="#cb6-16"></a><span class="co"># Fit the model to the historical series</span></span>
+<span id="cb6-17"><a href="#cb6-17"></a>h <span class="op">=</span> <span class="dv">24</span> <span class="co"># Forecast 2 years ahead</span></span>
+<span id="cb6-18"><a href="#cb6-18"></a>model.fit(y)</span>
+<span id="cb6-19"><a href="#cb6-19"></a><span class="co"># Generate predictions for the next 'h' time steps</span></span>
+<span id="cb6-20"><a href="#cb6-20"></a><span class="co"># Darts handles the future date generation automatically</span></span>
+<span id="cb6-21"><a href="#cb6-21"></a>forecast <span class="op">=</span> model.predict(h)</span>
+<span id="cb6-22"><a href="#cb6-22"></a>forecast.head()</span>
+<span id="cb6-23"><a href="#cb6-23"></a></span>
+<span id="cb6-24"><a href="#cb6-24"></a><span class="co"># Plot</span></span>
+<span id="cb6-25"><a href="#cb6-25"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">6</span>))</span>
+<span id="cb6-26"><a href="#cb6-26"></a><span class="co"># Observed values in black (Dart implements its own internal plot method)</span></span>
+<span id="cb6-27"><a href="#cb6-27"></a>y.plot(label<span class="op">=</span><span class="st">'Observed'</span>, color<span class="op">=</span><span class="st">'black'</span>)</span>
+<span id="cb6-28"><a href="#cb6-28"></a><span class="co"># Forecasted values in red</span></span>
+<span id="cb6-29"><a href="#cb6-29"></a>forecast.plot(label<span class="op">=</span><span class="st">'Forecast (Seasonal Naive)'</span>, color<span class="op">=</span><span class="st">'red'</span>)</span>
+<span id="cb6-30"><a href="#cb6-30"></a>plt.title(<span class="st">"Seasonal Naive Method Forecaster (Darts)"</span>)</span>
+<span id="cb6-31"><a href="#cb6-31"></a>plt.legend()</span>
+<span id="cb6-32"><a href="#cb6-32"></a>plt.tight_layout()</span>
+<span id="cb6-33"><a href="#cb6-33"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">╭────────────────────────────────────── <span style="font-weight: bold">h2o</span> ───────────────────────────────────────╮
+│ <span style="font-weight: bold">Description:</span>                                                                     │
+│ Monthly expenditure ($AUD) on corticosteroid drugs that the Australian health    │
+│ system had between 1991 and 2008.                                                │
+│                                                                                  │
+│ <span style="font-weight: bold">Source:</span>                                                                          │
+│ Hyndman R (2023). fpp3: Data for Forecasting: Principles and Practice(3rd        │
+│ Edition). http://pkg.robjhyndman.com/fpp3package/,https://github.com/robjhyndman │
+│ /fpp3package, http://OTexts.com/fpp3.                                            │
+│                                                                                  │
+│ <span style="font-weight: bold">URL:</span>                                                                             │
+│ https://raw.githubusercontent.com/skforecast/skforecast-                         │
+│ datasets/main/data/h2o.csv                                                       │
+│                                                                                  │
+│ <span style="font-weight: bold">Shape:</span> 204 rows x 2 columns                                                      │
+╰──────────────────────────────────────────────────────────────────────────────────╯
+</pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Chapter2_Forecasting_PrinciplesAndMethods_files/figure-html/cell-7-output-2.png" width="1142" height="567" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Python code using <code>sktime</code> package:</strong></p>
+<div id="0048ad63" class="cell" data-execution_count="7">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1"></a><span class="co"># 2.3. Forecasting using the Seasonal Naive Method (sktime implementation)</span></span>
+<span id="cb7-2"><a href="#cb7-2"></a><span class="im">from</span> sktime.forecasting.naive <span class="im">import</span> NaiveForecaster</span>
+<span id="cb7-3"><a href="#cb7-3"></a><span class="im">from</span> sktime.forecasting.base <span class="im">import</span> ForecastingHorizon</span>
+<span id="cb7-4"><a href="#cb7-4"></a><span class="im">from</span> sktime.utils.plotting <span class="im">import</span> plot_series</span>
+<span id="cb7-5"><a href="#cb7-5"></a></span>
+<span id="cb7-6"><a href="#cb7-6"></a><span class="co"># # Initialize the Naive model</span></span>
+<span id="cb7-7"><a href="#cb7-7"></a>m<span class="op">=</span><span class="dv">12</span> <span class="co"># time period: monthly</span></span>
+<span id="cb7-8"><a href="#cb7-8"></a><span class="co"># sp parameter to specify the seasonal peeriodicity</span></span>
+<span id="cb7-9"><a href="#cb7-9"></a>model <span class="op">=</span> NaiveForecaster(strategy<span class="op">=</span><span class="st">"last"</span>, sp<span class="op">=</span>m)</span>
+<span id="cb7-10"><a href="#cb7-10"></a></span>
+<span id="cb7-11"><a href="#cb7-11"></a><span class="co"># Fit the model to the historical series</span></span>
+<span id="cb7-12"><a href="#cb7-12"></a>model.fit(y_skt)</span>
+<span id="cb7-13"><a href="#cb7-13"></a></span>
+<span id="cb7-14"><a href="#cb7-14"></a><span class="co"># Generate predictions for the next 'h' time steps</span></span>
+<span id="cb7-15"><a href="#cb7-15"></a>h <span class="op">=</span> <span class="dv">24</span> <span class="co"># Forecast 2 years ahead</span></span>
+<span id="cb7-16"><a href="#cb7-16"></a><span class="co"># ForecastingHorizon creates the sequence [1, 2, ..., 24] relative to the last training point</span></span>
+<span id="cb7-17"><a href="#cb7-17"></a>fh <span class="op">=</span> ForecastingHorizon(np.arange(<span class="dv">1</span>, h <span class="op">+</span> <span class="dv">1</span>), is_relative<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb7-18"><a href="#cb7-18"></a><span class="co"># Generate predictions</span></span>
+<span id="cb7-19"><a href="#cb7-19"></a>forecast <span class="op">=</span> model.predict(fh)</span>
+<span id="cb7-20"><a href="#cb7-20"></a></span>
+<span id="cb7-21"><a href="#cb7-21"></a></span>
+<span id="cb7-22"><a href="#cb7-22"></a><span class="co"># Plot using plot series</span></span>
+<span id="cb7-23"><a href="#cb7-23"></a>fig, ax <span class="op">=</span> plot_series(</span>
+<span id="cb7-24"><a href="#cb7-24"></a>    y_skt,              <span class="co"># historical data</span></span>
+<span id="cb7-25"><a href="#cb7-25"></a>    forecast,           <span class="co"># forecasting</span></span>
+<span id="cb7-26"><a href="#cb7-26"></a>    labels<span class="op">=</span>[<span class="st">"Observed"</span>, <span class="st">"Forecast (Seasonal Naive)"</span>], <span class="co"># labels for the plotted time series</span></span>
+<span id="cb7-27"><a href="#cb7-27"></a>    markers<span class="op">=</span>[<span class="va">None</span>,<span class="va">None</span>]  <span class="co"># markers for the time series (None= no markers, only line)</span></span>
+<span id="cb7-28"><a href="#cb7-28"></a>)</span>
+<span id="cb7-29"><a href="#cb7-29"></a></span>
+<span id="cb7-30"><a href="#cb7-30"></a>plt.title(<span class="st">"Seasonal Naive Method Forecaster (sktime)"</span>)</span>
+<span id="cb7-31"><a href="#cb7-31"></a>plt.tight_layout()</span>
+<span id="cb7-32"><a href="#cb7-32"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Chapter2_Forecasting_PrinciplesAndMethods_files/figure-html/cell-8-output-1.png" width="1525" height="376" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="drift-method" class="level3">
+<h3 class="anchored" data-anchor-id="drift-method">2.4. Drift Method</h3>
+<p>A variation of the naïve method that allows the forecast to increase or decrease over time based on the average historical change (also known as drift):</p>
+<p><span class="math display">\[
+\hat{y}_{T+h|T} = y_{T} + \frac{h}{T-1} \sum_{t=2}^{T}(y_{t}-y_{t-1}) = y_{T} + h \left( \frac{y_{T}-y_{1}}{T-1} \right)
+\]</span></p>
+<p><strong>Python code using <code>Darts</code> package:</strong></p>
+<div id="654583b4" class="cell" data-execution_count="8">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1"></a><span class="co"># 2.4. Forecasting using the Drift Method (Darts implementation)</span></span>
+<span id="cb8-2"><a href="#cb8-2"></a><span class="im">from</span> darts.models <span class="im">import</span> NaiveDrift</span>
+<span id="cb8-3"><a href="#cb8-3"></a><span class="co"># Initialize the model</span></span>
+<span id="cb8-4"><a href="#cb8-4"></a>model <span class="op">=</span> NaiveDrift()</span>
+<span id="cb8-5"><a href="#cb8-5"></a><span class="co"># Fit the model to the historical series</span></span>
+<span id="cb8-6"><a href="#cb8-6"></a>h <span class="op">=</span> <span class="dv">24</span> <span class="co"># Forecast 2 years ahead</span></span>
+<span id="cb8-7"><a href="#cb8-7"></a>model.fit(y)</span>
+<span id="cb8-8"><a href="#cb8-8"></a><span class="co"># Generate predictions for the next 'h' time steps</span></span>
+<span id="cb8-9"><a href="#cb8-9"></a><span class="co"># Darts handles the future date generation automatically</span></span>
+<span id="cb8-10"><a href="#cb8-10"></a>forecast <span class="op">=</span> model.predict(h)</span>
+<span id="cb8-11"><a href="#cb8-11"></a>forecast.head()</span>
+<span id="cb8-12"><a href="#cb8-12"></a></span>
+<span id="cb8-13"><a href="#cb8-13"></a><span class="co"># Plot</span></span>
+<span id="cb8-14"><a href="#cb8-14"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">6</span>))</span>
+<span id="cb8-15"><a href="#cb8-15"></a><span class="co"># Observed values in black (Dart implements its own internal plot method)</span></span>
+<span id="cb8-16"><a href="#cb8-16"></a>y.plot(label<span class="op">=</span><span class="st">'Observed'</span>, color<span class="op">=</span><span class="st">'black'</span>)</span>
+<span id="cb8-17"><a href="#cb8-17"></a><span class="co"># Forecasted values in red</span></span>
+<span id="cb8-18"><a href="#cb8-18"></a>forecast.plot(label<span class="op">=</span><span class="st">'Forecast (Drift)'</span>, color<span class="op">=</span><span class="st">'red'</span>)</span>
+<span id="cb8-19"><a href="#cb8-19"></a>plt.title(<span class="st">"Seasonal Drift Method Forecaster (Darts)"</span>)</span>
+<span id="cb8-20"><a href="#cb8-20"></a>plt.legend()</span>
+<span id="cb8-21"><a href="#cb8-21"></a>plt.tight_layout()</span>
+<span id="cb8-22"><a href="#cb8-22"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Chapter2_Forecasting_PrinciplesAndMethods_files/figure-html/cell-9-output-1.png" width="1142" height="567" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Python code using <code>sktime</code> package:</strong></p>
+<div id="a4c5e937" class="cell" data-execution_count="9">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1"></a><span class="co"># 2.4. Forecasting using the Drift Method (sktime implementation)</span></span>
+<span id="cb9-2"><a href="#cb9-2"></a><span class="im">from</span> sktime.forecasting.naive <span class="im">import</span> NaiveForecaster</span>
+<span id="cb9-3"><a href="#cb9-3"></a><span class="im">from</span> sktime.forecasting.base <span class="im">import</span> ForecastingHorizon</span>
+<span id="cb9-4"><a href="#cb9-4"></a><span class="im">from</span> sktime.utils.plotting <span class="im">import</span> plot_series</span>
+<span id="cb9-5"><a href="#cb9-5"></a></span>
+<span id="cb9-6"><a href="#cb9-6"></a><span class="co"># # Initialize the Naive model</span></span>
+<span id="cb9-7"><a href="#cb9-7"></a>m<span class="op">=</span><span class="dv">12</span> <span class="co"># time period: monthly</span></span>
+<span id="cb9-8"><a href="#cb9-8"></a>model <span class="op">=</span> NaiveForecaster(strategy<span class="op">=</span><span class="st">"drift"</span>)</span>
+<span id="cb9-9"><a href="#cb9-9"></a></span>
+<span id="cb9-10"><a href="#cb9-10"></a><span class="co"># Fit the model to the historical series</span></span>
+<span id="cb9-11"><a href="#cb9-11"></a>model.fit(y_skt)</span>
+<span id="cb9-12"><a href="#cb9-12"></a></span>
+<span id="cb9-13"><a href="#cb9-13"></a><span class="co"># Generate predictions for the next 'h' time steps</span></span>
+<span id="cb9-14"><a href="#cb9-14"></a>h <span class="op">=</span> <span class="dv">24</span> <span class="co"># Forecast 2 years ahead</span></span>
+<span id="cb9-15"><a href="#cb9-15"></a><span class="co"># ForecastingHorizon creates the sequence [1, 2, ..., 24] relative to the last training point</span></span>
+<span id="cb9-16"><a href="#cb9-16"></a>fh <span class="op">=</span> ForecastingHorizon(np.arange(<span class="dv">1</span>, h <span class="op">+</span> <span class="dv">1</span>), is_relative<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb9-17"><a href="#cb9-17"></a><span class="co"># Generate predictions</span></span>
+<span id="cb9-18"><a href="#cb9-18"></a>forecast <span class="op">=</span> model.predict(fh)</span>
+<span id="cb9-19"><a href="#cb9-19"></a></span>
+<span id="cb9-20"><a href="#cb9-20"></a></span>
+<span id="cb9-21"><a href="#cb9-21"></a><span class="co"># Plot using plot series</span></span>
+<span id="cb9-22"><a href="#cb9-22"></a>fig, ax <span class="op">=</span> plot_series(</span>
+<span id="cb9-23"><a href="#cb9-23"></a>    y_skt,              <span class="co"># historical data</span></span>
+<span id="cb9-24"><a href="#cb9-24"></a>    forecast,           <span class="co"># forecasting</span></span>
+<span id="cb9-25"><a href="#cb9-25"></a>    labels<span class="op">=</span>[<span class="st">"Observed"</span>, <span class="st">"Forecast (Drift)"</span>], <span class="co"># labels for the plotted time series</span></span>
+<span id="cb9-26"><a href="#cb9-26"></a>    markers<span class="op">=</span>[<span class="va">None</span>,<span class="va">None</span>]  <span class="co"># markers for the time series (None= no markers, only line)</span></span>
+<span id="cb9-27"><a href="#cb9-27"></a>)</span>
+<span id="cb9-28"><a href="#cb9-28"></a></span>
+<span id="cb9-29"><a href="#cb9-29"></a>plt.title(<span class="st">"Drift Method Forecaster (sktime)"</span>)</span>
+<span id="cb9-30"><a href="#cb9-30"></a>plt.tight_layout()</span>
+<span id="cb9-31"><a href="#cb9-31"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Chapter2_Forecasting_PrinciplesAndMethods_files/figure-html/cell-10-output-1.png" width="1525" height="376" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="residual-diagnostics---model-validation" class="level2">
+<h2 class="anchored" data-anchor-id="residual-diagnostics---model-validation">3. Residual Diagnostics - Model validation</h2>
+<p>Residuals are defined as the difference between the observations and the corresponding fitted values by a time series model:</p>
+<p><span class="math inline">\(e_{t} = y_{t} - \hat{y}_{t|t-1}\)</span></p>
+<p>If a data transformation has been used in the model, then it is often useful to look at residuals on the transformed scale. These are called <em>innovation residuals</em>. E.g. Assume data is transformed using logarithms (<span class="math inline">\(w_t = log(y_t)\)</span>). Then innovation residuals are given by <span class="math inline">\(w_t - \hat{w}_t\)</span> while regular residuals are given by <span class="math inline">\(y_t - \hat{y}_t\)</span>. If no transformation is used innovation residuals are the same as regular residuals, and the are simply called residuals.</p>
+<div id="ccf1e699" class="cell" data-execution_count="10">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb10-2"><a href="#cb10-2"></a><span class="im">from</span> darts <span class="im">import</span> TimeSeries</span>
+<span id="cb10-3"><a href="#cb10-3"></a><span class="im">from</span> darts.models <span class="im">import</span> NaiveMean, NaiveSeasonal, NaiveDrift</span>
+<span id="cb10-4"><a href="#cb10-4"></a></span>
+<span id="cb10-5"><a href="#cb10-5"></a><span class="co">#Split Train/Test: first 14 year for training</span></span>
+<span id="cb10-6"><a href="#cb10-6"></a>train, test <span class="op">=</span> y._split_at(<span class="dv">14</span><span class="op">*</span><span class="dv">12</span>)</span>
+<span id="cb10-7"><a href="#cb10-7"></a></span>
+<span id="cb10-8"><a href="#cb10-8"></a><span class="co">#Benchmark Models Definition</span></span>
+<span id="cb10-9"><a href="#cb10-9"></a>models <span class="op">=</span> {</span>
+<span id="cb10-10"><a href="#cb10-10"></a>    <span class="st">"Mean"</span>: NaiveMean(),</span>
+<span id="cb10-11"><a href="#cb10-11"></a>    <span class="st">"Naive"</span>: NaiveSeasonal(K<span class="op">=</span><span class="dv">1</span>),      <span class="co"># K=1 means: use the immediately preceding value (Last Value)</span></span>
+<span id="cb10-12"><a href="#cb10-12"></a>    <span class="st">"S.Naive"</span>: NaiveSeasonal(K<span class="op">=</span><span class="dv">12</span>),   <span class="co"># K=12 means: repeat the seasonal cycle (last year's value)</span></span>
+<span id="cb10-13"><a href="#cb10-13"></a>    <span class="st">"Drift"</span>: NaiveDrift()             <span class="co"># Calculates the slope (drift) automatically</span></span>
+<span id="cb10-14"><a href="#cb10-14"></a>}</span>
+<span id="cb10-15"><a href="#cb10-15"></a></span>
+<span id="cb10-16"><a href="#cb10-16"></a><span class="co"># Plot Setup</span></span>
+<span id="cb10-17"><a href="#cb10-17"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">18</span>, <span class="dv">12</span>))</span>
+<span id="cb10-18"><a href="#cb10-18"></a></span>
+<span id="cb10-19"><a href="#cb10-19"></a><span class="co"># Plot actual data</span></span>
+<span id="cb10-20"><a href="#cb10-20"></a>train.plot(label<span class="op">=</span><span class="st">'Training Data'</span>, color<span class="op">=</span><span class="st">'black'</span>)</span>
+<span id="cb10-21"><a href="#cb10-21"></a>test.plot(label<span class="op">=</span><span class="st">'Actual Test Data'</span>, color<span class="op">=</span><span class="st">'green'</span>, alpha<span class="op">=</span><span class="fl">0.8</span>, linewidth<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb10-22"><a href="#cb10-22"></a></span>
+<span id="cb10-23"><a href="#cb10-23"></a><span class="co"># Generate Forecasts &amp; Plot Loop</span></span>
+<span id="cb10-24"><a href="#cb10-24"></a>styles <span class="op">=</span> [<span class="st">':'</span>, <span class="st">'--'</span>, <span class="st">'-'</span>, <span class="st">'-.'</span>]</span>
+<span id="cb10-25"><a href="#cb10-25"></a>residuals <span class="op">=</span> {}</span>
+<span id="cb10-26"><a href="#cb10-26"></a><span class="co"># Iterate over the dictionary: fit, predict, and plot</span></span>
+<span id="cb10-27"><a href="#cb10-27"></a><span class="cf">for</span> i, (name, model) <span class="kw">in</span> <span class="bu">enumerate</span>(models.items()):</span>
+<span id="cb10-28"><a href="#cb10-28"></a>    <span class="co"># a) Fit the model on training data</span></span>
+<span id="cb10-29"><a href="#cb10-29"></a>    model.fit(train)</span>
+<span id="cb10-30"><a href="#cb10-30"></a>    </span>
+<span id="cb10-31"><a href="#cb10-31"></a>    <span class="co"># b) Predict (horizon h = length of the test set)</span></span>
+<span id="cb10-32"><a href="#cb10-32"></a>    forecast <span class="op">=</span> model.predict(<span class="bu">len</span>(test))</span>
+<span id="cb10-33"><a href="#cb10-33"></a>    </span>
+<span id="cb10-34"><a href="#cb10-34"></a>    <span class="co"># c) Calculate Residuals directly: (Actual - Forecast)</span></span>
+<span id="cb10-35"><a href="#cb10-35"></a>    <span class="co"># In Darts, you can subtract two TimeSeries objects directly</span></span>
+<span id="cb10-36"><a href="#cb10-36"></a>    res <span class="op">=</span> test <span class="op">-</span> forecast</span>
+<span id="cb10-37"><a href="#cb10-37"></a>    residuals[name] <span class="op">=</span> res</span>
+<span id="cb10-38"><a href="#cb10-38"></a>    </span>
+<span id="cb10-39"><a href="#cb10-39"></a>    <span class="co"># c) Plot the forecast</span></span>
+<span id="cb10-40"><a href="#cb10-40"></a>    <span class="co"># Darts handles date indexing and alignment automatically</span></span>
+<span id="cb10-41"><a href="#cb10-41"></a>    forecast.plot(label<span class="op">=</span>name, linestyle<span class="op">=</span>styles[i])</span>
+<span id="cb10-42"><a href="#cb10-42"></a></span>
+<span id="cb10-43"><a href="#cb10-43"></a>plt.title(<span class="st">"Benchmark Forecasts on h2o Data (Darts Version)"</span>)</span>
+<span id="cb10-44"><a href="#cb10-44"></a>plt.legend()</span>
+<span id="cb10-45"><a href="#cb10-45"></a>plt.grid(<span class="va">True</span>, alpha<span class="op">=</span><span class="fl">0.3</span>)</span>
+<span id="cb10-46"><a href="#cb10-46"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Chapter2_Forecasting_PrinciplesAndMethods_files/figure-html/cell-11-output-1.png" width="1385" height="965" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Residuals are useful in checking whether a model has adequately captured the information in the data. For this purpose, we use innovation residuals. If patterns are observable in the innovation residuals, the model can probably be improved.</p>
+<div id="909ca2f7" class="cell" data-execution_count="11">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb11-2"><a href="#cb11-2"></a><span class="co"># Plot Residuals for all four methods}</span></span>
+<span id="cb11-3"><a href="#cb11-3"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">2</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">15</span>, <span class="dv">10</span>), sharex<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb11-4"><a href="#cb11-4"></a>axes <span class="op">=</span> axes.flatten() <span class="co"># Flattens the 2x2 array into a 1D array for easy iteration</span></span>
+<span id="cb11-5"><a href="#cb11-5"></a></span>
+<span id="cb11-6"><a href="#cb11-6"></a><span class="co"># The column names in forecasts are the same as in residuals_df</span></span>
+<span id="cb11-7"><a href="#cb11-7"></a><span class="cf">for</span> i, (name, residual) <span class="kw">in</span> <span class="bu">enumerate</span>(residuals.items()):</span>
+<span id="cb11-8"><a href="#cb11-8"></a>    <span class="co"># Plot residuals for the current method against the test index</span></span>
+<span id="cb11-9"><a href="#cb11-9"></a>    residual.plot(ax<span class="op">=</span>axes[i], label<span class="op">=</span>name)</span>
+<span id="cb11-10"><a href="#cb11-10"></a>    </span>
+<span id="cb11-11"><a href="#cb11-11"></a>    <span class="co"># Draw a line at y=0 (to check for bias)</span></span>
+<span id="cb11-12"><a href="#cb11-12"></a>    axes[i].axhline(<span class="dv">0</span>, color<span class="op">=</span><span class="st">'red'</span>, linestyle<span class="op">=</span><span class="st">'-'</span>, alpha<span class="op">=</span><span class="fl">0.7</span>)</span>
+<span id="cb11-13"><a href="#cb11-13"></a>    <span class="co"># Draw a line with residuals mean</span></span>
+<span id="cb11-14"><a href="#cb11-14"></a>    axes[i].axhline(residual.values().mean(), color<span class="op">=</span><span class="st">'blue'</span>, linestyle<span class="op">=</span><span class="st">'--'</span>, alpha<span class="op">=</span><span class="fl">0.7</span>)</span>
+<span id="cb11-15"><a href="#cb11-15"></a>    </span>
+<span id="cb11-16"><a href="#cb11-16"></a>    <span class="co"># Add titles and labels</span></span>
+<span id="cb11-17"><a href="#cb11-17"></a>    axes[i].set_title(<span class="ss">f'Residuals from </span><span class="sc">{</span>name<span class="sc">}</span><span class="ss">'</span>, fontsize<span class="op">=</span><span class="dv">14</span>)</span>
+<span id="cb11-18"><a href="#cb11-18"></a>    axes[i].set_ylabel(<span class="st">'Forecast Error ($y_t - </span><span class="er">\</span><span class="st">hat</span><span class="sc">{y}</span><span class="st">_t$)'</span>)</span>
+<span id="cb11-19"><a href="#cb11-19"></a>    axes[i].grid(<span class="va">True</span>, alpha<span class="op">=</span><span class="fl">0.3</span>)</span>
+<span id="cb11-20"><a href="#cb11-20"></a></span>
+<span id="cb11-21"><a href="#cb11-21"></a>plt.suptitle(<span class="st">"Residual Diagnostics for Benchmark Models (Test Set)"</span>, fontsize<span class="op">=</span><span class="dv">16</span>)</span>
+<span id="cb11-22"><a href="#cb11-22"></a>plt.tight_layout(rect<span class="op">=</span>[<span class="dv">0</span>, <span class="fl">0.03</span>, <span class="dv">1</span>, <span class="fl">0.95</span>]) <span class="co"># Adjust layout to make space for suptitle</span></span>
+<span id="cb11-23"><a href="#cb11-23"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Chapter2_Forecasting_PrinciplesAndMethods_files/figure-html/cell-12-output-1.png" width="1428" height="919" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>A good forecasting method will yield residuals with specific properties:</p>
+<ol type="1">
+<li><p><strong>Uncorrelated:</strong> If correlations exist, there is information left in the residuals that should be used in computing forecast.</p></li>
+<li><p><strong>Zero Mean:</strong> If the mean is not zero, the forecasts are biased.</p>
+<p>Useful properties (for distributions &amp; prediction intervals)</p></li>
+<li><p><strong>Constant Variance:</strong> Homoscedasticity</p></li>
+<li><p><strong>Normality distributed:</strong> Useful for calculating prediction intervals</p></li>
+</ol>
+<p>Residuals are often validated graficaly by using a time plot, the autocarrelation function (ACF) plot and a histogram of the residual.</p>
+<div id="d5703381" class="cell" data-execution_count="12">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1"></a><span class="im">from</span> darts.utils.statistics <span class="im">import</span> plot_residuals_analysis</span>
+<span id="cb12-2"><a href="#cb12-2"></a></span>
+<span id="cb12-3"><a href="#cb12-3"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">6</span>))</span>
+<span id="cb12-4"><a href="#cb12-4"></a>plot_residuals_analysis(residuals[<span class="st">'S.Naive'</span>])</span>
+<span id="cb12-5"><a href="#cb12-5"></a>plt.suptitle(<span class="st">"Residual validation - Seasonal Naive"</span>, fontsize<span class="op">=</span><span class="dv">14</span>)</span>
+<span id="cb12-6"><a href="#cb12-6"></a>plt.tight_layout()</span>
+<span id="cb12-7"><a href="#cb12-7"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<pre><code>&lt;Figure size 960x576 with 0 Axes&gt;</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Chapter2_Forecasting_PrinciplesAndMethods_files/figure-html/cell-13-output-2.png" width="757" height="570" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<ul>
+<li>The time plot of the residuals shows a mean close to zero and roughly constant variance across the historical data. Therefore the residuals’ variance can be treated as constant (homoscedasticity assumption holds).</li>
+</ul>
+<p>Normality assumption can be studied based on the histogram plot, but alternatively, Q-Q plots and a test of normality (shapiro-wikl test) can be used</p>
+<div id="95dc3024" class="cell" data-execution_count="13">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb14-2"><a href="#cb14-2"></a><span class="im">import</span> pylab</span>
+<span id="cb14-3"><a href="#cb14-3"></a><span class="im">import</span> scipy.stats <span class="im">as</span> stats</span>
+<span id="cb14-4"><a href="#cb14-4"></a><span class="im">from</span> scipy.stats <span class="im">import</span> shapiro</span>
+<span id="cb14-5"><a href="#cb14-5"></a></span>
+<span id="cb14-6"><a href="#cb14-6"></a>res <span class="op">=</span> residuals[<span class="st">'S.Naive'</span>].values().flatten()</span>
+<span id="cb14-7"><a href="#cb14-7"></a><span class="co"># Shapiro-Wilk Test</span></span>
+<span id="cb14-8"><a href="#cb14-8"></a>stat_shapiro, p_shapiro <span class="op">=</span> shapiro(res)</span>
+<span id="cb14-9"><a href="#cb14-9"></a></span>
+<span id="cb14-10"><a href="#cb14-10"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">6</span>))</span>
+<span id="cb14-11"><a href="#cb14-11"></a>stats.probplot(res, dist<span class="op">=</span><span class="st">"norm"</span>, plot<span class="op">=</span>pylab)</span>
+<span id="cb14-12"><a href="#cb14-12"></a>plt.title(<span class="ss">f"Q-Q Plot (Shapiro p-val=</span><span class="sc">{</span>p_shapiro<span class="sc">:.4f}</span><span class="ss">)"</span>)</span>
+<span id="cb14-13"><a href="#cb14-13"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Chapter2_Forecasting_PrinciplesAndMethods_files/figure-html/cell-14-output-1.png" width="676" height="522" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<ul>
+<li><p>Even though the histogram looks different from a normal distribution, the results from the Q-Q plot and Shapiro-Wilk test suggest that normality can be assumed for the residuals. This validates the use of prediction intervals, since it “guarantees” their theoretical framework.</p></li>
+<li><p>The autocorrelation function plot shows no significant correlation in the residuals, indicating that the model has captured the information available in the data. However, sometimes, we have significant autocorrelation at some lag point. A formal tool to evaluate autocorrelation is a portmanteau test.</p></li>
+</ul>
+<section id="portmanteau-tests" class="level3">
+<h3 class="anchored" data-anchor-id="portmanteau-tests">3.1. Portmanteau Tests</h3>
+<p>Instead of individually checking if lag 1 is zero, or if lag 2 is zero, the portmanteau test checks the joint hypothesis: “Are the first <span class="math inline">\(l\)</span> lags, as a whole, significantly different from zero?”. If autocorrelations are not significantly different form zero (null hypothesis) means that residuals are independent (i.e.&nbsp;the residuals are white noise).</p>
+<p>There are two versions: the Box-Pierce Test and the Ljung-Box Test. Both investigate the same hipothesys, but the Ljung-Box Test is a more powerful test and the recommended option, specially for small and medium-sized data samples.</p>
+<p>To formally test for autocorrelation, the Ljung-Box Test uses the following test statistic:</p>
+<p><span class="math inline">\(Q^{*} = T(T+2) \sum_{k=1}^{l} (T-k)^{-1} r_{k}^{2}\)</span></p>
+<p>where <span class="math inline">\(r_k\)</span> is the autocorrelation at lag <span class="math inline">\(k\)</span>, <span class="math inline">\(T\)</span> is the size of the time series and <span class="math inline">\(l\)</span> the maximun lag being considered.</p>
+<p>The test is not reliable when large values of <span class="math inline">\(l\)</span> are used. Usual recommendations include the using <span class="math inline">\(l=10\)</span> for non-seasonal data and <span class="math inline">\(l=2m\)</span> (where <span class="math inline">\(m\)</span> is the seasonal period) for seasonal data. Additionally, if this recommended <span class="math inline">\(l\)</span> values are larger than <span class="math inline">\(T/5\)</span>, then <span class="math inline">\(l=T/5\)</span> is recommended instead.</p>
+<p>Large values of <span class="math inline">\(Q^{*}\)</span> (low p-values) indicate the residuals are not white noise (significant autocorrelation exist).</p>
+<div id="60a1d4ae" class="cell" data-execution_count="14">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1"></a><span class="im">from</span> statsmodels.graphics.tsaplots <span class="im">import</span> plot_acf</span>
+<span id="cb15-2"><a href="#cb15-2"></a><span class="im">from</span> statsmodels.stats.diagnostic <span class="im">import</span> acorr_ljungbox</span>
+<span id="cb15-3"><a href="#cb15-3"></a></span>
+<span id="cb15-4"><a href="#cb15-4"></a><span class="co"># res: residuals from Seasonal Naive model</span></span>
+<span id="cb15-5"><a href="#cb15-5"></a></span>
+<span id="cb15-6"><a href="#cb15-6"></a><span class="co"># Ljung-Box Test (2*m for seasonal)</span></span>
+<span id="cb15-7"><a href="#cb15-7"></a><span class="co"># </span><span class="al">NOTE</span><span class="co"> that lags=[24] is a vector with one element, the value of l applied to the above </span></span>
+<span id="cb15-8"><a href="#cb15-8"></a><span class="co"># test statistic (Q*). If lags=24 is used then 24 tests are considered for l=1,...,24 </span></span>
+<span id="cb15-9"><a href="#cb15-9"></a>lb_test <span class="op">=</span> acorr_ljungbox(res, lags<span class="op">=</span>[<span class="dv">24</span>], return_df<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb15-10"><a href="#cb15-10"></a><span class="bu">print</span>(<span class="st">"Ljung-Box Test p-value:"</span>, lb_test[<span class="st">'lb_pvalue'</span>].values[<span class="dv">0</span>].<span class="bu">round</span>(<span class="dv">4</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Ljung-Box Test p-value: 0.3805</code></pre>
+</div>
+</div>
+<p>In this case, we observe a large p-value (0.3529); therefore, the null hypothesis is not rejected, and we cannot conclude that the residuals are correlated.</p>
+</section>
+<section id="exercise-2.1" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-2.1">Exercise 2.1</h3>
+<p>Ussing the <code>Darts</code> package, apply a seasonal naive method to the quarterly Australian beer production data. Use data from 1992 to 2005 for training and from 2006 for testing. Plot forecast and check the validity of the model (residuals). When checking if the residuals look like white noise, use both a graphical representation and the Portmanteau tests. What do you conclude about this model?</p>
+<hr>
+</section>
+</section>
+<section id="prediction-intervals" class="level2">
+<h2 class="anchored" data-anchor-id="prediction-intervals">4. Prediction Intervals</h2>
+<ul>
+<li><p>What we are trying to forecast is unknown, and so we can think of it as a random variable.</p></li>
+<li><p>We can imagine many possible futures, each yielding a different value for the thing we wish to forecast.</p></li>
+</ul>
+<p><img src="Figures/posibleFutures.png" class="img-fluid"></p>
+<ul>
+<li><p>When we obtain a forecast, we are estimating the middle of the range of possible values the random variable could take.</p></li>
+<li><p>Often, a forecast is accompanied by a prediction interval giving a range of values the random variable could take with relatively high confidence measured in terms of probability.</p></li>
+<li><p>Rather than plotting individual possible futures as shown in the previous Figure, we usually show these prediction intervals instead.</p></li>
+</ul>
+<p><img src="images/clipboard-2946094438.png" class="img-fluid">](Figures/predictionInterval_forecasting.png)</p>
+<ul>
+<li>The point forecast <span class="math inline">\(\hat{y}_{T +h|T}\)</span> is (usually) the mean of the conditional distribution <span class="math inline">\(y_{T +h} | y_1 ,\ldots, y_T\)</span> (forecast distribution).</li>
+</ul>
+<section id="normal-residuals" class="level3">
+<h3 class="anchored" data-anchor-id="normal-residuals">4.1. Normal Residuals</h3>
+<p>Statistical time series models usually assume normally distributed residuals. If residuals are uncorrelated and normally distributed with standard deviation <span class="math inline">\(\hat{\sigma}\)</span>:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Method</th>
+<th style="text-align: left;">Distribution</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><strong>Mean</strong></td>
+<td style="text-align: left;"><span class="math inline">\(y_{T+h \mid T} \sim N\left(\bar{y}, (1 + 1/T)\hat{\sigma}^2\right)\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Naïve</strong></td>
+<td style="text-align: left;"><span class="math inline">\(y_{T+h \mid T} \sim N\left(y_T, h\hat{\sigma}^2\right)\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>Seasonal naïve</strong></td>
+<td style="text-align: left;"><span class="math inline">\(y_{T+h \mid T} \sim N\left(y_{T+h-m(k+1)}, (k+1)\hat{\sigma}^2\right)\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Drift</strong></td>
+<td style="text-align: left;"><span class="math inline">\(y_{T+h \mid T} \sim N \left( y_T + \frac{h}{T-1}(y_T - y_1), h \left(1 + \frac{h}{T-1} \right) \hat{\sigma}^2 \right)\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>where <span class="math inline">\(k\)</span> is the integer part of <span class="math inline">\((h-1)/m\)</span>. Note that when <span class="math inline">\(h=1\)</span> and <span class="math inline">\(T\)</span> is large, these all give the same approximate forecast variance (<span class="math inline">\(\hat{\sigma}^2\)</span>)</p>
+<p>A prediction interval gives a region within which we expect <span class="math inline">\(y_{T +h}\)</span> to lie with a specified confidence measured in terms of probability.</p>
+<p>Under normally assumption for the residuals, a 95% PI is:</p>
+<p><span class="math display">\[\hat{y}_{T+h|T} \pm 1.96 \hat{\sigma}_h\]</span></p>
+<p>where <span class="math inline">\(\hat{\sigma}^2\)</span> is the standard deviation of the <span class="math inline">\(h\)</span>-step distribution.</p>
+<p>The <code>Darts</code> module does not implement this formula to obtain prediction intervals. Instead, it implements a sample-based framework (Monte Carlo sampling) via the <code>TimeSeries</code> object. This allows it to represent any distribution—whether it is a parametric Normal distribution, a generic distribution learned by a neural network, or a bootstrapped distribution based on historical residuals. However, only includes functions to compute prediction intervals for probabilistic models and the models shown in this chapter are deterministic. Fortunately, the <code>sktime</code> library includes includes a straightforward way to perform this calculation.</p>
+<div id="85ec38fb" class="cell" data-execution_count="15">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb17-2"><a href="#cb17-2"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb17-3"><a href="#cb17-3"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb17-4"><a href="#cb17-4"></a><span class="im">from</span> skforecast.datasets <span class="im">import</span> fetch_dataset</span>
+<span id="cb17-5"><a href="#cb17-5"></a></span>
+<span id="cb17-6"><a href="#cb17-6"></a><span class="co"># sktime specific imports</span></span>
+<span id="cb17-7"><a href="#cb17-7"></a><span class="im">from</span> sktime.forecasting.naive <span class="im">import</span> NaiveForecaster</span>
+<span id="cb17-8"><a href="#cb17-8"></a><span class="im">from</span> sktime.forecasting.base <span class="im">import</span> ForecastingHorizon</span>
+<span id="cb17-9"><a href="#cb17-9"></a><span class="im">from</span> sktime.utils.plotting <span class="im">import</span> plot_series</span>
+<span id="cb17-10"><a href="#cb17-10"></a></span>
+<span id="cb17-11"><a href="#cb17-11"></a><span class="co"># Forecasting using Seasonal Naive (sktime implementation)</span></span>
+<span id="cb17-12"><a href="#cb17-12"></a>m <span class="op">=</span> <span class="dv">12</span> </span>
+<span id="cb17-13"><a href="#cb17-13"></a>model <span class="op">=</span> NaiveForecaster(strategy<span class="op">=</span><span class="st">"last"</span>, sp<span class="op">=</span>m)</span>
+<span id="cb17-14"><a href="#cb17-14"></a><span class="co"># Fit the model to the historical series</span></span>
+<span id="cb17-15"><a href="#cb17-15"></a>model.fit(y_skt)</span>
+<span id="cb17-16"><a href="#cb17-16"></a><span class="co"># Define the forecast horizon (h)</span></span>
+<span id="cb17-17"><a href="#cb17-17"></a>h <span class="op">=</span> <span class="dv">24</span> </span>
+<span id="cb17-18"><a href="#cb17-18"></a><span class="co"># ForecastingHorizon creates the sequence [1, 2, ..., 24] relative to the last training point</span></span>
+<span id="cb17-19"><a href="#cb17-19"></a>fh <span class="op">=</span> ForecastingHorizon(np.arange(<span class="dv">1</span>, h <span class="op">+</span> <span class="dv">1</span>), is_relative<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb17-20"><a href="#cb17-20"></a><span class="co"># Generate predictions</span></span>
+<span id="cb17-21"><a href="#cb17-21"></a>forecast <span class="op">=</span> model.predict(fh)</span>
+<span id="cb17-22"><a href="#cb17-22"></a></span>
+<span id="cb17-23"><a href="#cb17-23"></a><span class="co"># Generate prediction intervals</span></span>
+<span id="cb17-24"><a href="#cb17-24"></a>interval <span class="op">=</span> model.predict_interval(fh, coverage<span class="op">=</span><span class="fl">0.95</span>)</span>
+<span id="cb17-25"><a href="#cb17-25"></a>interval.head()</span>
+<span id="cb17-26"><a href="#cb17-26"></a></span>
+<span id="cb17-27"><a href="#cb17-27"></a><span class="co"># Plot using plot_series</span></span>
+<span id="cb17-28"><a href="#cb17-28"></a>fig, ax <span class="op">=</span> plot_series(</span>
+<span id="cb17-29"><a href="#cb17-29"></a>    y_skt,                      <span class="co"># Historical data</span></span>
+<span id="cb17-30"><a href="#cb17-30"></a>    forecast,               <span class="co"># Point prediction</span></span>
+<span id="cb17-31"><a href="#cb17-31"></a>    labels<span class="op">=</span>[<span class="st">"History"</span>, <span class="st">"Seasonal Naive Forecast"</span>], </span>
+<span id="cb17-32"><a href="#cb17-32"></a>    markers<span class="op">=</span>[<span class="va">None</span>,<span class="va">None</span>], </span>
+<span id="cb17-33"><a href="#cb17-33"></a>    pred_interval<span class="op">=</span>interval  <span class="co"># prediction interval</span></span>
+<span id="cb17-34"><a href="#cb17-34"></a>)</span>
+<span id="cb17-35"><a href="#cb17-35"></a></span>
+<span id="cb17-36"><a href="#cb17-36"></a>plt.title(<span class="st">"Forecast with PI (Seasonal Naive Model) - Normal residuals"</span>)</span>
+<span id="cb17-37"><a href="#cb17-37"></a>plt.tight_layout()</span>
+<span id="cb17-38"><a href="#cb17-38"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Chapter2_Forecasting_PrinciplesAndMethods_files/figure-html/cell-16-output-1.png" width="1525" height="376" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="bootstrapped-residuals" class="level3">
+<h3 class="anchored" data-anchor-id="bootstrapped-residuals">4.2. Bootstrapped Residuals</h3>
+<p>If the normal distribution assumption is unreasonable, we simulate future paths using randomly sampled errors from the past. That is, instead of using a normal distribution for the errors (residuals), the empirical distribution of the errors is used:</p>
+<p><span class="math display">\[
+y_{T+h}^{*} = \hat{y}_{T+h} + e^{*}
+\]</span></p>
+<p>where <span class="math inline">\(\hat{y}_{T+h}\)</span> is the model prediction at time <span class="math inline">\(t+h\)</span> and <span class="math inline">\(e^{*}\)</span> is a randomly sampled residual from the historical set <span class="math inline">\(\{e_1, \dots, e_T\}\)</span>.</p>
+<div id="0812eaf4" class="cell" data-execution_count="16">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1"></a><span class="im">from</span> sktime.forecasting.conformal <span class="im">import</span> ConformalIntervals</span>
+<span id="cb18-2"><a href="#cb18-2"></a></span>
+<span id="cb18-3"><a href="#cb18-3"></a><span class="co"># Forecasting using Seasonal Naive (sktime implementation)</span></span>
+<span id="cb18-4"><a href="#cb18-4"></a>model <span class="op">=</span> NaiveForecaster(strategy<span class="op">=</span><span class="st">"last"</span>, sp<span class="op">=</span><span class="dv">12</span>)</span>
+<span id="cb18-5"><a href="#cb18-5"></a></span>
+<span id="cb18-6"><a href="#cb18-6"></a><span class="co"># WRAP the model to generate "Empirical/Conformal" intervals</span></span>
+<span id="cb18-7"><a href="#cb18-7"></a><span class="co"># method="empirical": Uses residuals from a sliding window to calculate the interval</span></span>
+<span id="cb18-8"><a href="#cb18-8"></a><span class="co"># (This avoids the assumption that errors follow a normal distribution)</span></span>
+<span id="cb18-9"><a href="#cb18-9"></a>model_conformal <span class="op">=</span> ConformalIntervals(model, method<span class="op">=</span><span class="st">"empirical"</span>)</span>
+<span id="cb18-10"><a href="#cb18-10"></a></span>
+<span id="cb18-11"><a href="#cb18-11"></a><span class="co"># Fit and Predict (Using the wrapped model)</span></span>
+<span id="cb18-12"><a href="#cb18-12"></a>model_conformal.fit(y_skt)</span>
+<span id="cb18-13"><a href="#cb18-13"></a>forecast <span class="op">=</span> model_conformal.predict(fh)</span>
+<span id="cb18-14"><a href="#cb18-14"></a>quantiles <span class="op">=</span> model_conformal.predict_interval(fh, coverage<span class="op">=</span><span class="fl">0.95</span>) <span class="co"># lower-upper bound for the prediction interval</span></span>
+<span id="cb18-15"><a href="#cb18-15"></a></span>
+<span id="cb18-16"><a href="#cb18-16"></a><span class="co"># Plot</span></span>
+<span id="cb18-17"><a href="#cb18-17"></a>plot_series(</span>
+<span id="cb18-18"><a href="#cb18-18"></a>    y_skt, </span>
+<span id="cb18-19"><a href="#cb18-19"></a>    forecast, </span>
+<span id="cb18-20"><a href="#cb18-20"></a>    labels<span class="op">=</span>[<span class="st">"History"</span>, <span class="st">"Conformal Prediction (Empirical)"</span>],</span>
+<span id="cb18-21"><a href="#cb18-21"></a>    pred_interval<span class="op">=</span>quantiles,</span>
+<span id="cb18-22"><a href="#cb18-22"></a>    markers<span class="op">=</span>[<span class="va">None</span>, <span class="va">None</span>]</span>
+<span id="cb18-23"><a href="#cb18-23"></a>)</span>
+<span id="cb18-24"><a href="#cb18-24"></a>plt.title(<span class="st">"Forecast with PI (Seasonal Naive Model) - Bootstrapped residuals"</span>)</span>
+<span id="cb18-25"><a href="#cb18-25"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Chapter2_Forecasting_PrinciplesAndMethods_files/figure-html/cell-17-output-1.png" width="1255" height="356" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><code>Darts</code> uses a simulation methodology similar to the one described above. If the prediction model assumes that residuals follow a normal distribution, the future paths are obtained by simulating a normal distribution. By contrast, if the prediction model does not assume normality for residuals, the empirical distribution is used being this process transparent to the user. Nevertheless, under normality assumption, even though this method obtains almost the same results as the method introduced in 4.1, the method from 4.1 is much faster.</p>
+<p>As an example we also include the code to obtain prediction intervals with <code>darts</code> for a probabilistic model such as ARIMA. This model assumes normality on residuals and will be studied in the next chapter.</p>
+<div id="09bf2070" class="cell" data-execution_count="17">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1"></a><span class="im">from</span> darts.models <span class="im">import</span> ARIMA</span>
+<span id="cb19-2"><a href="#cb19-2"></a></span>
+<span id="cb19-3"><a href="#cb19-3"></a><span class="co"># ARIMA(12, 1, 0)</span></span>
+<span id="cb19-4"><a href="#cb19-4"></a>model <span class="op">=</span> ARIMA(p<span class="op">=</span><span class="dv">12</span>, d<span class="op">=</span><span class="dv">1</span>, q<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb19-5"><a href="#cb19-5"></a>model.fit(y)</span>
+<span id="cb19-6"><a href="#cb19-6"></a><span class="co"># num_samples=200: Darts obtains 200 future paths to obtain the forecast (mean) and prediction interval</span></span>
+<span id="cb19-7"><a href="#cb19-7"></a>h<span class="op">=</span><span class="dv">24</span></span>
+<span id="cb19-8"><a href="#cb19-8"></a>pred <span class="op">=</span> model.predict(<span class="dv">24</span>, num_samples<span class="op">=</span><span class="dv">200</span>) </span>
+<span id="cb19-9"><a href="#cb19-9"></a>pred.head()</span>
+<span id="cb19-10"><a href="#cb19-10"></a></span>
+<span id="cb19-11"><a href="#cb19-11"></a><span class="co"># Plot</span></span>
+<span id="cb19-12"><a href="#cb19-12"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">6</span>))</span>
+<span id="cb19-13"><a href="#cb19-13"></a>y.plot(label<span class="op">=</span><span class="st">"Observed"</span>)</span>
+<span id="cb19-14"><a href="#cb19-14"></a></span>
+<span id="cb19-15"><a href="#cb19-15"></a><span class="co"># plot the shadowed are between quantiles and the median value as a solid line</span></span>
+<span id="cb19-16"><a href="#cb19-16"></a>pred.plot(</span>
+<span id="cb19-17"><a href="#cb19-17"></a>    low_quantile<span class="op">=</span><span class="fl">0.025</span>,  <span class="co"># lower limit (2.5%)</span></span>
+<span id="cb19-18"><a href="#cb19-18"></a>    high_quantile<span class="op">=</span><span class="fl">0.975</span>, <span class="co"># upper limit (97.5%) -&gt; 95% PI</span></span>
+<span id="cb19-19"><a href="#cb19-19"></a>    label<span class="op">=</span><span class="st">"ARIMA (95% PI)"</span>, </span>
+<span id="cb19-20"><a href="#cb19-20"></a>    color<span class="op">=</span><span class="st">"orange"</span></span>
+<span id="cb19-21"><a href="#cb19-21"></a>)</span>
+<span id="cb19-22"><a href="#cb19-22"></a></span>
+<span id="cb19-23"><a href="#cb19-23"></a>plt.legend()</span>
+<span id="cb19-24"><a href="#cb19-24"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Chapter2_Forecasting_PrinciplesAndMethods_files/figure-html/cell-18-output-1.png" width="790" height="504" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="metrics-to-evaluate-forecasting-performance" class="level2">
+<h2 class="anchored" data-anchor-id="metrics-to-evaluate-forecasting-performance">5. Metrics to Evaluate Forecasting Performance</h2>
+<p>Once a model has been fitted and diagnosed, the next step is to evaluate its predictive power on unseen data. While diagnostic checks (like residual analysis) ensure the model’s assumptions hold true, accuracy metrics quantify how close the forecasts are to the actual observed values.</p>
+<p>In this section, we study the most common metrics used to measure forecast accuracy. These are typically calculated on a test set (out-of-sample evaluation).</p>
+<section id="scale-dependent-metrics" class="level3">
+<h3 class="anchored" data-anchor-id="scale-dependent-metrics">5.1. Scale-Dependent Metrics</h3>
+<p>These metrics calculate the error in the same units as the original data (e.g., if the data is in euros, the error is in euros). They are useful for comparing different models on the same specific dataset, but they cannot be used to compare performance across different time series with different scales.</p>
+<ul>
+<li><p><strong>MAE (Mean Absolute Error)</strong>: It measures the average magnitude of the errors in a set of predictions, without considering their direction. It is easy to interpret.</p>
+<p><span class="math display">\[
+MAE = \frac{1}{n}\sum_{t=1}^{n}|y_t - \hat{y}_t|
+\]</span></p></li>
+<li><p><strong>RMSE (Root Mean Squared Error)</strong>: It is the square root of the average of squared differences between prediction and actual observation.</p>
+<p><span class="math display">\[
+RMSE = \sqrt{\frac{1}{n}\sum_{t=1}^{n}(y_t - \hat{y}_t)^2}
+\]</span></p>
+<p>Since the errors are squared before they are averaged, the RMSE gives a relatively high weight to large errors. This means the RMSE should be more useful when large errors are particularly undesirable.</p></li>
+</ul>
+</section>
+<section id="percentage-metrics" class="level3">
+<h3 class="anchored" data-anchor-id="percentage-metrics">5.2. Percentage Metrics</h3>
+<p>These metrics are unit-free, meaning they express the error as a percentage. This makes them ideal for comparing forecast performance across datasets with different scales. However, they become undefined or unstable if the actual values (<span class="math inline">\(y_t\)</span>) are zero or close to zero.</p>
+<ul>
+<li><p><strong>MAPE (Mean Absolute Percentage Error)</strong>: This is one of the most common measure of forecast accuracy in business.</p>
+<p><span class="math display">\[
+MAPE = \frac{100}{n}\sum_{t=1}^{n}\left|\frac{y_t-\hat{y}_t}{y_t}\right|
+\]</span></p>
+<p>Note that MAPE is measured in percentage (0-100 scale) and it is equivalent to the Mean Absolute Relative Error (MARE) which by avoiding the 100 multiplier is measured on a 0-1 scale.</p>
+<p>A limitation of this metric is that it is undefined if <span class="math inline">\(y_t = 0\)</span>. Furthermore, assuming strictly positive data (<span class="math inline">\(y_t &gt; 0\)</span>), it puts a heavier penalty on forecasts that exceed the actual values (over-forecasting) compared to under-forecasting, because the denominator (<span class="math inline">\(y_t\)</span>) becomes smaller in those cases. By contrast, this tendency reverses with negative values. Consequently, its use is generally avoided when negative values can occur in the time series data.</p></li>
+<li><p><strong>sMAPE (Symmetric Mean Absolute Percentage Error):</strong> This metric was proposed to address the asymmetry and instability issues of MAPE. Instead of dividing only by the actual value (<span class="math inline">\(y_t\)</span>), it divides by the average of the absolute actual and predicted values.</p>
+<p><span class="math display">\[
+SMAPE = \frac{100}{n}\sum_{t=1}^{n}\frac{|y_t-\hat{y}_t|}{(|y_t|+|\hat{y}_t|)/2}
+\]</span></p>
+<p><em>This</em> metric is bounded between 0% and 200%, and it does not explode to infinity if <span class="math inline">\(y_t = 0\)</span> (unless both <span class="math inline">\(y_t\)</span> and <span class="math inline">\(\hat{y}_t\)</span> are zero). It is symmetric in the sense that swapping <span class="math inline">\(y_t\)</span> and <span class="math inline">\(\hat{y}_t\)</span> yields the same error value. However, the interpretation can be counter-intuitive because a perfect error is 0%, but the maximum possible error is 200%. Furthermore, this metric fails to distinguish between a small deviation and a massive error in those cases where one of the values <span class="math inline">\(y_t\)</span> or <span class="math inline">\(\hat{y}_t\)</span> is 0. In such scenarios, the metric saturates at the maximum penalty regardless of the actual magnitude of the error.</p>
+<p>Some implementations omit the division by 2 (comparing the error to the sum instead of the average). In that case, the metric is bounded between 0% and 100%. It is important to always verify which definition is being used by the software library.</p></li>
+</ul>
+</section>
+<section id="scaled-metrics" class="level3">
+<h3 class="anchored" data-anchor-id="scaled-metrics">5.3. Scaled Metrics</h3>
+<p>Scaled errors are considered the most robust methods for comparing forecast accuracy across different time series with varying scales (e.g., comparing the forecast error of “Bread Sales” in units vs.&nbsp;“Revenue” in millions of euros). Unlike percentage metrics, they do not rely on dividing by the exact value <span class="math inline">\(y_t\)</span>, thus avoiding the issues associated with zero values.</p>
+<p>The main idea behind scaled metris is to scale the error based on the in-sample Mean Absolute Error of a simple benchmark model (typically the Naive or Seasonal Naive method).</p>
+<ul>
+<li><p><strong>MASE (Mean Absolute Scaled Error):</strong> Proposed by Hyndman and Koehler (2006), it compares the MAE of the proposed model against the MAE of the naive benchmark.</p>
+<p><span class="math display">\[
+MASE = \frac{MAE}{MAE_{naive}}
+\]</span></p>
+<p>Where:</p>
+<ul>
+<li><p><span class="math inline">\(MAE\)</span> is the Mean Absolute Error of the evaluated model on the test set.</p></li>
+<li><p><span class="math inline">\(MAE_{naive}\)</span> is the Mean Absolute Error of the (<em>Seasonal) Naive</em> forecast calculated on the training set. Ideally, this acts as a scaling factor that represents the “natural variability” of the series.</p></li>
+</ul>
+<p>MASE has a very intuitive interpretation relative to the benchmark:</p>
+<ul>
+<li><p><strong>MASE &lt; 1:</strong> The proposed model yields smaller errors than the Naïve benchmark. This indicates the model provides real predictive value.</p></li>
+<li><p><strong>MASE &gt; 1:</strong> The proposed model performs worse than the Naïve benchmark. This suggests the model is not useful, as a simple random walk would perform better.</p></li>
+<li><p><strong>MASE = 1:</strong> The model performs exactly as well as the Naïve method.</p></li>
+</ul>
+<p>This metric is applicable to almost any time series (including those with zero or negative values) and allows for averaging across different time series.</p>
+<h3 id="python-implementation" class="anchored">5.4 Python implementation</h3></li>
+</ul>
+<div id="2efe0c68" class="cell" data-execution_count="18">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb20-2"><a href="#cb20-2"></a><span class="im">from</span> skforecast.datasets <span class="im">import</span> fetch_dataset</span>
+<span id="cb20-3"><a href="#cb20-3"></a><span class="im">from</span> darts <span class="im">import</span> TimeSeries</span>
+<span id="cb20-4"><a href="#cb20-4"></a><span class="im">from</span> darts.models <span class="im">import</span> NaiveSeasonal</span>
+<span id="cb20-5"><a href="#cb20-5"></a><span class="im">from</span> darts.metrics <span class="im">import</span> mae, rmse, mape, smape, mase</span>
+<span id="cb20-6"><a href="#cb20-6"></a></span>
+<span id="cb20-7"><a href="#cb20-7"></a><span class="co"># 1. Load and prepare data (Darts format)</span></span>
+<span id="cb20-8"><a href="#cb20-8"></a>data <span class="op">=</span> fetch_dataset(name<span class="op">=</span><span class="st">'h2o'</span>, raw<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb20-9"><a href="#cb20-9"></a>data[<span class="st">'fecha'</span>] <span class="op">=</span> pd.to_datetime(data[<span class="st">'fecha'</span>], <span class="bu">format</span><span class="op">=</span><span class="st">'%Y-%m-</span><span class="sc">%d</span><span class="st">'</span>)</span>
+<span id="cb20-10"><a href="#cb20-10"></a>y <span class="op">=</span> TimeSeries.from_dataframe(data, time_col<span class="op">=</span><span class="st">'fecha'</span>, value_cols<span class="op">=</span><span class="st">'x'</span>, freq<span class="op">=</span><span class="st">'MS'</span>)</span>
+<span id="cb20-11"><a href="#cb20-11"></a></span>
+<span id="cb20-12"><a href="#cb20-12"></a><span class="co"># 2. Split data into Train and Test sets</span></span>
+<span id="cb20-13"><a href="#cb20-13"></a><span class="co"># We use the last 24 months for testing (validation)</span></span>
+<span id="cb20-14"><a href="#cb20-14"></a>train, test <span class="op">=</span> y.split_before(<span class="bu">len</span>(y) <span class="op">-</span> <span class="dv">24</span>)</span>
+<span id="cb20-15"><a href="#cb20-15"></a></span>
+<span id="cb20-16"><a href="#cb20-16"></a><span class="co"># 3. Generate a Forecast</span></span>
+<span id="cb20-17"><a href="#cb20-17"></a><span class="co"># We use Seasonal Naive as our model</span></span>
+<span id="cb20-18"><a href="#cb20-18"></a>model <span class="op">=</span> NaiveSeasonal(K<span class="op">=</span><span class="dv">12</span>)</span>
+<span id="cb20-19"><a href="#cb20-19"></a>model.fit(train)</span>
+<span id="cb20-20"><a href="#cb20-20"></a>forecast <span class="op">=</span> model.predict(<span class="bu">len</span>(test))</span>
+<span id="cb20-21"><a href="#cb20-21"></a></span>
+<span id="cb20-22"><a href="#cb20-22"></a><span class="co"># 4. Calculate Accuracy Metrics</span></span>
+<span id="cb20-23"><a href="#cb20-23"></a><span class="co"># Note: Compare the 'test' (actual) vs 'forecast' (predicted)</span></span>
+<span id="cb20-24"><a href="#cb20-24"></a></span>
+<span id="cb20-25"><a href="#cb20-25"></a><span class="co"># Scale-Dependent</span></span>
+<span id="cb20-26"><a href="#cb20-26"></a>mae_score <span class="op">=</span> mae(test, forecast)</span>
+<span id="cb20-27"><a href="#cb20-27"></a>rmse_score <span class="op">=</span> rmse(test, forecast)</span>
+<span id="cb20-28"><a href="#cb20-28"></a></span>
+<span id="cb20-29"><a href="#cb20-29"></a><span class="co"># Percentage (Darts returns 0-100 scale by default)</span></span>
+<span id="cb20-30"><a href="#cb20-30"></a>mape_score <span class="op">=</span> mape(test, forecast)</span>
+<span id="cb20-31"><a href="#cb20-31"></a>smape_score <span class="op">=</span> smape(test, forecast)</span>
+<span id="cb20-32"><a href="#cb20-32"></a></span>
+<span id="cb20-33"><a href="#cb20-33"></a><span class="co"># Scaled</span></span>
+<span id="cb20-34"><a href="#cb20-34"></a><span class="co"># MASE needs the training data (insample) to calculate the benchmark error</span></span>
+<span id="cb20-35"><a href="#cb20-35"></a>mase_score <span class="op">=</span> mase(test, forecast, insample<span class="op">=</span>train)</span>
+<span id="cb20-36"><a href="#cb20-36"></a></span>
+<span id="cb20-37"><a href="#cb20-37"></a><span class="co"># 5. Display Results</span></span>
+<span id="cb20-38"><a href="#cb20-38"></a>results_darts <span class="op">=</span> pd.DataFrame({</span>
+<span id="cb20-39"><a href="#cb20-39"></a>    <span class="st">'Metric'</span>: [<span class="st">'MAE'</span>, <span class="st">'RMSE'</span>, <span class="st">'MAPE (%)'</span>, <span class="st">'sMAPE (%)'</span>, <span class="st">'MASE'</span>],</span>
+<span id="cb20-40"><a href="#cb20-40"></a>    <span class="st">'Value'</span>: [mae_score, rmse_score, mape_score, smape_score, mase_score]</span>
+<span id="cb20-41"><a href="#cb20-41"></a>})</span>
+<span id="cb20-42"><a href="#cb20-42"></a></span>
+<span id="cb20-43"><a href="#cb20-43"></a><span class="bu">print</span>(results_darts.<span class="bu">round</span>(<span class="dv">3</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">╭────────────────────────────────────── <span style="font-weight: bold">h2o</span> ───────────────────────────────────────╮
+│ <span style="font-weight: bold">Description:</span>                                                                     │
+│ Monthly expenditure ($AUD) on corticosteroid drugs that the Australian health    │
+│ system had between 1991 and 2008.                                                │
+│                                                                                  │
+│ <span style="font-weight: bold">Source:</span>                                                                          │
+│ Hyndman R (2023). fpp3: Data for Forecasting: Principles and Practice(3rd        │
+│ Edition). http://pkg.robjhyndman.com/fpp3package/,https://github.com/robjhyndman │
+│ /fpp3package, http://OTexts.com/fpp3.                                            │
+│                                                                                  │
+│ <span style="font-weight: bold">URL:</span>                                                                             │
+│ https://raw.githubusercontent.com/skforecast/skforecast-                         │
+│ datasets/main/data/h2o.csv                                                       │
+│                                                                                  │
+│ <span style="font-weight: bold">Shape:</span> 204 rows x 2 columns                                                      │
+╰──────────────────────────────────────────────────────────────────────────────────╯
+</pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      Metric  Value
+0        MAE  0.056
+1       RMSE  0.075
+2   MAPE (%)  6.336
+3  sMAPE (%)  6.564
+4       MASE  0.590</code></pre>
+</div>
+</div>
+<p>To compute the same metrics with <code>sktime</code> we can use the following code:</p>
+<div id="83214612" class="cell" data-execution_count="19">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb22-2"><a href="#cb22-2"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb22-3"><a href="#cb22-3"></a><span class="im">from</span> sktime.forecasting.model_selection <span class="im">import</span> temporal_train_test_split</span>
+<span id="cb22-4"><a href="#cb22-4"></a><span class="im">from</span> sktime.forecasting.naive <span class="im">import</span> NaiveForecaster</span>
+<span id="cb22-5"><a href="#cb22-5"></a><span class="im">from</span> sktime.forecasting.base <span class="im">import</span> ForecastingHorizon</span>
+<span id="cb22-6"><a href="#cb22-6"></a><span class="im">from</span> sktime.performance_metrics.forecasting <span class="im">import</span> (</span>
+<span id="cb22-7"><a href="#cb22-7"></a>    mean_absolute_error,</span>
+<span id="cb22-8"><a href="#cb22-8"></a>    mean_squared_error,</span>
+<span id="cb22-9"><a href="#cb22-9"></a>    mean_absolute_percentage_error,</span>
+<span id="cb22-10"><a href="#cb22-10"></a>    mean_absolute_scaled_error</span>
+<span id="cb22-11"><a href="#cb22-11"></a>)</span>
+<span id="cb22-12"><a href="#cb22-12"></a></span>
+<span id="cb22-13"><a href="#cb22-13"></a><span class="co"># data in pandas format for sktime</span></span>
+<span id="cb22-14"><a href="#cb22-14"></a>data <span class="op">=</span> data.set_index(<span class="st">'fecha'</span>)</span>
+<span id="cb22-15"><a href="#cb22-15"></a>y_skt <span class="op">=</span> data[<span class="st">'x'</span>].to_period(<span class="st">'M'</span>) </span>
+<span id="cb22-16"><a href="#cb22-16"></a></span>
+<span id="cb22-17"><a href="#cb22-17"></a><span class="co"># 2. Split data into Train and Test sets</span></span>
+<span id="cb22-18"><a href="#cb22-18"></a><span class="co"># We use the last 24 months for testing</span></span>
+<span id="cb22-19"><a href="#cb22-19"></a>y_train, y_test <span class="op">=</span> temporal_train_test_split(y_skt, test_size<span class="op">=</span><span class="dv">24</span>)</span>
+<span id="cb22-20"><a href="#cb22-20"></a></span>
+<span id="cb22-21"><a href="#cb22-21"></a><span class="co"># 3. Generate a Forecast</span></span>
+<span id="cb22-22"><a href="#cb22-22"></a><span class="co"># NaiveForecaster with strategy="last" and sp=12 is equivalent to Seasonal Naive</span></span>
+<span id="cb22-23"><a href="#cb22-23"></a>forecaster <span class="op">=</span> NaiveForecaster(strategy<span class="op">=</span><span class="st">"last"</span>, sp<span class="op">=</span><span class="dv">12</span>)</span>
+<span id="cb22-24"><a href="#cb22-24"></a>forecaster.fit(y_train)</span>
+<span id="cb22-25"><a href="#cb22-25"></a><span class="co"># Predict test set</span></span>
+<span id="cb22-26"><a href="#cb22-26"></a>fh <span class="op">=</span> ForecastingHorizon(np.arange(<span class="dv">1</span>, <span class="bu">len</span>(y_test)<span class="op">+</span><span class="dv">1</span>), is_relative<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb22-27"><a href="#cb22-27"></a>y_pred <span class="op">=</span> forecaster.predict(fh)</span>
+<span id="cb22-28"><a href="#cb22-28"></a></span>
+<span id="cb22-29"><a href="#cb22-29"></a><span class="co"># 4. Calculate Accuracy Metrics</span></span>
+<span id="cb22-30"><a href="#cb22-30"></a></span>
+<span id="cb22-31"><a href="#cb22-31"></a><span class="co"># Scale-Dependent</span></span>
+<span id="cb22-32"><a href="#cb22-32"></a>mae_score <span class="op">=</span> mean_absolute_error(y_test, y_pred)</span>
+<span id="cb22-33"><a href="#cb22-33"></a><span class="co"># sktime uses mean_squared_error with square_root=True for RMSE</span></span>
+<span id="cb22-34"><a href="#cb22-34"></a>rmse_score <span class="op">=</span> mean_squared_error(y_test, y_pred, square_root<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb22-35"><a href="#cb22-35"></a></span>
+<span id="cb22-36"><a href="#cb22-36"></a><span class="co"># Percentage</span></span>
+<span id="cb22-37"><a href="#cb22-37"></a><span class="co"># Note: sktime returns ratios (0-1 scale) or 0-2 scale for sMAPE. </span></span>
+<span id="cb22-38"><a href="#cb22-38"></a><span class="co"># We multiply by 100 to get percentages (0-100% or 0-200%)</span></span>
+<span id="cb22-39"><a href="#cb22-39"></a>mape_score <span class="op">=</span> mean_absolute_percentage_error(y_test, y_pred, symmetric<span class="op">=</span><span class="va">False</span>) <span class="op">*</span> <span class="dv">100</span></span>
+<span id="cb22-40"><a href="#cb22-40"></a>smape_score <span class="op">=</span> mean_absolute_percentage_error(y_test, y_pred, symmetric<span class="op">=</span><span class="va">True</span>) <span class="op">*</span> <span class="dv">100</span></span>
+<span id="cb22-41"><a href="#cb22-41"></a></span>
+<span id="cb22-42"><a href="#cb22-42"></a><span class="co"># Scaled (MASE)</span></span>
+<span id="cb22-43"><a href="#cb22-43"></a><span class="co"># We must pass y_train to calculate the benchmark scaling.</span></span>
+<span id="cb22-44"><a href="#cb22-44"></a>mase_score <span class="op">=</span> mean_absolute_scaled_error(y_test, y_pred, y_train<span class="op">=</span>y_train)</span>
+<span id="cb22-45"><a href="#cb22-45"></a></span>
+<span id="cb22-46"><a href="#cb22-46"></a><span class="co"># 5. Display Results</span></span>
+<span id="cb22-47"><a href="#cb22-47"></a>results_sktime <span class="op">=</span> pd.DataFrame({</span>
+<span id="cb22-48"><a href="#cb22-48"></a>    <span class="st">'Metric'</span>: [<span class="st">'MAE'</span>, <span class="st">'RMSE'</span>, <span class="st">'MAPE (%)'</span>, <span class="st">'sMAPE (%)'</span>, <span class="st">'MASE'</span>],</span>
+<span id="cb22-49"><a href="#cb22-49"></a>    <span class="st">'Value'</span>: [mae_score, rmse_score, mape_score, smape_score, mase_score]</span>
+<span id="cb22-50"><a href="#cb22-50"></a>})</span>
+<span id="cb22-51"><a href="#cb22-51"></a></span>
+<span id="cb22-52"><a href="#cb22-52"></a><span class="bu">print</span>(results_sktime.<span class="bu">round</span>(<span class="dv">3</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      Metric  Value
+0        MAE  0.056
+1       RMSE  0.075
+2   MAPE (%)  6.336
+3  sMAPE (%)  6.564
+4       MASE  0.590</code></pre>
+</div>
+</div>
+<p><strong><em>Important Implementation Detail:</em></strong> When calculating MASE for seasonal data using darts (or sktime), the seasonality period <span class="math inline">\(m\)</span> for the benchmark is not automatically inferred. It defaults to <span class="math inline">\(m=1\)</span> (standard Naive benchmark). To use the correct Seasonal Naive benchmark as defined by Hyndman, you must explicitly pass the seasonality parameter (e.g., <code>m=12</code> in <code>darts</code> or <code>sp=12</code> in <code>sktime</code> for monthly data) to the metric function.</p>
+</section>
+<section id="exercise-2.2" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-2.2">Exercise 2.2</h3>
+<p>Compute the MASE metric for the seasonal naive model using also a seasonal naive as a benchmark model with both <code>darts</code> and <code>sktime</code> libraries. What values do you expect to obtain in this case? What are the values you finally obtain? How do you interpret the obtained values?</p>
+<hr>
+</section>
+</section>
+<section id="validation-strategies" class="level2">
+<h2 class="anchored" data-anchor-id="validation-strategies">6. Validation Strategies</h2>
+<p>Validating a time series model requires a fundamental shift in mindset compared to standard machine learning. In traditional regression or classification (e.g., classifying images), observations are assumed to be independent (i.i.d.), allowing for random splitting of data.</p>
+<p><strong>In Time Series, order matters.</strong> Observations are correlated with time. Therefore, we must adhere to the Golden Rule of Backtesting:Never use future information to predict the past</p>
+<blockquote class="blockquote">
+<p>“A forecast is a prediction of the future based on information available at the time the forecast is made.” (Hyndman &amp; Athanasopoulos, 2021)</p>
+</blockquote>
+<p>Therefore, standard randomized K-Fold Cross-Validation is strictly forbidden here, as it breaks the temporal structure and causes “look-ahead bias” (the model peeks into the future).</p>
+<section id="traintest-split-fixed-split" class="level3">
+<h3 class="anchored" data-anchor-id="traintest-split-fixed-split">6.1. Train/Test Split (Fixed Split)</h3>
+<p>This is the simplest approach, analogous to the “hold-out” method in general machine learning, but respecting the chronological order.</p>
+<p>The dataset is split into two segments at a specific cutoff point in time:</p>
+<ul>
+<li><p><strong>Training Set:</strong> The first part of the dataset used to fit the model parameters. Usually <span class="math inline">\(80\%\)</span> (or <span class="math inline">\(70\%\)</span>) of the data is taken for training.</p></li>
+<li><p><strong>Test Set:</strong> The final part of the dataset (usually the remaining <span class="math inline">\(20\%\)</span> or <span class="math inline">\(30\%\)</span>) is reserved for performance evaluation.</p>
+<p><img src="Figures/validation_TrainTest.png" class="img-fluid"></p></li>
+</ul>
+<p>This validation strategy is computationally fast, as the model is trained only once, making it useful for initial prototyping. However, a significant drawback is that the performance estimate depends heavily on the specific period selected for testing. If the test set falls on a particularly volatile period (e.g., the COVID-19 pandemic) or a very stable one, the results may be misleading.</p>
+</section>
+<section id="walk-forward-validation-time-series-cross-validation" class="level3">
+<h3 class="anchored" data-anchor-id="walk-forward-validation-time-series-cross-validation">6.2. Walk-Forward Validation (Time Series Cross-Validation)</h3>
+<p>Also known as <strong>Backtesting</strong>, this is the gold standard for time series validation. It provides a more robust estimate of error by averaging the model’s performance over multiple test sets across time.</p>
+<p>Instead of a single split, we create multiple “folds” sliding through time. In each fold:</p>
+<ol type="1">
+<li><p>We train the model up to time <span class="math inline">\(t\)</span>.</p></li>
+<li><p>We forecast <span class="math inline">\(h\)</span> steps ahead (the horizon).</p></li>
+<li><p>We calculate the error.</p></li>
+<li><p>We advance the time origin and repeat.</p></li>
+</ol>
+<p>The specific split of the dataset into training and testing sets is determined by the window type used within the walk-forward strategy. There are two main strategies for defining the training set size as we move forward.</p>
+<section id="expanding-window" class="level4">
+<h4 class="anchored" data-anchor-id="expanding-window">6.2.1. Expanding Window</h4>
+<p>With each successive fold, the size of the training set increases. The training set’s starting point remains fixed, while its endpoint is incrementally advanced. This validation methodology is appropriate when the principle that “more data yields better results” holds true and the underlying process is stable. The model consequently benefits from learning the entire historical sequence.</p>
+<p><img src="Figures/validation_ExpandingWindow.png" class="img-fluid"></p>
+</section>
+<section id="rolling-window-sliding-window" class="level4">
+<h4 class="anchored" data-anchor-id="rolling-window-sliding-window">6.2.2. Rolling Window (Sliding Window)</h4>
+<p>The training set maintains a fixed size. As the process advances, the oldest observations are systematically discarded. Consequently, both the starting and ending points of the training set move forward simultaneously. This validation methodology is particularly appropriate when the underlying process is susceptible to regime changes or structural breaks. In such cases, historical data may be obsolete or misleading (e.g., consumer behavior from a decade ago may no longer be relevant).</p>
+<p><img src="Figures/validation_RollingWindow.png" class="img-fluid"></p>
+</section>
+</section>
+<section id="common-pitfalls" class="level3">
+<h3 class="anchored" data-anchor-id="common-pitfalls">6.3. Common Pitfalls</h3>
+<ol type="1">
+<li><p>Look-Ahead Bias (Data Leakage):</p>
+<p>This occurs when information from the test set leaks into the training process.</p>
+<ul>
+<li><em>Example:</em> Calculating the mean or standard deviation for normalization using the entire dataset before splitting. You must calculate scaling statistics <em>only</em> on the training set and apply them to the test set.</li>
+</ul></li>
+<li><p>Random Shuffling:</p>
+<p>Using train_test_split(shuffle=True) from scikit-learn. This destroys the autocorrelation structure and allows the model to predict a time period using data from future periods, which is impossible in real life.</p></li>
+<li><p>Insufficient Test Set Size:</p>
+<p>If the test set is too small (e.g., predicting only 2 points), metrics like MAPE becomes highly volatile and statistically insignificant. The test horizon should match the business objective (e.g., if you need to plan inventory for 3 months, your test folds should be 3 months long).</p></li>
+<li><p>Ignoring Gap (Embargo):</p>
+<p>In some real-world scenarios, data is not available immediately. If there is a delay in data acquisition, you might need to introduce a “Gap” between the Training and Test sets to simulate realistic deployment conditions.</p></li>
+</ol>
+</section>
+<section id="using-python" class="level3">
+<h3 class="anchored" data-anchor-id="using-python">6.4. Using Python</h3>
+<p>Both the <code>darts</code> and <code>sktime</code> packages implement these validation strategies. In the following examples, we will show how to utilize these implementations to evaluate a seasonal naive model on the H2O dataset, employing the Root Mean Square Error (RMSE) and Mean Absolute Percentage Error (MAPE) metrics, along with the validation strategies introduced in this section.</p>
+<section id="darts-implementation" class="level4">
+<h4 class="anchored" data-anchor-id="darts-implementation">6.4.1. Darts Implementation</h4>
+<div id="c4cbe066" class="cell" data-execution_count="20">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb24-2"><a href="#cb24-2"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb24-3"><a href="#cb24-3"></a><span class="im">from</span> darts <span class="im">import</span> TimeSeries</span>
+<span id="cb24-4"><a href="#cb24-4"></a><span class="im">from</span> darts.models <span class="im">import</span> NaiveSeasonal</span>
+<span id="cb24-5"><a href="#cb24-5"></a><span class="im">from</span> darts.metrics <span class="im">import</span> rmse, mape</span>
+<span id="cb24-6"><a href="#cb24-6"></a></span>
+<span id="cb24-7"><a href="#cb24-7"></a><span class="co"># --- Assuming 'y' is your Darts TimeSeries object ---</span></span>
+<span id="cb24-8"><a href="#cb24-8"></a><span class="co"># y = TimeSeries.from_dataframe(data, time_col='fecha', value_cols='x', freq='MS')</span></span>
+<span id="cb24-9"><a href="#cb24-9"></a></span>
+<span id="cb24-10"><a href="#cb24-10"></a><span class="co"># Define the model (Seasonal Naive, annual cycle K=12)</span></span>
+<span id="cb24-11"><a href="#cb24-11"></a>model_darts <span class="op">=</span> NaiveSeasonal(K<span class="op">=</span><span class="dv">12</span>)</span>
+<span id="cb24-12"><a href="#cb24-12"></a></span>
+<span id="cb24-13"><a href="#cb24-13"></a><span class="co"># ==========================================</span></span>
+<span id="cb24-14"><a href="#cb24-14"></a><span class="co"># STRATEGY 1: Train-Test (Simple Partition)</span></span>
+<span id="cb24-15"><a href="#cb24-15"></a><span class="co"># ==========================================</span></span>
+<span id="cb24-16"><a href="#cb24-16"></a><span class="co"># Split: 80% training, 20% validation</span></span>
+<span id="cb24-17"><a href="#cb24-17"></a>train, val <span class="op">=</span> y.split_before(<span class="fl">0.80</span>)</span>
+<span id="cb24-18"><a href="#cb24-18"></a></span>
+<span id="cb24-19"><a href="#cb24-19"></a><span class="co"># Fit and predict</span></span>
+<span id="cb24-20"><a href="#cb24-20"></a>model_darts.fit(train)</span>
+<span id="cb24-21"><a href="#cb24-21"></a>pred_val <span class="op">=</span> model_darts.predict(<span class="bu">len</span>(val))</span>
+<span id="cb24-22"><a href="#cb24-22"></a></span>
+<span id="cb24-23"><a href="#cb24-23"></a><span class="co"># Calculate metrics</span></span>
+<span id="cb24-24"><a href="#cb24-24"></a><span class="bu">print</span>(<span class="st">"--- Darts: Hold-out ---"</span>)</span>
+<span id="cb24-25"><a href="#cb24-25"></a><span class="bu">print</span>(<span class="ss">f"RMSE: </span><span class="sc">{</span>rmse(val, pred_val)<span class="sc">:.2f}</span><span class="ss">"</span>)</span>
+<span id="cb24-26"><a href="#cb24-26"></a><span class="bu">print</span>(<span class="ss">f"MAPE: </span><span class="sc">{</span>mape(val, pred_val)<span class="sc">:.2f}</span><span class="ss">%"</span>)</span>
+<span id="cb24-27"><a href="#cb24-27"></a></span>
+<span id="cb24-28"><a href="#cb24-28"></a><span class="co"># ==========================================</span></span>
+<span id="cb24-29"><a href="#cb24-29"></a><span class="co"># STRATEGY 2: Walk-Forward</span></span>
+<span id="cb24-30"><a href="#cb24-30"></a><span class="co"># ==========================================</span></span>
+<span id="cb24-31"><a href="#cb24-31"></a><span class="co"># Darts simplifies this with the .backtest() function.</span></span>
+<span id="cb24-32"><a href="#cb24-32"></a><span class="co"># start=0.5: Start validation when 50% of the data is available.</span></span>
+<span id="cb24-33"><a href="#cb24-33"></a><span class="co"># forecast_horizon=12: Predict 12 months ahead at each step.</span></span>
+<span id="cb24-34"><a href="#cb24-34"></a><span class="co"># stride=1: Move the window 1 month at a time.</span></span>
+<span id="cb24-35"><a href="#cb24-35"></a><span class="co"># retrain=False: If False, the model is trained only once (with the first 50% of the data) and then used to predict given the test set. If True, the model is trained on each trainset before predicting new values. NaiveSeasonal is not needed to retrain since it has no parameters to estimate.</span></span>
+<span id="cb24-36"><a href="#cb24-36"></a></span>
+<span id="cb24-37"><a href="#cb24-37"></a><span class="co"># Expanding Window</span></span>
+<span id="cb24-38"><a href="#cb24-38"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">--- Darts: Walk-Forward (Expanding Window) ---"</span>)</span>
+<span id="cb24-39"><a href="#cb24-39"></a></span>
+<span id="cb24-40"><a href="#cb24-40"></a><span class="co"># Calculate average RMSE over all windows</span></span>
+<span id="cb24-41"><a href="#cb24-41"></a>cv_rmse_expanding <span class="op">=</span> model_darts.backtest(</span>
+<span id="cb24-42"><a href="#cb24-42"></a>    y,</span>
+<span id="cb24-43"><a href="#cb24-43"></a>    start<span class="op">=</span><span class="fl">0.5</span>,           <span class="co"># Temporal starting point</span></span>
+<span id="cb24-44"><a href="#cb24-44"></a>    forecast_horizon<span class="op">=</span><span class="dv">12</span>, <span class="co"># Forecast horizon</span></span>
+<span id="cb24-45"><a href="#cb24-45"></a>    metric<span class="op">=</span>rmse,         <span class="co"># Metric to evaluate</span></span>
+<span id="cb24-46"><a href="#cb24-46"></a>    reduction<span class="op">=</span>np.mean    <span class="co"># How to aggregate errors (mean)</span></span>
+<span id="cb24-47"><a href="#cb24-47"></a>)</span>
+<span id="cb24-48"><a href="#cb24-48"></a></span>
+<span id="cb24-49"><a href="#cb24-49"></a><span class="co"># Calculate average MAPE over all windows</span></span>
+<span id="cb24-50"><a href="#cb24-50"></a>cv_mape_expanding <span class="op">=</span> model_darts.backtest(</span>
+<span id="cb24-51"><a href="#cb24-51"></a>    y,</span>
+<span id="cb24-52"><a href="#cb24-52"></a>    start<span class="op">=</span><span class="fl">0.5</span>,</span>
+<span id="cb24-53"><a href="#cb24-53"></a>    forecast_horizon<span class="op">=</span><span class="dv">12</span>,</span>
+<span id="cb24-54"><a href="#cb24-54"></a>    metric<span class="op">=</span>mape,</span>
+<span id="cb24-55"><a href="#cb24-55"></a>    reduction<span class="op">=</span>np.mean</span>
+<span id="cb24-56"><a href="#cb24-56"></a>)</span>
+<span id="cb24-57"><a href="#cb24-57"></a></span>
+<span id="cb24-58"><a href="#cb24-58"></a><span class="bu">print</span>(<span class="ss">f"CV RMSE (Average) - Expanding Window: </span><span class="sc">{</span>cv_rmse_expanding<span class="sc">:.2f}</span><span class="ss">"</span>)</span>
+<span id="cb24-59"><a href="#cb24-59"></a><span class="bu">print</span>(<span class="ss">f"CV MAPE (Average) - Expanding Window: </span><span class="sc">{</span>cv_mape_expanding<span class="sc">:.2f}</span><span class="ss">%"</span>)</span>
+<span id="cb24-60"><a href="#cb24-60"></a></span>
+<span id="cb24-61"><a href="#cb24-61"></a><span class="co"># Sliding Window</span></span>
+<span id="cb24-62"><a href="#cb24-62"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">--- Darts: Walk-Forward (Sliding Window) ---"</span>)</span>
+<span id="cb24-63"><a href="#cb24-63"></a></span>
+<span id="cb24-64"><a href="#cb24-64"></a><span class="co"># Calculate average RMSE over all windows</span></span>
+<span id="cb24-65"><a href="#cb24-65"></a>cv_rmse_sliding <span class="op">=</span> model_darts.backtest(</span>
+<span id="cb24-66"><a href="#cb24-66"></a>    y,</span>
+<span id="cb24-67"><a href="#cb24-67"></a>    start<span class="op">=</span><span class="fl">0.5</span>,           <span class="co"># When to start validation (temporal starting point)</span></span>
+<span id="cb24-68"><a href="#cb24-68"></a>    forecast_horizon<span class="op">=</span><span class="dv">12</span>, <span class="co"># Forecast horizon</span></span>
+<span id="cb24-69"><a href="#cb24-69"></a>    stride<span class="op">=</span><span class="dv">1</span>,            <span class="co"># How often to move the window (step size)</span></span>
+<span id="cb24-70"><a href="#cb24-70"></a>    metric<span class="op">=</span>rmse,         <span class="co"># Metric to evaluate</span></span>
+<span id="cb24-71"><a href="#cb24-71"></a>    reduction<span class="op">=</span>np.mean,   <span class="co"># How to aggregate errors (mean)</span></span>
+<span id="cb24-72"><a href="#cb24-72"></a>    </span>
+<span id="cb24-73"><a href="#cb24-73"></a>    <span class="co"># --- KEY CHANGES FOR SLIDING WINDOW ---</span></span>
+<span id="cb24-74"><a href="#cb24-74"></a>    retrain<span class="op">=</span><span class="va">True</span>,        <span class="co"># Re-train the model at each step, not neede for seasonal naive</span></span>
+<span id="cb24-75"><a href="#cb24-75"></a>    train_length<span class="op">=</span><span class="dv">24</span>      <span class="co"># Use a fixed window of 24 months for training (sliding window)</span></span>
+<span id="cb24-76"><a href="#cb24-76"></a>)</span>
+<span id="cb24-77"><a href="#cb24-77"></a></span>
+<span id="cb24-78"><a href="#cb24-78"></a></span>
+<span id="cb24-79"><a href="#cb24-79"></a><span class="co"># Calculate average RMSE over all windows</span></span>
+<span id="cb24-80"><a href="#cb24-80"></a>cv_mape_sliding <span class="op">=</span> model_darts.backtest(</span>
+<span id="cb24-81"><a href="#cb24-81"></a>    y,</span>
+<span id="cb24-82"><a href="#cb24-82"></a>    start<span class="op">=</span><span class="fl">0.5</span>,           <span class="co"># When to start validation (temporal starting point)</span></span>
+<span id="cb24-83"><a href="#cb24-83"></a>    forecast_horizon<span class="op">=</span><span class="dv">12</span>, <span class="co"># Forecast horizon</span></span>
+<span id="cb24-84"><a href="#cb24-84"></a>    stride<span class="op">=</span><span class="dv">1</span>,            <span class="co"># How often to move the window (step size)</span></span>
+<span id="cb24-85"><a href="#cb24-85"></a>    metric<span class="op">=</span>mape,         <span class="co"># Metric to evaluate</span></span>
+<span id="cb24-86"><a href="#cb24-86"></a>    reduction<span class="op">=</span>np.mean,   <span class="co"># How to aggregate errors (mean)</span></span>
+<span id="cb24-87"><a href="#cb24-87"></a>    </span>
+<span id="cb24-88"><a href="#cb24-88"></a>    <span class="co"># --- KEY CHANGES FOR SLIDING WINDOW ---</span></span>
+<span id="cb24-89"><a href="#cb24-89"></a>    retrain<span class="op">=</span><span class="va">True</span>,        <span class="co"># Re-train the model at each step, not neede for seasonal naive</span></span>
+<span id="cb24-90"><a href="#cb24-90"></a>    train_length<span class="op">=</span><span class="dv">24</span>      <span class="co"># Use a fixed window of 24 months for training (sliding window)</span></span>
+<span id="cb24-91"><a href="#cb24-91"></a>)</span>
+<span id="cb24-92"><a href="#cb24-92"></a></span>
+<span id="cb24-93"><a href="#cb24-93"></a><span class="bu">print</span>(<span class="ss">f"Sliding Window RMSE: </span><span class="sc">{</span>cv_rmse_sliding<span class="sc">:.2f}</span><span class="ss">"</span>)</span>
+<span id="cb24-94"><a href="#cb24-94"></a><span class="bu">print</span>(<span class="ss">f"Sliding Window RMSE: </span><span class="sc">{</span>cv_mape_sliding<span class="sc">:.2f}</span><span class="ss">%"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>--- Darts: Hold-out ---
+RMSE: 0.08
+MAPE: 8.87%
+
+--- Darts: Walk-Forward (Expanding Window) ---
+CV RMSE (Average) - Expanding Window: 0.07
+CV MAPE (Average) - Expanding Window: 6.54%
+
+--- Darts: Walk-Forward (Sliding Window) ---
+Sliding Window RMSE: 0.07
+Sliding Window RMSE: 6.54%</code></pre>
+</div>
+</div>
+</section>
+<section id="sktime-implementation" class="level4">
+<h4 class="anchored" data-anchor-id="sktime-implementation">6.4.2. sktime Implementation</h4>
+<div id="3cb57188" class="cell" data-execution_count="21">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb26-2"><a href="#cb26-2"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb26-3"><a href="#cb26-3"></a><span class="im">from</span> skforecast.datasets <span class="im">import</span> fetch_dataset</span>
+<span id="cb26-4"><a href="#cb26-4"></a><span class="im">from</span> sktime.forecasting.naive <span class="im">import</span> NaiveForecaster</span>
+<span id="cb26-5"><a href="#cb26-5"></a><span class="im">from</span> sktime.forecasting.base <span class="im">import</span> ForecastingHorizon</span>
+<span id="cb26-6"><a href="#cb26-6"></a><span class="im">from</span> sktime.forecasting.model_selection <span class="im">import</span> (</span>
+<span id="cb26-7"><a href="#cb26-7"></a>    temporal_train_test_split,</span>
+<span id="cb26-8"><a href="#cb26-8"></a>    ExpandingWindowSplitter,</span>
+<span id="cb26-9"><a href="#cb26-9"></a>    SlidingWindowSplitter</span>
+<span id="cb26-10"><a href="#cb26-10"></a>)</span>
+<span id="cb26-11"><a href="#cb26-11"></a><span class="im">from</span> sktime.forecasting.model_evaluation <span class="im">import</span> evaluate</span>
+<span id="cb26-12"><a href="#cb26-12"></a><span class="im">from</span> sktime.performance_metrics.forecasting <span class="im">import</span> MeanSquaredError, MeanAbsolutePercentageError</span>
+<span id="cb26-13"><a href="#cb26-13"></a></span>
+<span id="cb26-14"><a href="#cb26-14"></a><span class="co"># --- Load and Format Data (h2o dataset) ---</span></span>
+<span id="cb26-15"><a href="#cb26-15"></a><span class="co">#data = fetch_dataset(name='h2o', raw=True)</span></span>
+<span id="cb26-16"><a href="#cb26-16"></a><span class="co">#data['fecha'] = pd.to_datetime(data['fecha'], format='%Y-%m-%d')</span></span>
+<span id="cb26-17"><a href="#cb26-17"></a><span class="co">#data = data.set_index('fecha')</span></span>
+<span id="cb26-18"><a href="#cb26-18"></a></span>
+<span id="cb26-19"><a href="#cb26-19"></a><span class="co"># Convert to Period Index (Monthly) required for proper sktime functioning</span></span>
+<span id="cb26-20"><a href="#cb26-20"></a><span class="co">#y_skt = data['x'].to_period('M')</span></span>
+<span id="cb26-21"><a href="#cb26-21"></a></span>
+<span id="cb26-22"><a href="#cb26-22"></a><span class="co"># Define the model (Seasonal Naive, annual cycle sp=12)</span></span>
+<span id="cb26-23"><a href="#cb26-23"></a>model_skt <span class="op">=</span> NaiveForecaster(strategy<span class="op">=</span><span class="st">"last"</span>, sp<span class="op">=</span><span class="dv">12</span>)</span>
+<span id="cb26-24"><a href="#cb26-24"></a></span>
+<span id="cb26-25"><a href="#cb26-25"></a><span class="co"># Define Metrics</span></span>
+<span id="cb26-26"><a href="#cb26-26"></a><span class="co"># square_root=True to get RMSE</span></span>
+<span id="cb26-27"><a href="#cb26-27"></a>rmse_metric <span class="op">=</span> MeanSquaredError(square_root<span class="op">=</span><span class="va">True</span>) </span>
+<span id="cb26-28"><a href="#cb26-28"></a><span class="co"># symmetric=False to get standard MAPE</span></span>
+<span id="cb26-29"><a href="#cb26-29"></a>mape_metric <span class="op">=</span> MeanAbsolutePercentageError(symmetric<span class="op">=</span><span class="va">False</span>) </span>
+<span id="cb26-30"><a href="#cb26-30"></a></span>
+<span id="cb26-31"><a href="#cb26-31"></a><span class="co"># ==========================================</span></span>
+<span id="cb26-32"><a href="#cb26-32"></a><span class="co"># STRATEGY 1: Train-Test (Simple Partition)</span></span>
+<span id="cb26-33"><a href="#cb26-33"></a><span class="co"># ==========================================</span></span>
+<span id="cb26-34"><a href="#cb26-34"></a><span class="co"># Split: 80% training, 20% validation</span></span>
+<span id="cb26-35"><a href="#cb26-35"></a>y_train, y_test <span class="op">=</span> temporal_train_test_split(y_skt, train_size<span class="op">=</span><span class="fl">0.80</span>)</span>
+<span id="cb26-36"><a href="#cb26-36"></a></span>
+<span id="cb26-37"><a href="#cb26-37"></a><span class="co"># Fit and predict</span></span>
+<span id="cb26-38"><a href="#cb26-38"></a>model_skt.fit(y_train)</span>
+<span id="cb26-39"><a href="#cb26-39"></a></span>
+<span id="cb26-40"><a href="#cb26-40"></a><span class="co"># Define forecast horizon (fh) based on test set length</span></span>
+<span id="cb26-41"><a href="#cb26-41"></a>fh <span class="op">=</span> ForecastingHorizon(np.arange(<span class="dv">1</span>, <span class="bu">len</span>(y_test)<span class="op">+</span><span class="dv">1</span>), is_relative<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb26-42"><a href="#cb26-42"></a>y_pred <span class="op">=</span> model_skt.predict(fh)</span>
+<span id="cb26-43"><a href="#cb26-43"></a></span>
+<span id="cb26-44"><a href="#cb26-44"></a><span class="co"># Calculate metrics</span></span>
+<span id="cb26-45"><a href="#cb26-45"></a><span class="bu">print</span>(<span class="st">"--- Sktime: Train-Test ---"</span>)</span>
+<span id="cb26-46"><a href="#cb26-46"></a><span class="bu">print</span>(<span class="ss">f"RMSE: </span><span class="sc">{</span>rmse_metric(y_test, y_pred)<span class="sc">:.2f}</span><span class="ss">"</span>)</span>
+<span id="cb26-47"><a href="#cb26-47"></a><span class="bu">print</span>(<span class="ss">f"MAPE: </span><span class="sc">{</span>mape_metric(y_test, y_pred)<span class="op">*</span><span class="dv">100</span><span class="sc">:.2f}</span><span class="ss">%"</span>)</span>
+<span id="cb26-48"><a href="#cb26-48"></a></span>
+<span id="cb26-49"><a href="#cb26-49"></a><span class="co"># ==========================================</span></span>
+<span id="cb26-50"><a href="#cb26-50"></a><span class="co"># STRATEGY 2: Walk-Forward (Expanding Window)</span></span>
+<span id="cb26-51"><a href="#cb26-51"></a><span class="co"># ==========================================</span></span>
+<span id="cb26-52"><a href="#cb26-52"></a><span class="co"># We replicate 'start=0.5' by setting initial_window to 50% of total length.</span></span>
+<span id="cb26-53"><a href="#cb26-53"></a><span class="co"># forecast_horizon=12: Predict 12 months ahead (fh=[1, 2, ..., 12])</span></span>
+<span id="cb26-54"><a href="#cb26-54"></a><span class="co"># step_length=1: Move the window 1 month at a time.</span></span>
+<span id="cb26-55"><a href="#cb26-55"></a></span>
+<span id="cb26-56"><a href="#cb26-56"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">--- Sktime: Walk-Forward (Expanding Window) ---"</span>)</span>
+<span id="cb26-57"><a href="#cb26-57"></a></span>
+<span id="cb26-58"><a href="#cb26-58"></a>initial_window_size <span class="op">=</span> <span class="bu">int</span>(<span class="bu">len</span>(y_skt) <span class="op">*</span> <span class="fl">0.5</span>)</span>
+<span id="cb26-59"><a href="#cb26-59"></a></span>
+<span id="cb26-60"><a href="#cb26-60"></a>cv_expanding <span class="op">=</span> ExpandingWindowSplitter(</span>
+<span id="cb26-61"><a href="#cb26-61"></a>    initial_window<span class="op">=</span>initial_window_size,</span>
+<span id="cb26-62"><a href="#cb26-62"></a>    step_length<span class="op">=</span><span class="dv">1</span>,</span>
+<span id="cb26-63"><a href="#cb26-63"></a>    fh<span class="op">=</span>np.arange(<span class="dv">1</span>, <span class="dv">13</span>) <span class="co"># Forecast Horizon 1 to 12</span></span>
+<span id="cb26-64"><a href="#cb26-64"></a>)</span>
+<span id="cb26-65"><a href="#cb26-65"></a></span>
+<span id="cb26-66"><a href="#cb26-66"></a><span class="co"># Evaluate (Calculates both metrics at once)</span></span>
+<span id="cb26-67"><a href="#cb26-67"></a>results_expanding <span class="op">=</span> evaluate(</span>
+<span id="cb26-68"><a href="#cb26-68"></a>    forecaster<span class="op">=</span>model_skt,</span>
+<span id="cb26-69"><a href="#cb26-69"></a>    cv<span class="op">=</span>cv_expanding,</span>
+<span id="cb26-70"><a href="#cb26-70"></a>    y<span class="op">=</span>y_skt,</span>
+<span id="cb26-71"><a href="#cb26-71"></a>    scoring<span class="op">=</span>[rmse_metric, mape_metric]</span>
+<span id="cb26-72"><a href="#cb26-72"></a>)</span>
+<span id="cb26-73"><a href="#cb26-73"></a></span>
+<span id="cb26-74"><a href="#cb26-74"></a><span class="co"># Calculate average metrics</span></span>
+<span id="cb26-75"><a href="#cb26-75"></a>mean_rmse_exp <span class="op">=</span> results_expanding[<span class="st">'test_MeanSquaredError'</span>].mean()</span>
+<span id="cb26-76"><a href="#cb26-76"></a>mean_mape_exp <span class="op">=</span> results_expanding[<span class="st">'test_MeanAbsolutePercentageError'</span>].mean()</span>
+<span id="cb26-77"><a href="#cb26-77"></a></span>
+<span id="cb26-78"><a href="#cb26-78"></a><span class="bu">print</span>(<span class="ss">f"CV RMSE (Average) - Expanding Window: </span><span class="sc">{</span>mean_rmse_exp<span class="sc">:.2f}</span><span class="ss">"</span>)</span>
+<span id="cb26-79"><a href="#cb26-79"></a><span class="bu">print</span>(<span class="ss">f"CV MAPE (Average) - Expanding Window: </span><span class="sc">{</span>mean_mape_exp<span class="op">*</span><span class="dv">100</span><span class="sc">:.2f}</span><span class="ss">%"</span>)</span>
+<span id="cb26-80"><a href="#cb26-80"></a></span>
+<span id="cb26-81"><a href="#cb26-81"></a><span class="co"># ==========================================</span></span>
+<span id="cb26-82"><a href="#cb26-82"></a><span class="co"># STRATEGY 3: Walk-Forward (Sliding Window)</span></span>
+<span id="cb26-83"><a href="#cb26-83"></a><span class="co"># ==========================================</span></span>
+<span id="cb26-84"><a href="#cb26-84"></a><span class="co"># window_length=24: Equivalent to 'train_length=24' in Darts.</span></span>
+<span id="cb26-85"><a href="#cb26-85"></a><span class="co"># Sktime automatically handles the "retrain" logic because it fits a new model </span></span>
+<span id="cb26-86"><a href="#cb26-86"></a><span class="co"># instance for every fold in the cross-validation.</span></span>
+<span id="cb26-87"><a href="#cb26-87"></a></span>
+<span id="cb26-88"><a href="#cb26-88"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">--- Sktime: Walk-Forward (Sliding Window) ---"</span>)</span>
+<span id="cb26-89"><a href="#cb26-89"></a></span>
+<span id="cb26-90"><a href="#cb26-90"></a>cv_sliding <span class="op">=</span> SlidingWindowSplitter(</span>
+<span id="cb26-91"><a href="#cb26-91"></a>    window_length<span class="op">=</span><span class="dv">24</span>,   <span class="co"># Fixed window size (training data)</span></span>
+<span id="cb26-92"><a href="#cb26-92"></a>    step_length<span class="op">=</span><span class="dv">1</span>,      <span class="co"># Step size</span></span>
+<span id="cb26-93"><a href="#cb26-93"></a>    fh<span class="op">=</span>np.arange(<span class="dv">1</span>, <span class="dv">13</span>) <span class="co"># Forecast Horizon</span></span>
+<span id="cb26-94"><a href="#cb26-94"></a>)</span>
+<span id="cb26-95"><a href="#cb26-95"></a></span>
+<span id="cb26-96"><a href="#cb26-96"></a><span class="co"># Evaluate</span></span>
+<span id="cb26-97"><a href="#cb26-97"></a>results_sliding <span class="op">=</span> evaluate(</span>
+<span id="cb26-98"><a href="#cb26-98"></a>    forecaster<span class="op">=</span>model_skt,</span>
+<span id="cb26-99"><a href="#cb26-99"></a>    cv<span class="op">=</span>cv_sliding,</span>
+<span id="cb26-100"><a href="#cb26-100"></a>    y<span class="op">=</span>y_skt,</span>
+<span id="cb26-101"><a href="#cb26-101"></a>    scoring<span class="op">=</span>[rmse_metric, mape_metric]</span>
+<span id="cb26-102"><a href="#cb26-102"></a>)</span>
+<span id="cb26-103"><a href="#cb26-103"></a></span>
+<span id="cb26-104"><a href="#cb26-104"></a><span class="co"># Calculate average metrics</span></span>
+<span id="cb26-105"><a href="#cb26-105"></a>mean_rmse_slide <span class="op">=</span> results_sliding[<span class="st">'test_MeanSquaredError'</span>].mean()</span>
+<span id="cb26-106"><a href="#cb26-106"></a>mean_mape_slide <span class="op">=</span> results_sliding[<span class="st">'test_MeanAbsolutePercentageError'</span>].mean()</span>
+<span id="cb26-107"><a href="#cb26-107"></a></span>
+<span id="cb26-108"><a href="#cb26-108"></a><span class="bu">print</span>(<span class="ss">f"Sliding Window RMSE: </span><span class="sc">{</span>mean_rmse_slide<span class="sc">:.2f}</span><span class="ss">"</span>)</span>
+<span id="cb26-109"><a href="#cb26-109"></a><span class="bu">print</span>(<span class="ss">f"Sliding Window MAPE: </span><span class="sc">{</span>mean_mape_slide<span class="op">*</span><span class="dv">100</span><span class="sc">:.2f}</span><span class="ss">%"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>--- Sktime: Train-Test ---
+RMSE: 0.08
+MAPE: 8.76%
+
+--- Sktime: Walk-Forward (Expanding Window) ---
+CV RMSE (Average) - Expanding Window: 0.07
+CV MAPE (Average) - Expanding Window: 6.55%
+
+--- Sktime: Walk-Forward (Sliding Window) ---
+Sliding Window RMSE: 0.07
+Sliding Window MAPE: 7.29%</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-2.3" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-2.3">Exercise 2.3</h3>
+<p>You are working as a Data Scientist for an airline company. The management needs a reliable forecast for passenger traffic to plan flight schedules for the next year. You have access to the classic Air Passengers dataset (monthly data from 1949 to 1960).</p>
+<div id="602b4eed" class="cell" data-execution_count="22">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1"></a><span class="im">from</span> darts.datasets <span class="im">import</span> AirPassengersDataset</span>
+<span id="cb28-2"><a href="#cb28-2"></a><span class="im">from</span> sktime.datasets <span class="im">import</span> load_airline</span>
+<span id="cb28-3"><a href="#cb28-3"></a></span>
+<span id="cb28-4"><a href="#cb28-4"></a><span class="co">#if you want to use darts (TimeSeries object)</span></span>
+<span id="cb28-5"><a href="#cb28-5"></a>y <span class="op">=</span> AirPassengersDataset().load()</span>
+<span id="cb28-6"><a href="#cb28-6"></a><span class="co">#if you want to use sktime (pandas' Series object)</span></span>
+<span id="cb28-7"><a href="#cb28-7"></a>y <span class="op">=</span> load_airline()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Before trying complex algorithms (like ARIMA or Transformers), your boss wants you to establish a robust baseline. You need to compare simple strategies to understand the nature of the data.</p>
+<p>We will compare three fundamental approaches. The core of this exercise is to test the following hypothesis regarding Trend vs.&nbsp;Seasonality:</p>
+<ol type="1">
+<li><p><strong>Seasonal Naive:</strong> This model assumes that “what happened last January will happen this January.”</p>
+<ul>
+<li>It may capture seasonality (peaks and valleys) but might fail to capture the long-term Trend (growth), effectively predicting a “flat” year compared to the previous one.</li>
+</ul></li>
+<li><p><strong>Drift Method:</strong> This model draws a straight line from the first observation to the last.</p>
+<ul>
+<li>It captures the global Trend (the overall growth direction) very well, but it completely ignores Seasonality (it predicts a straight line, missing the summer peaks).</li>
+</ul></li>
+<li><p><strong>Mean:</strong> Predicts the historical average.</p>
+<ul>
+<li>This will likely be the worst performer, serving as a “sanity check.”</li>
+</ul></li>
+</ol>
+<p>You need to implement a backtesting strategy to evaluate these models and answer the question: Is it more important to capture the Trend or the Seasonality for this specific dataset?</p>
+<p><strong>Tasks:</strong></p>
+<ol type="1">
+<li><p>Load the Data: Use the Air Passengers dataset.</p></li>
+<li><p>Obatain the Models: seasonal naive, drift and mean.</p></li>
+<li><p>Run Backtests (forecast horizon = 12 months):</p>
+<ul>
+<li><p>Strategy A (Expanding Window): Use the full history available at each step.</p></li>
+<li><p>Strategy B (Sliding Window): Use a fixed training window of the last 24 months (2 years).</p></li>
+</ul></li>
+<li><p>Compare Metrics: Calculate RMSE and MAE.</p></li>
+</ol>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./Chapter1_FundamentalsOfTimeSeries.html" class="pagination-link" aria-label="Chapter 1: Fundamentals of Time Series">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Chapter 1: Fundamentals of Time Series</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./Chapter3_StatisticalModelsForTimeSeries.html" class="pagination-link" aria-label="Chapter 3: Statistical Models for Time Series">
+        <span class="nav-page-text"><span class="chapter-title">Chapter 3: Statistical Models for Time Series</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
