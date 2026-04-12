@@ -1,15 +1,24 @@
 {
     "Economics": [
-        "eurusd_close_lag1",
-        "ttf_gas_eur_lag1",
-        "brent_close_eur_lag1"
+        "eurusd_close_shift24h",
+        "ttf_gas_eur_shift24h",
+        "brent_close_eur_shift24h"
     ],
     "Sports": [
         "is_top_liga_match",
         "is_national_team_match"
     ],
     "Holidays": [
-        "is_national_holiday"
+        "is_national_holiday",
+        "is_weekend",
+        "day",
+        "day_sin",
+        "day_cos",
+        "month",
+        "month_sin",
+        "month_cos",
+        "year",
+        "year_normalized"
     ],
     "Weather": [
         "barcelona_temp",
